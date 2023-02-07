@@ -1,18 +1,47 @@
-name: Docker Image CI
 
-on:
-  push:
-    branches: [ "develop" ]
-  pull_request:
-    branches: [ "develop" ]
+name: build & deploy app to fargate
+
+on: [push]
 
 jobs:
-
-  build:
-
+  deploy-nodejs-app-fargate:
     runs-on: ubuntu-latest
-
+    permissions:
+      id-token: write
+      contents: read
     steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build -t open-note:1.0 .
+      - name: checkout code
+        uses: actions/checkout@v3
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::225302355310:role/github-actions
+          aws-region: us-west-2
+      - name: Login to AWS ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+      - name: Download task definition
+        run: |
+          aws ecs describe-task-definition --task-definition task --query taskDefinition > task-definition.json
+      - name: Build, tag, and push image to Amazon
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: open-note
+          IMAGE_TAG: latest
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+      - name: Fill in the new image ID in the AWS ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: task-definition.json
+          container-name: open-note
+          image: ${{ steps.build-image.outputs.image }}
+      - name: Deploy AWS ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          cluster: OpenNoteCluster
