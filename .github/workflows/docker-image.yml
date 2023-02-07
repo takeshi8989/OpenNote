@@ -1,5 +1,5 @@
 
-name: build & deploy app to fargate
+name: build & deploy open-note app to fargate
 
 on: [push]
 
