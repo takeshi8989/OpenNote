@@ -44,4 +44,7 @@ jobs:
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: open-note-service
           cluster: OpenNoteCluster
+      - name: Deploy Force
+        run: aws ecs update-service --cluster OpenNoteCluster --service open-note-service --force-new-deployment
