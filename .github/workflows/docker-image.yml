@@ -33,14 +33,6 @@ jobs:
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-      - name: export-environment variable
-        id: set_var
-        run: |
-          content=`cat ./task-env.json`
-          content="${content//'%'/'%25'}"
-          content="${content//$'\n'/'%0A'}"
-          content="${content//$'\r'/'%0D'}"
-          echo "::set-output name=packageJson::$content"
 
       - name: Fill in the new image ID in the AWS ECS task definition
         id: task-def
@@ -49,7 +41,7 @@ jobs:
           task-definition: task-definition.json
           container-name: open-note
           image: ${{ steps.build-image.outputs.image }}
-          environment-variables: ${{fromJson(steps.set_var.outputs.packageJson).version}}
+          environment-variables: {"name": DATABASE_PASSWORD, "value": "H2take&noko8989"}
       - name: Deploy AWS ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
