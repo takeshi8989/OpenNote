@@ -15,7 +15,7 @@ public class OpenNoteApplication {
 
 	@GetMapping("/")
 	public static String hello(){
-		return "Finally, You can auto deploy this app!";
+		return "Updated Open Note";
 	}
 
 }
