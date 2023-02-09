@@ -34,7 +34,7 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
       - name: export-environment variable
-        id: environment-variable
+        id: set_var
         run: |
           content=`cat ./task-env.json`
           content="${content//'%'/'%25'}"
