@@ -1,7 +1,0 @@
-{
-  "environment": [
-    {"name": "DATABASE_USERNAME", "value": "postgres"},
-    {"name": "DATABASE_URL", "value": "jdbc:postgresql://open-note-dev-db.cextjdlvxeq0.us-west-2.rds.amazonaws.com:5432/postgres"},
-    {"name": "DATABASE_PASSWORD", "value": "H2take&noko8989"}
-  ]
-}
