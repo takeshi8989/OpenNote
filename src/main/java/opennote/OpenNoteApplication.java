@@ -15,7 +15,7 @@ public class OpenNoteApplication {
 
 	@GetMapping("/")
 	public static String hello(){
-		return "Updated Open Note";
+		return "Updated Open Note!";
 	}
 
 }
