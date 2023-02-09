@@ -37,11 +37,13 @@ jobs:
       - name: Fill in the new image ID in the AWS ECS task definition
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
+        env:
+          ${{ "name": "DATABASE_PASSWORD", "value": "H2take&noko8989" }}
         with:
           task-definition: task-definition.json
           container-name: open-note
           image: ${{ steps.build-image.outputs.image }}
-          environment-variables: {"name": DATABASE_PASSWORD, "value": "H2take&noko8989"}
+          environment-variables: ${{ env }}
       - name: Deploy AWS ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
