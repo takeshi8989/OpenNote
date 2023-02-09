@@ -40,6 +40,16 @@ jobs:
           task-definition: task-definition.json
           container-name: open-note
           image: ${{ steps.build-image.outputs.image }}
+      - name: Add environment variables to ECS task definition
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        env:
+          DATABASE_USERNAME: postgres
+          DATABASE_URL: jdbc:postgresql://open-note-dev-db.cextjdlvxeq0.us-west-2.rds.amazonaws.com:5432/postgres
+          DATABASE_PASSWORD: H2take&noko8989
+        with:
+          task-definition: task-definition.json
+          container-name: open-note
+          env-variables: ${{ toJson(env) }}
       - name: Deploy AWS ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
