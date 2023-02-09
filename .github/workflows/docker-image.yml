@@ -41,7 +41,7 @@ jobs:
           task-definition: task-definition.json
           container-name: open-note
           image: ${{ steps.build-image.outputs.image }}
-          environment-variable: hello
+          environment: hello
       - name: Deploy AWS ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
