@@ -8,24 +8,31 @@ public class User {
     @Id
     @SequenceGenerator(
             name = "user_id_sequence",
-            sequenceName = "user_id_sequence"
+            sequenceName = "user_id_sequence",
+            allocationSize = 1
     )
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
             generator = "user_id_sequence"
     )
-    private int id;
+    private Integer id;
     private String username;
     private String email;
     private String password;
 
-    public User(int id, String username, String email, String password) {
+    public User(){}
+
+
+    public User(Integer id, String username, String email, String password) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
     }
 
+    public Integer getId(){
+        return id;
+    }
     public String getUsername() {
         return username;
     }
