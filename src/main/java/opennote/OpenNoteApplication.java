@@ -11,15 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @SpringBootApplication
 public class OpenNoteApplication {
-
-	private final UserRepository userRepository;
-
-	public OpenNoteApplication(UserRepository userRepository) {
-		this.userRepository = userRepository;
-	}
-
 	public static void main(String[] args) {
 		SpringApplication.run(OpenNoteApplication.class, args);
 	}
-
 }

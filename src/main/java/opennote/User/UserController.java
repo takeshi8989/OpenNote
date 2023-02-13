@@ -52,4 +52,9 @@ public class UserController {
                 })
                 .orElseThrow(() -> new UserNotFoundException(id));
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable Integer id){
+        userRepository.deleteById(id);
+    }
 }
