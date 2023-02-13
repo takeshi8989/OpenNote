@@ -14,5 +14,4 @@ public class OpenNoteApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(OpenNoteApplication.class, args);
 	}
-
 }
