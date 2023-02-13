@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @SpringBootApplication
-@RequestMapping(value = "/api/v1/users")
 public class OpenNoteApplication {
 
 	private final UserRepository userRepository;
@@ -21,26 +20,6 @@ public class OpenNoteApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(OpenNoteApplication.class, args);
-	}
-
-	@GetMapping
-	public List<User> getUsers(){
-		return userRepository.findAll();
-	}
-
-	record NewUserRequest(
-			String username,
-			String email,
-			String password
-		) {}
-
-	@PostMapping
-	public void createUser(@RequestBody NewUserRequest request){
-		User user = new User();
-		user.setUsername(request.username());
-		user.setEmail(request.email());
-		user.setPassword(request.password());
-		userRepository.save(user);
 	}
 
 }
