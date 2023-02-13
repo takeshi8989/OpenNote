@@ -26,18 +26,30 @@ public class UserController {
     }
 
 
-    record NewUserRequest(
+    record UserRequest(
             String username,
             String email,
             String password
     ) {}
 
     @PostMapping
-    public void createUser(@RequestBody NewUserRequest request){
+    public void createUser(@RequestBody UserRequest request){
         User user = new User();
         user.setUsername(request.username());
         user.setEmail(request.email());
         user.setPassword(request.password());
         userRepository.save(user);
+    }
+
+    @PutMapping("/{id}")
+    public User updateUser(@RequestBody UserRequest request, @PathVariable Integer id){
+
+        return userRepository.findById(id)
+                .map(user -> {
+                    user.setUsername(request.username());
+                    // user.setEmail(request.email());
+                    return userRepository.save(user);
+                })
+                .orElseThrow(() -> new UserNotFoundException(id));
     }
 }
