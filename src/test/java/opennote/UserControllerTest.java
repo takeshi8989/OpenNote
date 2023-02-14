@@ -82,26 +82,35 @@ public class UserControllerTest {
                 .andExpect(status().isOk());
     }
 
-//    @Test
-//    public void updateUser_success() throws Exception {
-//        Mockito.when(userRepository.findById(user1.getId())).thenReturn(java.util.Optional.of(user1));
-//        record UserRequest(
-//                String username,
-//                String email,
-//                String password
-//        ) {}
-//        UserRequest user = new UserRequest(
-//                "Dixie Montoya",
-//                "mdixie@gmail.com",
-//                "password5"
-//        );
-//
-//        mockMvc.perform(MockMvcRequestBuilders
-//                        .put("/api/v1/users/1")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(toJson(user)))
-//                .andExpect(status().isOk());
-//    }
+    @Test
+    public void updateUser_success() throws Exception {
+        record UserRequest(
+                String username,
+                String email,
+                String password
+        ) {}
+        UserRequest user = new UserRequest(
+                "Dixie Montoya",
+                "mdixie@gmail.com",
+                "password5"
+        );
+
+        Mockito.when(userRepository.findById(user1.getId())).thenReturn(java.util.Optional.of(user1));
+        Mockito.when(userRepository.save(user1)).thenReturn(user1);
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put("/api/v1/users/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(toJson(user)))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void delteUser_success() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                        .delete("/api/v1/users/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
 
     public static String toJson(final Object obj) {
         try {
