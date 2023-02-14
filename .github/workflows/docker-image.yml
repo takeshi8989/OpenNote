@@ -12,6 +12,11 @@ jobs:
     steps:
       - name: checkout code
         uses: actions/checkout@v3
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'oracle'
       - name: Test
         run: mvn test
       - name: Configure AWS Credentials
