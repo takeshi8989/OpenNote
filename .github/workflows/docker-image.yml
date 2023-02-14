@@ -21,8 +21,10 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
       - name: Download task definition
+        id: download-task
         run: |
           aws ecs describe-task-definition --task-definition task --query taskDefinition > task-definition.json
+          echo "::set-output name=revision::$(cat task-definition.json | jq .revision)"
       - name: Build, tag, and push image to Amazon
         id: build-image
         env:
@@ -47,5 +49,7 @@ jobs:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
           service: open-note-service
           cluster: OpenNoteCluster
-      - name: Deploy Force
-        run: aws ecs update-service --cluster OpenNoteCluster --service open-note-service --force-new-deployment
+      - name: De-register previous revision
+        run: |
+          aws ecs deregister-task-definition \
+            --task-definition task:${{ steps.download-task.outputs.revision }}
