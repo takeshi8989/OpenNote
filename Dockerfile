@@ -2,9 +2,6 @@
 # Build stage
 #
 FROM maven:latest AS build
-# ENV DATABASE_USERNAME=postgres \
-#     DATABASE_URL=jdbc:postgresql://open-note-dev-db.cextjdlvxeq0.us-west-2.rds.amazonaws.com:5432/postgres \
-#     DATABASE_PASSWORD=H2take&noko8989
 COPY src /home/app/src
 COPY pom.xml /home/app
 RUN mvn -f /home/app/pom.xml clean package
