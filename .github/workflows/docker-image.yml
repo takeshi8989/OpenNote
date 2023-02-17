@@ -21,7 +21,10 @@ jobs:
       - name: Test
         run: |
           mvn -version
-          mvn test
+          mvn -DDATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }} ^
+          -DDATABASE_URL=${{ secrets.DATABASE_URL }} ^
+          -DDATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} ^
+          test
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
