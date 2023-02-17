@@ -1,5 +1,6 @@
 package opennote.User;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import opennote.Folder.Folder;
 
@@ -25,6 +26,7 @@ public class User {
     private String email;
     private String password;
     @OneToMany(mappedBy = "user")
+    @JsonManagedReference
     private List<Folder> folders = new ArrayList<>();
 
     public User(){}

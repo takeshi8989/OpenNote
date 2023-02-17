@@ -1,7 +1,11 @@
 package opennote.Folder;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import opennote.User.User;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
 
@@ -9,17 +13,25 @@ import java.util.Date;
 @Table( name = "folders" )
 public class Folder {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid")
+    @Column(columnDefinition = "CHAR(32)")
+    private String id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @JsonBackReference
     private User user;
     private String title;
+    @CreationTimestamp
     private Date createdAt;
+
+    @UpdateTimestamp
     private Date updatedAt;
 
-    public Folder(Integer id, User user, String title, Date createdAt, Date updatedAt) {
+    public Folder(){}
+
+    public Folder(String id, User user, String title, Date createdAt, Date updatedAt) {
         this.id = id;
         this.user = user;
         this.title = title;
@@ -27,7 +39,7 @@ public class Folder {
         this.updatedAt = updatedAt;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
