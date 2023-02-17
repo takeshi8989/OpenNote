@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import opennote.User.User;
 import opennote.User.UserController;
 import opennote.User.UserRepository;
+import opennote.User.UserService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class UserControllerTest {
     ObjectMapper mapper;
 
     @MockBean
-    UserRepository userRepository;
+    UserService userService;
 
     User user1 = new User(1, "Rayven Yor", "yrayven@gmail.com", "password1");
     User user2 = new User(2, "David Landup", "ldavid@gmail.com", "password2");
@@ -40,7 +41,7 @@ public class UserControllerTest {
     public void getAllUsers_success() throws Exception {
         List<User> users = new ArrayList<>(Arrays.asList(user1, user2, user3));
 
-        Mockito.when(userRepository.findAll()).thenReturn(users);
+        Mockito.when(userService.getUsers()).thenReturn(users);
 
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/api/v1/users")
@@ -52,7 +53,7 @@ public class UserControllerTest {
 
     @Test
     public void getUserById_success() throws Exception {
-        Mockito.when(userRepository.findById(user1.getId())).thenReturn(java.util.Optional.of(user1));
+        Mockito.when(userService.getUserById(user1.getId())).thenReturn(user1);
 
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/api/v1/users/1")
@@ -95,8 +96,7 @@ public class UserControllerTest {
                 "password5"
         );
 
-        Mockito.when(userRepository.findById(user1.getId())).thenReturn(java.util.Optional.of(user1));
-        Mockito.when(userRepository.save(user1)).thenReturn(user1);
+        Mockito.when(userService.getUserById(user1.getId())).thenReturn(user1);
         mockMvc.perform(MockMvcRequestBuilders
                         .put("/api/v1/users/1")
                         .contentType(MediaType.APPLICATION_JSON)
