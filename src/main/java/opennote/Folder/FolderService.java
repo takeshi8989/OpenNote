@@ -11,10 +11,11 @@ import java.util.List;
 
 @Service
 public class FolderService {
-    private FolderRepository folderRepository;
-    private UserService userService;
-
     @Autowired
+    private final FolderRepository folderRepository;
+    @Autowired
+    private final UserService userService;
+
     public FolderService(FolderRepository folderRepository, UserService userService) {
         this.folderRepository = folderRepository;
         this.userService = userService;
@@ -27,6 +28,10 @@ public class FolderService {
     public Folder getFolderById(String id){
         return folderRepository.findById(id)
                 .orElseThrow(() -> new FolderNotFoundException(id));
+    }
+
+    public List<Folder> getFoldersByUserId(Integer userId){
+        return folderRepository.getFoldersByUserId(userId);
     }
 
     public void createFolder(NewFolderRequest request){
