@@ -42,6 +42,9 @@ jobs:
           IMAGE_TAG: latest
         run: |
           docker build \
+          --build-arg DATABASE_USERNAME=postgres \
+          --build-arg DATABASE_URL=jdbc:postgresql://open-note-dev-db.cextjdlvxeq0.us-west-2.rds.amazonaws.com:5432/postgres \
+          --build-arg DATABASE_PASSWORD="H2take&noko8989" \
           -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
