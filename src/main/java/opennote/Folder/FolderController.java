@@ -20,6 +20,11 @@ public class FolderController {
         return folderService.getAllFolders();
     }
 
+    @GetMapping(value = "/{id}")
+    public Folder getFolderById(@PathVariable String id){
+        return folderService.getFolderById(id);
+    }
+
     @PostMapping
     public void createFolder(@RequestBody NewFolderRequest request){
         folderService.createFolder(request);

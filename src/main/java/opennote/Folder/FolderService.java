@@ -1,6 +1,7 @@
 package opennote.Folder;
 
 import opennote.User.User;
+import opennote.User.UserNotFoundException;
 import opennote.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,11 @@ public class FolderService {
 
     public List<Folder> getAllFolders(){
         return folderRepository.findAll();
+    }
+
+    public Folder getFolderById(String id){
+        return folderRepository.findById(id)
+                .orElseThrow(() -> new FolderNotFoundException(id));
     }
 
     public void createFolder(NewFolderRequest request){
