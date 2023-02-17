@@ -41,4 +41,13 @@ public class FolderService {
         folder.setUser(user);
         folderRepository.save(folder);
     }
+
+    public Folder updateFolder(NewFolderRequest request, String id){
+        return folderRepository.findById(id)
+                .map(folder -> {
+                    folder.setTitle(request.title());
+                    return folderRepository.save(folder);
+                })
+                .orElseThrow(() -> new FolderNotFoundException(id));
+    }
 }
