@@ -50,4 +50,8 @@ public class FolderService {
                 })
                 .orElseThrow(() -> new FolderNotFoundException(id));
     }
+
+    public void deleteFolder(String id){
+        folderRepository.deleteById(id);
+    }
 }

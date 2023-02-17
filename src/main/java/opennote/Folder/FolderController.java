@@ -40,4 +40,9 @@ public class FolderController {
     public Folder updateFolder(@RequestBody NewFolderRequest request, @PathVariable String id){
         return folderService.updateFolder(request, id);
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteFolder(@PathVariable String id){
+        folderService.deleteFolder(id);
+    }
 }
