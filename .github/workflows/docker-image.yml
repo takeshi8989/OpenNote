@@ -19,7 +19,9 @@ jobs:
           java-version: '17'
           distribution: 'oracle'
       - name: Test
-        run: mvn test
+        run: |
+          mvn -version
+          mvn test
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
