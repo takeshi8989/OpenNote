@@ -18,10 +18,8 @@ jobs:
         with:
           java-version: '17'
           distribution: 'oracle'
-      - name: Maven Build and Test
-        run: |
-          mvn clean package
-          
+      - name: Test
+        run: mvn test
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
