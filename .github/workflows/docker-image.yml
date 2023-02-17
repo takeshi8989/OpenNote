@@ -20,10 +20,9 @@ jobs:
           distribution: 'oracle'
       - name: Test
         run: |
-          mvn -version
-          mvn -DDATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }} ^
-          -DDATABASE_URL=${{ secrets.DATABASE_URL }} ^
-          -DDATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} ^
+          mvn -DDATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }} \
+          -DDATABASE_URL=${{ secrets.DATABASE_URL }} \
+          -DDATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} \
           test
 
       - name: Configure AWS Credentials
