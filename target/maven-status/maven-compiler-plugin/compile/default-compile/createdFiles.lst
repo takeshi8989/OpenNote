@@ -1,6 +1,0 @@
-opennote\User\UserController.class
-opennote\User\UserController$UserRequest.class
-opennote\User\UserRepository.class
-opennote\OpenNoteApplication.class
-opennote\User\User.class
-opennote\User\UserNotFoundException.class
