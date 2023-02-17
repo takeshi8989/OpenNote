@@ -1,6 +1,6 @@
 package opennote.User;
 
-public record UserRequest(
+public record NewUserRequest(
         String username,
         String email,
         String password) {}

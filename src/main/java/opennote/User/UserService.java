@@ -25,7 +25,7 @@ public class UserService {
                 .orElseThrow(() -> new UserNotFoundException(id));
     }
 
-    public User createUser(UserRequest request){
+    public User createUser(NewUserRequest request){
         User user = new User();
         user.setUsername(request.username());
         user.setEmail(request.email());
@@ -33,7 +33,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User updateUser(UserRequest request, @PathVariable Integer id){
+    public User updateUser(NewUserRequest request, @PathVariable Integer id){
 
         return userRepository.findById(id)
                 .map(user -> {

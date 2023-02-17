@@ -1,6 +1,7 @@
 package opennote;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import opennote.Folder.FolderService;
 import opennote.User.User;
 import opennote.User.UserController;
 import opennote.User.UserService;
@@ -30,6 +31,9 @@ public class UserAPITest {
 
     @MockBean
     UserService userService;
+
+    @MockBean
+    FolderService folderService;
 
     User user1 = new User(1, "Rayven Yor", "yrayven@gmail.com", "password1");
     User user2 = new User(2, "David Landup", "ldavid@gmail.com", "password2");
