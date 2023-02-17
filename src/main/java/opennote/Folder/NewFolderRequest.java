@@ -1,6 +1,6 @@
 package opennote.Folder;
 
 public record NewFolderRequest(
-        Integer user_id,
+        Integer userId,
         String title
 ) {}
