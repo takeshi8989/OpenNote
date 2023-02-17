@@ -36,7 +36,7 @@ public class FolderService {
 
     public void createFolder(NewFolderRequest request){
         Folder folder = new Folder();
-        User user = userService.getUserById(request.user_id());
+        User user = userService.getUserById(request.userId());
         folder.setTitle(request.title());
         folder.setUser(user);
         folderRepository.save(folder);

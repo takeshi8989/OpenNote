@@ -25,12 +25,12 @@ public class UserService {
                 .orElseThrow(() -> new UserNotFoundException(id));
     }
 
-    public void createUser(UserRequest request){
+    public User createUser(UserRequest request){
         User user = new User();
         user.setUsername(request.username());
         user.setEmail(request.email());
         user.setPassword(request.password());
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
     public User updateUser(UserRequest request, @PathVariable Integer id){
