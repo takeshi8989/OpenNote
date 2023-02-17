@@ -1,6 +1,12 @@
 package opennote.User;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import opennote.Folder.Folder;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name =  "users")
@@ -19,6 +25,9 @@ public class User {
     private String username;
     private String email;
     private String password;
+    @OneToMany(mappedBy = "user")
+    @JsonManagedReference
+    private List<Folder> folders = new ArrayList<>();
 
     public User(){}
 
@@ -57,4 +66,11 @@ public class User {
         this.password = password;
     }
 
+    public List<Folder> getFolders() {
+        return folders;
+    }
+
+    public void setFolders(List<Folder> folders) {
+        this.folders = folders;
+    }
 }

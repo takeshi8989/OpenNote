@@ -42,7 +42,7 @@ public class UserAPITest {
         Mockito.when(userService.getUsers()).thenReturn(users);
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/v1/users")
+                        .get("/users")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(3)))
@@ -54,7 +54,7 @@ public class UserAPITest {
         Mockito.when(userService.getUserById(user1.getId())).thenReturn(user1);
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/v1/users/1")
+                        .get("/users/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", notNullValue()))
@@ -75,7 +75,7 @@ public class UserAPITest {
         );
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/v1/users")
+                        .post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(toJson(user)))
                 .andExpect(status().isOk());
@@ -96,7 +96,7 @@ public class UserAPITest {
 
         Mockito.when(userService.getUserById(user1.getId())).thenReturn(user1);
         mockMvc.perform(MockMvcRequestBuilders
-                        .put("/api/v1/users/1")
+                        .put("/users/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(toJson(user)))
                 .andExpect(status().isOk());
@@ -105,7 +105,7 @@ public class UserAPITest {
     @Test
     public void delteUser_success() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/api/v1/users/1")
+                        .delete("/users/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
