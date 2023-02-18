@@ -21,6 +21,7 @@ public class FileController {
 
     @GetMapping("/download/{fileName}")
     public ResponseEntity<byte[]> download(@PathVariable String fileName){
+        // pass noteTitle to download with the title
         return fileService.downloadFile(fileName);
     }
 
