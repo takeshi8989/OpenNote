@@ -18,5 +18,4 @@ class OpenNoteApplicationTests {
 			throw new RuntimeException(e);
 		}
 	}
-
 }

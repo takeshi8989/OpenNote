@@ -23,6 +23,10 @@ jobs:
           mvn -DDATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }} \
           -DDATABASE_URL=${{ secrets.DATABASE_URL }} \
           -DDATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} \
+          -DAWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY }} \
+          -DAWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }} \
+          -DAWS_REGION=${{ secrets.AWS_REGION }} \
+          -DAWS_S3_BUCKET_NAME=${{ secrets.AWS_S3_BUCKET_NAME }} \
           test
 
       - name: Configure AWS Credentials
@@ -49,6 +53,10 @@ jobs:
           --build-arg DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }} \
           --build-arg DATABASE_URL=${{ secrets.DATABASE_URL }} \
           --build-arg DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} \
+          --build-arg AWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY }} \
+          --build-arg AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }} \
+          --build-arg AWS_REGION=${{ secrets.AWS_REGION }} \
+          --build-arg AWS_S3_BUCKET_NAME=${{ secrets.AWS_S3_BUCKET_NAME }} \
           -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
