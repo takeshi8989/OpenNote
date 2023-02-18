@@ -2,6 +2,7 @@ package opennote;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import opennote.Folder.FolderService;
+import opennote.User.NewUserRequest;
 import opennote.User.User;
 import opennote.User.UserController;
 import opennote.User.UserService;
@@ -67,12 +68,7 @@ public class UserAPITest {
 
     @Test
     public void createUser_success() throws Exception {
-        record UserRequest(
-                String username,
-                String email,
-                String password
-        ) {}
-        UserRequest user = new UserRequest(
+        NewUserRequest user = new NewUserRequest(
                 "Maricela Sandoval",
                 "smaricela@gmail.com",
                 "password4"
@@ -81,18 +77,13 @@ public class UserAPITest {
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(toJson(user)))
+                        .content(OpenNoteApplicationTests.toJson(user)))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void updateUser_success() throws Exception {
-        record UserRequest(
-                String username,
-                String email,
-                String password
-        ) {}
-        UserRequest user = new UserRequest(
+        NewUserRequest user = new NewUserRequest(
                 "Dixie Montoya",
                 "mdixie@gmail.com",
                 "password5"
@@ -102,7 +93,7 @@ public class UserAPITest {
         mockMvc.perform(MockMvcRequestBuilders
                         .put("/users/1")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(toJson(user)))
+                        .content(OpenNoteApplicationTests.toJson(user)))
                 .andExpect(status().isOk());
     }
 
@@ -112,13 +103,5 @@ public class UserAPITest {
                         .delete("/users/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
-    }
-
-    public static String toJson(final Object obj) {
-        try {
-            return new ObjectMapper().writeValueAsString(obj);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 }
