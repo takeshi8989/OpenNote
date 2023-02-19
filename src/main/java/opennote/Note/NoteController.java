@@ -31,11 +31,6 @@ public class NoteController {
         return noteService.getNotesByUserId(userId);
     }
 
-    @GetMapping(value = "/folder/{id}")
-    public List<Note> getNotesByFolderId(@PathVariable String folderId){
-        return noteService.getNotesByFolderId(folderId);
-    }
-
     @PostMapping
     public void createNote(@RequestBody NewNoteRequest request){
         noteService.createNote(request);

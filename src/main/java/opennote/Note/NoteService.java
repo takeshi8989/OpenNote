@@ -13,13 +13,11 @@ import java.util.List;
 public class NoteService {
     private final NoteRepository noteRepository;
     private final UserService userService;
-    private final FolderService folderService;
 
     @Autowired
-    public NoteService(NoteRepository noteRepository, UserService userService, FolderService folderService) {
+    public NoteService(NoteRepository noteRepository, UserService userService) {
         this.noteRepository = noteRepository;
         this.userService = userService;
-        this.folderService = folderService;
     }
 
     public List<Note> getAllNotes(){
@@ -34,11 +32,6 @@ public class NoteService {
     public List<Note> getNotesByUserId(Integer userId){
         User user = userService.getUserById(userId);
         return noteRepository.getNotesByUserId(userId);
-    }
-
-    public List<Note> getNotesByFolderId(String folderId){
-        Folder folder = folderService.getFolderById(folderId);
-        return noteRepository.getNotesByFolderId(folderId);
     }
 
     public void createNote(NewNoteRequest request){

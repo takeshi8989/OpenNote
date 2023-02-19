@@ -1,5 +1,6 @@
 package opennote.Folder;
 
+import opennote.Note.Note;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +36,10 @@ public class FolderController {
     public void createFolder(@RequestBody NewFolderRequest request){
         folderService.createFolder(request);
     }
-
+    @PostMapping("/{id}")
+    public Folder addNote(@RequestBody String noteId, @PathVariable String folderId){
+        return folderService.addNote(noteId, folderId);
+    }
 
     @PutMapping("/{id}")
     public Folder updateFolder(@RequestBody NewFolderRequest request, @PathVariable String id){

@@ -75,7 +75,7 @@ public class NoteAPITest {
     }
 
     @Test
-    public void getFoldersByUserId_success() throws Exception{
+    public void getNotesByUserId_success() throws Exception{
         List<Note> notes = new ArrayList<>(Arrays.asList(note1, note2));
         Mockito.when(noteService.getNotesByUserId(user1.getId())).thenReturn(notes);
 

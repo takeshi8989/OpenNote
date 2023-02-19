@@ -1,12 +1,13 @@
 package opennote.Folder;
 
+import opennote.Note.Note;
+import opennote.Note.NoteService;
 import opennote.User.User;
 import opennote.User.UserNotFoundException;
 import opennote.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -15,10 +16,13 @@ public class FolderService {
     private final FolderRepository folderRepository;
     @Autowired
     private final UserService userService;
+    @Autowired
+    private final NoteService noteService;
 
-    public FolderService(FolderRepository folderRepository, UserService userService) {
+    public FolderService(FolderRepository folderRepository, UserService userService, NoteService noteService) {
         this.folderRepository = folderRepository;
         this.userService = userService;
+        this.noteService = noteService;
     }
 
     public List<Folder> getAllFolders(){
@@ -40,6 +44,13 @@ public class FolderService {
         folder.setTitle(request.title());
         folder.setUser(user);
         folderRepository.save(folder);
+    }
+
+    public Folder addNote(String noteId, String folderId){
+        Note note = noteService.getNoteById(noteId);
+        Folder folder = this.getFolderById(folderId);
+        folder.addNote(note);
+        return folderRepository.save(folder);
     }
 
     public Folder updateFolder(NewFolderRequest request, String id){
