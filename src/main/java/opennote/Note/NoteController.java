@@ -35,4 +35,14 @@ public class NoteController {
     public void createNote(@RequestBody NewNoteRequest request){
         noteService.createNote(request);
     }
+
+    @PutMapping("/{id}")
+    public Note updateNote(@RequestBody NewNoteRequest request, @PathVariable String id){
+        return noteService.updateNote(request, id);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteNote(@PathVariable String id){
+        noteService.deleteNote(id);
+    }
 }

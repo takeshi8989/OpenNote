@@ -39,4 +39,19 @@ public class NoteService {
         note.setPublic(request.isPublic());
         noteRepository.save(note);
     }
+
+    public Note updateNote(NewNoteRequest request, String id){
+        return noteRepository.findById(id)
+                .map(note -> {
+                    note.setTitle(request.title());
+                    note.setUrl(request.url());
+                    note.setPublic(request.isPublic());
+                    return noteRepository.save(note);
+                })
+                .orElseThrow(() -> new NoteNotFoundException(id));
+    }
+
+    public void deleteNote(String id){
+        noteRepository.deleteById(id);
+    }
 }

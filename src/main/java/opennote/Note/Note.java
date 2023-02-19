@@ -32,8 +32,9 @@ public class Note {
 
     public Note(){}
 
-    public Note(String id, String title, String url, boolean isPublic, Date createdAt, Date updatedAt) {
+    public Note(String id, User user, String title, String url, boolean isPublic, Date createdAt, Date updatedAt) {
         this.id = id;
+        this.user = user;
         this.title = title;
         this.url = url;
         this.isPublic = isPublic;
@@ -46,6 +47,14 @@ public class Note {
     }
     public String getTitle() {
         return title;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public void setTitle(String title) {
