@@ -2,12 +2,15 @@ package opennote.Folder;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import opennote.Note.Note;
 import opennote.User.User;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table( name = "folders" )
@@ -22,6 +25,12 @@ public class Folder {
     @JoinColumn(name = "user_id")
     @JsonBackReference
     private User user;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "folder_notes",
+            joinColumns = @JoinColumn(name = "folder_id"),
+            inverseJoinColumns = @JoinColumn(name = "note_id"))
+    private List<Note> notes = new ArrayList<>();
     private String title;
     @CreationTimestamp
     private Date createdAt;
