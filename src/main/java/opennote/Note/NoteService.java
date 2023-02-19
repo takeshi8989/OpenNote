@@ -24,6 +24,10 @@ public class NoteService {
         return noteRepository.findAll();
     }
 
+    public List<Note> getRecentNotes(){
+        return noteRepository.getRecentNotes();
+    }
+
     public Note getNoteById(String id){
         return noteRepository.findById(id)
                 .orElseThrow(() -> new NoteNotFoundException(id));
