@@ -47,7 +47,7 @@ public class FolderService {
         folderRepository.save(folder);
     }
 
-    public Folder addNote(AddRemoveNoteRequest request, String folderId){
+    public Folder addOrRemoveNote(AddRemoveNoteRequest request, String folderId){
         Note note = noteService.getNoteById(request.noteId());
         Folder folder = this.getFolderById(folderId);
         if(request.isAdding()) {

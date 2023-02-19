@@ -45,7 +45,7 @@ public class FolderController {
 
     @PutMapping( value = "/note/{folderId}")
     public Folder addNote(@RequestBody AddRemoveNoteRequest request, @PathVariable String folderId){
-        return folderService.addNote(request, folderId);
+        return folderService.addOrRemoveNote(request, folderId);
     }
 
     @DeleteMapping("/{id}")
