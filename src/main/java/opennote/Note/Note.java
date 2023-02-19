@@ -1,6 +1,8 @@
 package opennote.Note;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import opennote.User.User;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -15,6 +17,11 @@ public class Note {
     @GenericGenerator(name = "uuid", strategy = "uuid")
     @Column(columnDefinition = "CHAR(32)")
     private String id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    @JsonBackReference
+    private User user;
     private String title;
     private String url;
     private boolean isPublic;
@@ -25,8 +32,9 @@ public class Note {
 
     public Note(){}
 
-    public Note(String id, String title, String url, boolean isPublic, Date createdAt, Date updatedAt) {
+    public Note(String id, User user, String title, String url, boolean isPublic, Date createdAt, Date updatedAt) {
         this.id = id;
+        this.user = user;
         this.title = title;
         this.url = url;
         this.isPublic = isPublic;
@@ -39,6 +47,14 @@ public class Note {
     }
     public String getTitle() {
         return title;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public void setTitle(String title) {

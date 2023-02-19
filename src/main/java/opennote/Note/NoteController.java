@@ -1,5 +1,6 @@
 package opennote.Note;
 
+import opennote.User.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -8,7 +9,7 @@ import java.util.List;
 @RestController
 @RequestMapping("notes")
 public class NoteController {
-    private NoteService noteService;
+    private final NoteService noteService;
 
     @Autowired
     public NoteController(NoteService noteService) {
@@ -25,8 +26,23 @@ public class NoteController {
         return noteService.getNoteById(id);
     }
 
+    @GetMapping(value = "/user/{id}")
+    public List<Note> getNotesByUserId(@PathVariable Integer id){
+        return noteService.getNotesByUserId(id);
+    }
+
     @PostMapping
     public void createNote(@RequestBody NewNoteRequest request){
         noteService.createNote(request);
+    }
+
+    @PutMapping("/{id}")
+    public Note updateNote(@RequestBody NewNoteRequest request, @PathVariable String id){
+        return noteService.updateNote(request, id);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteNote(@PathVariable String id){
+        noteService.deleteNote(id);
     }
 }
