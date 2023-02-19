@@ -36,14 +36,15 @@ public class FolderController {
     public void createFolder(@RequestBody NewFolderRequest request){
         folderService.createFolder(request);
     }
-    @PostMapping("/{id}")
-    public Folder addNote(@RequestBody String noteId, @PathVariable String folderId){
-        return folderService.addNote(noteId, folderId);
-    }
 
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}")
     public Folder updateFolder(@RequestBody NewFolderRequest request, @PathVariable String id){
         return folderService.updateFolder(request, id);
+    }
+
+    @PutMapping( value = "/note/{folderId}")
+    public Folder addNote(@RequestBody AddRemoveNoteRequest request, @PathVariable String folderId){
+        return folderService.addNote(request, folderId);
     }
 
     @DeleteMapping("/{id}")

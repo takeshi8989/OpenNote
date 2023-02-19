@@ -90,4 +90,8 @@ public class Folder {
     public void addNote(Note note){
         notes.add(note);
     }
+
+    public void removeNote(Note note){
+        notes.remove(note);
+    }
 }

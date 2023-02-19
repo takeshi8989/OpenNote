@@ -46,10 +46,14 @@ public class FolderService {
         folderRepository.save(folder);
     }
 
-    public Folder addNote(String noteId, String folderId){
-        Note note = noteService.getNoteById(noteId);
+    public Folder addNote(AddRemoveNoteRequest request, String folderId){
+        Note note = noteService.getNoteById(request.noteId());
         Folder folder = this.getFolderById(folderId);
-        folder.addNote(note);
+        if(request.isAdding()) {
+            folder.addNote(note);
+        } else{
+            folder.removeNote(note);
+        }
         return folderRepository.save(folder);
     }
 
