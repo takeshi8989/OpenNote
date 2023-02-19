@@ -27,13 +27,13 @@ public class NoteController {
     }
 
     @GetMapping(value = "/user/{id}")
-    public List<Note> getNotesByUserId(@PathVariable Integer id){
-        return noteService.getNotesByUserId(id);
+    public List<Note> getNotesByUserId(@PathVariable Integer userId){
+        return noteService.getNotesByUserId(userId);
     }
 
     @GetMapping(value = "/folder/{id}")
-    public List<Note> getNotesByFolderId(@PathVariable String id){
-        return noteService.getNotesByFolderId(id);
+    public List<Note> getNotesByFolderId(@PathVariable String folderId){
+        return noteService.getNotesByFolderId(folderId);
     }
 
     @PostMapping

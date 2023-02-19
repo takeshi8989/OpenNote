@@ -31,14 +31,14 @@ public class NoteService {
                 .orElseThrow(() -> new NoteNotFoundException(id));
     }
 
-    public List<Note> getNotesByUserId(Integer id){
-        User user = userService.getUserById(id);
-        return noteRepository.getNotesByUserId(id);
+    public List<Note> getNotesByUserId(Integer userId){
+        User user = userService.getUserById(userId);
+        return noteRepository.getNotesByUserId(userId);
     }
 
-    public List<Note> getNotesByFolderId(String id){
-        Folder folder = folderService.getFolderById(id);
-        return noteRepository.getNotesByFolderId(id);
+    public List<Note> getNotesByFolderId(String folderId){
+        Folder folder = folderService.getFolderById(folderId);
+        return noteRepository.getNotesByFolderId(folderId);
     }
 
     public void createNote(NewNoteRequest request){

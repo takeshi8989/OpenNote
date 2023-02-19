@@ -36,6 +36,7 @@ public class FolderController {
         folderService.createFolder(request);
     }
 
+
     @PutMapping("/{id}")
     public Folder updateFolder(@RequestBody NewFolderRequest request, @PathVariable String id){
         return folderService.updateFolder(request, id);
