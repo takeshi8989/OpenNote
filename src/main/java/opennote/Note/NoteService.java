@@ -1,5 +1,7 @@
 package opennote.Note;
 
+import opennote.Folder.Folder;
+import opennote.Folder.FolderService;
 import opennote.User.User;
 import opennote.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +13,13 @@ import java.util.List;
 public class NoteService {
     private final NoteRepository noteRepository;
     private final UserService userService;
+    private final FolderService folderService;
 
     @Autowired
-    public NoteService(NoteRepository noteRepository, UserService userService) {
+    public NoteService(NoteRepository noteRepository, UserService userService, FolderService folderService) {
         this.noteRepository = noteRepository;
         this.userService = userService;
+        this.folderService = folderService;
     }
 
     public List<Note> getAllNotes(){
@@ -30,6 +34,11 @@ public class NoteService {
     public List<Note> getNotesByUserId(Integer id){
         User user = userService.getUserById(id);
         return noteRepository.getNotesByUserId(id);
+    }
+
+    public List<Note> getNotesByFolderId(String id){
+        Folder folder = folderService.getFolderById(id);
+        return noteRepository.getNotesByFolderId(id);
     }
 
     public void createNote(NewNoteRequest request){

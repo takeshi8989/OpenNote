@@ -1,13 +1,16 @@
 package opennote.Note;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
+import opennote.Folder.Folder;
 import opennote.User.User;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "notes")
@@ -20,8 +23,11 @@ public class Note {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    @JsonBackReference
+    @JsonIgnoreProperties(value = {"notes"})
     private User user;
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "notes")
+    private List<Folder> folders = new ArrayList<>();
     private String title;
     private String url;
     private boolean isPublic;
