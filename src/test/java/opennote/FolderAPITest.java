@@ -4,7 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import opennote.Folder.Folder;
 import opennote.Folder.FolderController;
 import opennote.Folder.FolderService;
-import opennote.Folder.NewFolderRequest;
+import opennote.Folder.Request.AddRemoveNoteRequest;
+import opennote.Folder.Request.NewFolderRequest;
+import opennote.Note.Note;
+import opennote.Note.NoteService;
 import opennote.User.User;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -35,8 +38,14 @@ public class FolderAPITest {
     @MockBean
     FolderService folderService;
 
+    @MockBean
+    NoteService noteService;
+
     User user1 = new User(1, "Rayven Yor", "yrayven@gmail.com", "password1");
     User user2 = new User(2, "David Landup", "ldavid@gmail.com", "password2");
+
+    Note note1 = new Note("12345", user1, "MyNote", "https://clickup.com/blog/wp-content/uploads/2020/01/note-taking.png", true, new Date(), new Date());
+
 
     Folder folder1 = new Folder("12345", user1, "Title", new Date(), new Date());
     Folder folder2 = new Folder("23456", user1, "MATH Folder", new Date(), new Date());
@@ -104,6 +113,52 @@ public class FolderAPITest {
                         .content(OpenNoteApplicationTests.toJson(request)))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.title").value("Favorite anime"));
+    }
+
+    @Test
+    public void addNote_success() throws  Exception{
+        AddRemoveNoteRequest request = new AddRemoveNoteRequest("12345", true);
+
+        Mockito.when(noteService.getNoteById(note1.getId())).thenReturn(note1);
+        Mockito.when(folderService.addOrRemoveNote(request, folder1.getId())).thenReturn(folder1);
+        folder1.addNote(note1);
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put("/folders/note/12345")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(OpenNoteApplicationTests.toJson(request)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.title").value("Title"))
+                .andExpect(jsonPath("$.notes", hasSize(1)));
+    }
+
+    @Test
+    public void removeNote_success() throws  Exception{
+        AddRemoveNoteRequest addRequest = new AddRemoveNoteRequest("12345", true);
+        AddRemoveNoteRequest removeRequest = new AddRemoveNoteRequest("12345", false);
+
+
+        Mockito.when(noteService.getNoteById(note1.getId())).thenReturn(note1);
+        Mockito.when(folderService.addOrRemoveNote(addRequest, folder1.getId())).thenReturn(folder1);
+        Mockito.when(folderService.addOrRemoveNote(removeRequest, folder1.getId())).thenReturn(folder1);
+        folder1.addNote(note1);
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put("/folders/note/12345")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(OpenNoteApplicationTests.toJson(addRequest)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.title").value("Title"))
+                .andExpect(jsonPath("$.notes", hasSize(1)));
+
+        folder1.removeNote(note1);
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put("/folders/note/12345")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(OpenNoteApplicationTests.toJson(removeRequest)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.title").value("Title"))
+                .andExpect(jsonPath("$.notes", hasSize(0)));
     }
 
     @Test

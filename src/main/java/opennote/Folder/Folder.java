@@ -1,6 +1,8 @@
 package opennote.Folder;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import opennote.Note.Note;
 import opennote.User.User;
@@ -30,6 +32,7 @@ public class Folder {
             name = "folder_notes",
             joinColumns = @JoinColumn(name = "folder_id"),
             inverseJoinColumns = @JoinColumn(name = "note_id"))
+    @JsonManagedReference
     private List<Note> notes = new ArrayList<>();
     private String title;
     @CreationTimestamp
@@ -82,5 +85,13 @@ public class Folder {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public void addNote(Note note){
+        notes.add(note);
+    }
+
+    public void removeNote(Note note){
+        notes.remove(note);
     }
 }

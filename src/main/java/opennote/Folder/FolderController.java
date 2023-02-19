@@ -1,5 +1,7 @@
 package opennote.Folder;
 
+import opennote.Folder.Request.AddRemoveNoteRequest;
+import opennote.Folder.Request.NewFolderRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,9 +38,14 @@ public class FolderController {
         folderService.createFolder(request);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}")
     public Folder updateFolder(@RequestBody NewFolderRequest request, @PathVariable String id){
         return folderService.updateFolder(request, id);
+    }
+
+    @PutMapping( value = "/note/{folderId}")
+    public Folder addNote(@RequestBody AddRemoveNoteRequest request, @PathVariable String folderId){
+        return folderService.addOrRemoveNote(request, folderId);
     }
 
     @DeleteMapping("/{id}")

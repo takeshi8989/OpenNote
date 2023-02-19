@@ -1,8 +1,6 @@
 package opennote;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import opennote.Folder.Folder;
-import opennote.Folder.NewFolderRequest;
 import opennote.Note.NewNoteRequest;
 import opennote.Note.Note;
 import opennote.Note.NoteController;
@@ -10,7 +8,6 @@ import opennote.Note.NoteService;
 import opennote.User.User;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -75,7 +72,7 @@ public class NoteAPITest {
     }
 
     @Test
-    public void getFoldersByUserId_success() throws Exception{
+    public void getNotesByUserId_success() throws Exception{
         List<Note> notes = new ArrayList<>(Arrays.asList(note1, note2));
         Mockito.when(noteService.getNotesByUserId(user1.getId())).thenReturn(notes);
 
@@ -89,7 +86,7 @@ public class NoteAPITest {
 
     @Test
     public void createNote_success() throws Exception {
-        NewNoteRequest request = new NewNoteRequest("1160 Midterm", "http://midterm.pdf", false);
+        NewNoteRequest request = new NewNoteRequest(1,"1160 Midterm", "http://midterm.pdf", false);
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/notes")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -99,7 +96,7 @@ public class NoteAPITest {
 
     @Test
     public void updateNote_success() throws  Exception {
-        NewNoteRequest request = new NewNoteRequest("updated myNote", "http://updated.pdf", true);
+        NewNoteRequest request = new NewNoteRequest(1,"updated myNote", "http://updated.pdf", true);
 
         Mockito.when(noteService.getNoteById(note3.getId())).thenReturn(note3);
         note3.setTitle("updated myNote");

@@ -23,10 +23,11 @@ public class Note {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    @JsonIgnoreProperties(value = {"notes"})
+    @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "notes"})
     private User user;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "notes")
+    @JsonBackReference
     private List<Folder> folders = new ArrayList<>();
     private String title;
     private String url;
