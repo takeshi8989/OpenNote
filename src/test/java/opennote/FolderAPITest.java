@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import opennote.Folder.Folder;
 import opennote.Folder.FolderController;
 import opennote.Folder.FolderService;
-import opennote.Folder.NewFolderRequest;
+import opennote.Folder.Request.NewFolderRequest;
 import opennote.User.User;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

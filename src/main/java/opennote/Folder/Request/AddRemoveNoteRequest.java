@@ -1,4 +1,4 @@
-package opennote.Folder;
+package opennote.Folder.Request;
 
 public record AddRemoveNoteRequest (
         String noteId,

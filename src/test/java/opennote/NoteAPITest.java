@@ -1,8 +1,6 @@
 package opennote;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import opennote.Folder.Folder;
-import opennote.Folder.NewFolderRequest;
 import opennote.Note.NewNoteRequest;
 import opennote.Note.Note;
 import opennote.Note.NoteController;
@@ -10,7 +8,6 @@ import opennote.Note.NoteService;
 import opennote.User.User;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

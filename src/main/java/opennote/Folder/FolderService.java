@@ -1,9 +1,10 @@
 package opennote.Folder;
 
+import opennote.Folder.Request.AddRemoveNoteRequest;
+import opennote.Folder.Request.NewFolderRequest;
 import opennote.Note.Note;
 import opennote.Note.NoteService;
 import opennote.User.User;
-import opennote.User.UserNotFoundException;
 import opennote.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

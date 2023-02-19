@@ -35,7 +35,9 @@ public class NoteService {
     }
 
     public void createNote(NewNoteRequest request){
+        User user = userService.getUserById(request.userId());
         Note note = new Note();
+        note.setUser(user);
         note.setTitle(request.title());
         note.setUrl(request.url());
         note.setPublic(request.isPublic());
