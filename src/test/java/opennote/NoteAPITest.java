@@ -53,8 +53,20 @@ public class NoteAPITest {
         Mockito.when(noteService.getAllNotes()).thenReturn(notes);
 
         mockMvc.perform(MockMvcRequestBuilders
-                .get("/notes")
+                .get("/notes/all")
                 .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(3)));
+    }
+
+    @Test
+    public void getRecentNotes_success() throws Exception{
+        List<Note> notes = new ArrayList<>(Arrays.asList(note1, note2, note3));
+        Mockito.when(noteService.getRecentNotes()).thenReturn(notes);
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/notes")
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(3)));
     }

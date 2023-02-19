@@ -16,9 +16,14 @@ public class NoteController {
         this.noteService = noteService;
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public List<Note> getAllNotes(){
         return noteService.getAllNotes();
+    }
+
+    @GetMapping
+    public List<Note> getRecentNotes(){
+        return noteService.getRecentNotes();
     }
 
     @GetMapping(value = "/{id}")
