@@ -31,6 +31,11 @@ public class NoteController {
         return noteService.getNotesByUserId(userId);
     }
 
+    @GetMapping("/search/{query}")
+    public List<Note> getNotesBySearch(@PathVariable String query){
+        return noteService.getNotesBySearch(query);
+    }
+
     @PostMapping
     public void createNote(@RequestBody NewNoteRequest request){
         noteService.createNote(request);

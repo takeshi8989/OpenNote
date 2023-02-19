@@ -34,6 +34,10 @@ public class NoteService {
         return noteRepository.getNotesByUserId(userId);
     }
 
+    public List<Note> getNotesBySearch(String query){
+        return noteRepository.getNotesBySearch(query);
+    }
+
     public void createNote(NewNoteRequest request){
         User user = userService.getUserById(request.userId());
         Note note = new Note();

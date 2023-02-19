@@ -17,4 +17,7 @@ public interface NoteRepository extends JpaRepository<Note, String> {
             "AND folders.id = ?1",
             nativeQuery = true)
     List<Note> getNotesByFolderId(String folderId);
+
+    @Query(value = "SELECT * FROM notes WHERE title LIKE CONCAT('%', ?1, '%')", nativeQuery = true)
+    List<Note> getNotesBySearch(String query);
 }
