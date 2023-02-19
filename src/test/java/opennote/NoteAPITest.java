@@ -44,7 +44,7 @@ public class NoteAPITest {
 
     Note note1 = new Note("12345", user1, "MyNote", "https://clickup.com/blog/wp-content/uploads/2020/01/note-taking.png", true, new Date(), new Date());
     Note note2 = new Note("23456", user1, "1181 Lecture", "http://lecture1181.pdf", false, new Date(), new Date());
-    Note note3 = new Note("34567", user2,"PHYS Test", "http://phys-test.pdf", true, new Date(), new Date());
+    Note note3 = new Note("34567", user2,"PHYS Lecture", "http://phys-test.pdf", true, new Date(), new Date());
 
 
     @Test
@@ -82,6 +82,18 @@ public class NoteAPITest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[1].title", Matchers.is("1181 Lecture")));
+    }
+
+    @Test
+    public void getNotesBySearch_success() throws Exception{
+        List<Note> result = new ArrayList<>(Arrays.asList(note1, note3));
+        Mockito.when(noteService.getNotesBySearch("lecture")).thenReturn(result);
+
+        mockMvc.perform(MockMvcRequestBuilders
+                .get("/notes/search/lecture")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)));
     }
 
     @Test
