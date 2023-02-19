@@ -31,6 +31,11 @@ public class NoteController {
         return noteService.getNotesByUserId(id);
     }
 
+    @GetMapping(value = "/folder/{id}")
+    public List<Note> getNotesByFolderId(@PathVariable String id){
+        return noteService.getNotesByFolderId(id);
+    }
+
     @PostMapping
     public void createNote(@RequestBody NewNoteRequest request){
         noteService.createNote(request);
@@ -45,4 +50,6 @@ public class NoteController {
     public void deleteNote(@PathVariable String id){
         noteService.deleteNote(id);
     }
+    
+
 }

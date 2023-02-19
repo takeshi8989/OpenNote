@@ -10,4 +10,11 @@ import java.util.List;
 public interface NoteRepository extends JpaRepository<Note, String> {
     @Query(value = "SELECT * from notes WHERE user_id=?1", nativeQuery = true)
     List<Note> getNotesByUserId(Integer id);
+
+    @Query(value = "SELECT notes.* from notes, folders, folder_notes " +
+            "WHERE folder_notes.folder_id = folders.id " +
+            "AND folder_notes.note_id = notes.id " +
+            "AND folders.id = ?1",
+            nativeQuery = true)
+    List<Note> getNotesByFolderId(String id);
 }

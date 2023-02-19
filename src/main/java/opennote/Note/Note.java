@@ -1,6 +1,6 @@
 package opennote.Note;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import opennote.Folder.Folder;
 import opennote.User.User;
@@ -23,7 +23,7 @@ public class Note {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    @JsonBackReference
+    @JsonIgnoreProperties(value = {"notes"})
     private User user;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "notes")
