@@ -3,6 +3,7 @@ package opennote.User;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import opennote.Folder.Folder;
+import opennote.Note.Note;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,9 @@ public class User {
     @JsonManagedReference
     private List<Folder> folders = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user")
+    @JsonManagedReference
+    private List<Note> notes = new ArrayList<>();
     public User(){}
 
 
@@ -72,5 +76,13 @@ public class User {
 
     public void setFolders(List<Folder> folders) {
         this.folders = folders;
+    }
+
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    public void setNotes(List<Note> notes) {
+        this.notes = notes;
     }
 }

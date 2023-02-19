@@ -1,5 +1,7 @@
 package opennote.Note;
 
+import opennote.User.User;
+import opennote.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -8,10 +10,12 @@ import java.util.List;
 @Service
 public class NoteService {
     private final NoteRepository noteRepository;
+    private final UserService userService;
 
     @Autowired
-    public NoteService(NoteRepository noteRepository) {
+    public NoteService(NoteRepository noteRepository, UserService userService) {
         this.noteRepository = noteRepository;
+        this.userService = userService;
     }
 
     public List<Note> getAllNotes(){
@@ -21,6 +25,11 @@ public class NoteService {
     public Note getNoteById(String id){
         return noteRepository.findById(id)
                 .orElseThrow(() -> new NoteNotFoundException(id));
+    }
+
+    public List<Note> getNotesByUserId(Integer id){
+        User user = userService.getUserById(id);
+        return noteRepository.getNotesByUserId(id);
     }
 
     public void createNote(NewNoteRequest request){
