@@ -27,6 +27,7 @@ jobs:
           -DAWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }} \
           -DAWS_REGION=${{ secrets.AWS_REGION }} \
           -DAWS_S3_BUCKET_NAME=${{ secrets.AWS_S3_BUCKET_NAME }} \
+          -DSECURITY_SECRET_KEY=${{ secrets.SECURITY_SECRET_KEY }} \
           test
 
       - name: Configure AWS Credentials
@@ -57,6 +58,7 @@ jobs:
           --build-arg AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }} \
           --build-arg AWS_REGION=${{ secrets.AWS_REGION }} \
           --build-arg AWS_S3_BUCKET_NAME=${{ secrets.AWS_S3_BUCKET_NAME }} \
+          --build-arg SECURITY_SECRET_KEY=${{ secrets.SECURITY_SECRET_KEY }} \
           -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
