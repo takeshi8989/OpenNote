@@ -1,17 +1,22 @@
 package opennote;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import opennote.Folder.Folder;
-import opennote.Folder.FolderController;
-import opennote.Folder.FolderService;
-import opennote.Folder.Request.AddRemoveNoteRequest;
-import opennote.Folder.Request.NewFolderRequest;
-import opennote.Note.Note;
-import opennote.Note.NoteService;
-import opennote.User.User;
+import opennote.folder.Folder;
+import opennote.folder.FolderController;
+import opennote.folder.FolderService;
+import opennote.folder.Request.AddRemoveNoteRequest;
+import opennote.folder.Request.NewFolderRequest;
+import opennote.note.Note;
+import opennote.note.NoteService;
+import opennote.user.Role;
+import opennote.user.User;
+import opennote.config.JwtAuthenticationFilter;
+import opennote.config.JwtService;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -28,21 +33,23 @@ import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(FolderController.class)
+@AutoConfigureMockMvc(addFilters = false)
 public class FolderAPITest {
     @Autowired
     MockMvc mockMvc;
-
     @Autowired
     ObjectMapper mapper;
-
     @MockBean
     FolderService folderService;
-
     @MockBean
     NoteService noteService;
+    @MockBean
+    JwtAuthenticationFilter jwtAuthenticationFilter;
+    @Mock
+    JwtService jwtService;
 
-    User user1 = new User(1, "Rayven Yor", "yrayven@gmail.com", "password1");
-    User user2 = new User(2, "David Landup", "ldavid@gmail.com", "password2");
+    User user1 = new User(1, "Rayven Yor", "yrayven@gmail.com", "password1", Role.USER);
+    User user2 = new User(2, "David Landup", "ldavid@gmail.com", "password2", Role.USER);
 
     Note note1 = new Note("12345", user1, "MyNote", "https://clickup.com/blog/wp-content/uploads/2020/01/note-taking.png", true, new Date(), new Date());
 
@@ -96,7 +103,7 @@ public class FolderAPITest {
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/folders")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(OpenNoteApplicationTests.toJson(request)))
+                        .content(ApplicationTests.toJson(request)))
                 .andExpect(status().isOk());
     }
 
@@ -110,7 +117,7 @@ public class FolderAPITest {
         mockMvc.perform(MockMvcRequestBuilders
                         .put("/folders/34567")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(OpenNoteApplicationTests.toJson(request)))
+                        .content(ApplicationTests.toJson(request)))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.title").value("Favorite anime"));
     }
@@ -126,7 +133,7 @@ public class FolderAPITest {
         mockMvc.perform(MockMvcRequestBuilders
                         .put("/folders/note/12345")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(OpenNoteApplicationTests.toJson(request)))
+                        .content(ApplicationTests.toJson(request)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title").value("Title"))
                 .andExpect(jsonPath("$.notes", hasSize(1)));
@@ -146,7 +153,7 @@ public class FolderAPITest {
         mockMvc.perform(MockMvcRequestBuilders
                         .put("/folders/note/12345")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(OpenNoteApplicationTests.toJson(addRequest)))
+                        .content(ApplicationTests.toJson(addRequest)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title").value("Title"))
                 .andExpect(jsonPath("$.notes", hasSize(1)));
@@ -155,7 +162,7 @@ public class FolderAPITest {
         mockMvc.perform(MockMvcRequestBuilders
                         .put("/folders/note/12345")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(OpenNoteApplicationTests.toJson(removeRequest)))
+                        .content(ApplicationTests.toJson(removeRequest)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title").value("Title"))
                 .andExpect(jsonPath("$.notes", hasSize(0)));
