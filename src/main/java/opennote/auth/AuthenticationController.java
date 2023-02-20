@@ -1,7 +1,7 @@
 package opennote.auth;
 
 import lombok.RequiredArgsConstructor;
-import opennote.User.NewUserRequest;
+import opennote.user.NewUserRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

@@ -1,8 +1,7 @@
 package opennote.config;
 
 import lombok.RequiredArgsConstructor;
-import opennote.User.UserRepository;
-import org.springframework.beans.factory.annotation.Value;
+import opennote.user.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

@@ -1,4 +1,4 @@
-package opennote.Note;
+package opennote.note;
 
 public record NewNoteRequest(
         Integer userId,

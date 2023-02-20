@@ -1,7 +1,7 @@
-package opennote.Folder;
+package opennote.folder;
 
-import opennote.Folder.Request.AddRemoveNoteRequest;
-import opennote.Folder.Request.NewFolderRequest;
+import opennote.folder.Request.AddRemoveNoteRequest;
+import opennote.folder.Request.NewFolderRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

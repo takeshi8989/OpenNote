@@ -1,12 +1,12 @@
 package opennote;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import opennote.Note.NewNoteRequest;
-import opennote.Note.Note;
-import opennote.Note.NoteController;
-import opennote.Note.NoteService;
-import opennote.User.Role;
-import opennote.User.User;
+import opennote.note.NewNoteRequest;
+import opennote.note.Note;
+import opennote.note.NoteController;
+import opennote.note.NoteService;
+import opennote.user.Role;
+import opennote.user.User;
 import opennote.config.JwtAuthenticationFilter;
 import opennote.config.JwtService;
 import org.hamcrest.Matchers;
@@ -122,7 +122,7 @@ public class NoteAPITest {
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/notes")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(OpenNoteApplicationTests.toJson(request)))
+                        .content(ApplicationTests.toJson(request)))
                 .andExpect(status().isOk());
     }
 
@@ -136,7 +136,7 @@ public class NoteAPITest {
         mockMvc.perform(MockMvcRequestBuilders
                         .put("/notes/34567")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(OpenNoteApplicationTests.toJson(request)))
+                        .content(ApplicationTests.toJson(request)))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.title").value("updated myNote"));
     }

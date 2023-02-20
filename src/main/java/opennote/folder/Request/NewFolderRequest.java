@@ -1,4 +1,4 @@
-package opennote.Folder.Request;
+package opennote.folder.Request;
 
 public record NewFolderRequest(
         Integer userId,

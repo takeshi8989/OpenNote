@@ -1,15 +1,15 @@
 package opennote;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import opennote.Folder.Folder;
-import opennote.Folder.FolderController;
-import opennote.Folder.FolderService;
-import opennote.Folder.Request.AddRemoveNoteRequest;
-import opennote.Folder.Request.NewFolderRequest;
-import opennote.Note.Note;
-import opennote.Note.NoteService;
-import opennote.User.Role;
-import opennote.User.User;
+import opennote.folder.Folder;
+import opennote.folder.FolderController;
+import opennote.folder.FolderService;
+import opennote.folder.Request.AddRemoveNoteRequest;
+import opennote.folder.Request.NewFolderRequest;
+import opennote.note.Note;
+import opennote.note.NoteService;
+import opennote.user.Role;
+import opennote.user.User;
 import opennote.config.JwtAuthenticationFilter;
 import opennote.config.JwtService;
 import org.junit.jupiter.api.Test;
@@ -103,7 +103,7 @@ public class FolderAPITest {
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/folders")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(OpenNoteApplicationTests.toJson(request)))
+                        .content(ApplicationTests.toJson(request)))
                 .andExpect(status().isOk());
     }
 
@@ -117,7 +117,7 @@ public class FolderAPITest {
         mockMvc.perform(MockMvcRequestBuilders
                         .put("/folders/34567")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(OpenNoteApplicationTests.toJson(request)))
+                        .content(ApplicationTests.toJson(request)))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.title").value("Favorite anime"));
     }
@@ -133,7 +133,7 @@ public class FolderAPITest {
         mockMvc.perform(MockMvcRequestBuilders
                         .put("/folders/note/12345")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(OpenNoteApplicationTests.toJson(request)))
+                        .content(ApplicationTests.toJson(request)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title").value("Title"))
                 .andExpect(jsonPath("$.notes", hasSize(1)));
@@ -153,7 +153,7 @@ public class FolderAPITest {
         mockMvc.perform(MockMvcRequestBuilders
                         .put("/folders/note/12345")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(OpenNoteApplicationTests.toJson(addRequest)))
+                        .content(ApplicationTests.toJson(addRequest)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title").value("Title"))
                 .andExpect(jsonPath("$.notes", hasSize(1)));
@@ -162,7 +162,7 @@ public class FolderAPITest {
         mockMvc.perform(MockMvcRequestBuilders
                         .put("/folders/note/12345")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(OpenNoteApplicationTests.toJson(removeRequest)))
+                        .content(ApplicationTests.toJson(removeRequest)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title").value("Title"))
                 .andExpect(jsonPath("$.notes", hasSize(0)));

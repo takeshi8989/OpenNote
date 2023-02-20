@@ -1,9 +1,9 @@
 package opennote.auth;
 
 import lombok.RequiredArgsConstructor;
-import opennote.Folder.FolderService;
-import opennote.Folder.Request.NewFolderRequest;
-import opennote.User.*;
+import opennote.folder.FolderService;
+import opennote.folder.Request.NewFolderRequest;
+import opennote.user.*;
 import opennote.config.JwtService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

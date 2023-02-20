@@ -1,11 +1,11 @@
-package opennote.Folder;
+package opennote.folder;
 
-import opennote.Folder.Request.AddRemoveNoteRequest;
-import opennote.Folder.Request.NewFolderRequest;
-import opennote.Note.Note;
-import opennote.Note.NoteService;
-import opennote.User.User;
-import opennote.User.UserService;
+import opennote.folder.Request.AddRemoveNoteRequest;
+import opennote.folder.Request.NewFolderRequest;
+import opennote.note.Note;
+import opennote.note.NoteService;
+import opennote.user.User;
+import opennote.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

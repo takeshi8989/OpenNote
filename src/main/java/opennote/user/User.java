@@ -1,11 +1,9 @@
-package opennote.User;
+package opennote.user;
 
 import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
-import opennote.Folder.Folder;
-import opennote.Note.Note;
+import opennote.folder.Folder;
+import opennote.note.Note;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

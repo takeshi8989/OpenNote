@@ -1,10 +1,8 @@
 package opennote;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import opennote.Folder.FolderService;
-import opennote.User.*;
-import opennote.auth.AuthenticationResponse;
-import opennote.auth.AuthenticationService;
+import opennote.folder.FolderService;
+import opennote.user.*;
 import opennote.config.JwtAuthenticationFilter;
 import opennote.config.JwtService;
 import org.junit.jupiter.api.Test;
@@ -16,10 +14,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.hamcrest.Matchers.*;
@@ -89,7 +84,7 @@ public class UserAPITest {
         mockMvc.perform(MockMvcRequestBuilders
                         .put("/users/1")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(OpenNoteApplicationTests.toJson(user)))
+                        .content(ApplicationTests.toJson(user)))
                 .andExpect(status().isOk());
     }
 

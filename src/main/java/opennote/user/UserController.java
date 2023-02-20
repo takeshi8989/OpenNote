@@ -1,7 +1,6 @@
-package opennote.User;
+package opennote.user;
 
-import opennote.Folder.FolderService;
-import opennote.Folder.Request.NewFolderRequest;
+import opennote.folder.FolderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,4 +1,4 @@
-package opennote.User;
+package opennote.user;
 
 public record NewUserRequest(
         String username,

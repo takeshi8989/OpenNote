@@ -1,9 +1,7 @@
-package opennote.Note;
+package opennote.note;
 
-import opennote.Folder.Folder;
-import opennote.Folder.FolderService;
-import opennote.User.User;
-import opennote.User.UserService;
+import opennote.user.User;
+import opennote.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

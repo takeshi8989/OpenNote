@@ -1,8 +1,8 @@
 package opennote;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import opennote.File.FileController;
-import opennote.File.FileService;
+import opennote.file.FileController;
+import opennote.file.FileService;
 import opennote.config.JwtAuthenticationFilter;
 import opennote.config.JwtService;
 import org.junit.jupiter.api.Test;
@@ -15,7 +15,6 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.io.File;
 import java.io.InputStream;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;

@@ -1,11 +1,9 @@
-package opennote.Folder;
+package opennote.note;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
-import opennote.Note.Note;
-import opennote.User.User;
+import opennote.folder.Folder;
+import opennote.user.User;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -15,8 +13,8 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table( name = "folders" )
-public class Folder {
+@Table(name = "notes")
+public class Note {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid")
@@ -25,34 +23,37 @@ public class Folder {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    @JsonBackReference
+    @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "notes"})
     private User user;
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "folder_notes",
-            joinColumns = @JoinColumn(name = "folder_id"),
-            inverseJoinColumns = @JoinColumn(name = "note_id"))
-    @JsonManagedReference
-    private List<Note> notes = new ArrayList<>();
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "notes")
+    @JsonBackReference
+    private List<Folder> folders = new ArrayList<>();
     private String title;
+    private String url;
+    private boolean isPublic;
     @CreationTimestamp
     private Date createdAt;
-
     @UpdateTimestamp
     private Date updatedAt;
 
-    public Folder(){}
+    public Note(){}
 
-    public Folder(String id, User user, String title, Date createdAt, Date updatedAt) {
+    public Note(String id, User user, String title, String url, boolean isPublic, Date createdAt, Date updatedAt) {
         this.id = id;
         this.user = user;
         this.title = title;
+        this.url = url;
+        this.isPublic = isPublic;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
 
     public String getId() {
         return id;
+    }
+    public String getTitle() {
+        return title;
     }
 
     public User getUser() {
@@ -63,12 +64,24 @@ public class Folder {
         this.user = user;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public boolean isPublic() {
+        return isPublic;
+    }
+
+    public void setPublic(boolean aPublic) {
+        isPublic = aPublic;
     }
 
     public Date getCreatedAt() {
@@ -85,13 +98,5 @@ public class Folder {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    public void addNote(Note note){
-        notes.add(note);
-    }
-
-    public void removeNote(Note note){
-        notes.remove(note);
     }
 }

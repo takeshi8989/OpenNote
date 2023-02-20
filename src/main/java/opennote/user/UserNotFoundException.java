@@ -1,4 +1,4 @@
-package opennote.User;
+package opennote.user;
 
 public class UserNotFoundException extends RuntimeException{
     public UserNotFoundException(Integer id) {

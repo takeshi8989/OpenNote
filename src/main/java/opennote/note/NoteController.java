@@ -1,6 +1,5 @@
-package opennote.Note;
+package opennote.note;
 
-import opennote.User.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
