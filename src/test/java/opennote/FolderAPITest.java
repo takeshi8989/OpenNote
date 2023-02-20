@@ -8,10 +8,15 @@ import opennote.Folder.Request.AddRemoveNoteRequest;
 import opennote.Folder.Request.NewFolderRequest;
 import opennote.Note.Note;
 import opennote.Note.NoteService;
+import opennote.User.Role;
 import opennote.User.User;
+import opennote.config.JwtAuthenticationFilter;
+import opennote.config.JwtService;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -28,21 +33,23 @@ import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(FolderController.class)
+@AutoConfigureMockMvc(addFilters = false)
 public class FolderAPITest {
     @Autowired
     MockMvc mockMvc;
-
     @Autowired
     ObjectMapper mapper;
-
     @MockBean
     FolderService folderService;
-
     @MockBean
     NoteService noteService;
+    @MockBean
+    JwtAuthenticationFilter jwtAuthenticationFilter;
+    @Mock
+    JwtService jwtService;
 
-    User user1 = new User(1, "Rayven Yor", "yrayven@gmail.com", "password1");
-    User user2 = new User(2, "David Landup", "ldavid@gmail.com", "password2");
+    User user1 = new User(1, "Rayven Yor", "yrayven@gmail.com", "password1", Role.USER);
+    User user2 = new User(2, "David Landup", "ldavid@gmail.com", "password2", Role.USER);
 
     Note note1 = new Note("12345", user1, "MyNote", "https://clickup.com/blog/wp-content/uploads/2020/01/note-taking.png", true, new Date(), new Date());
 

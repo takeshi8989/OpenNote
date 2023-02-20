@@ -2,6 +2,8 @@ package opennote.User;
 
 import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.Data;
 import opennote.Folder.Folder;
 import opennote.Note.Note;
 import org.springframework.security.core.GrantedAuthority;

@@ -30,11 +30,8 @@ public class UserController {
     }
 
     @PostMapping
-    public void createUser(@RequestBody NewUserRequest request){
-        User user = userService.createUser(request);
-        if(user != null){
-            folderService.createFolder(new NewFolderRequest(user.getId(), "myfolder"));
-        }
+    public User createUser(@RequestBody NewUserRequest request){
+        return userService.createUser(request);
     }
 
     @PutMapping("/{id}")

@@ -5,11 +5,16 @@ import opennote.Note.NewNoteRequest;
 import opennote.Note.Note;
 import opennote.Note.NoteController;
 import opennote.Note.NoteService;
+import opennote.User.Role;
 import opennote.User.User;
+import opennote.config.JwtAuthenticationFilter;
+import opennote.config.JwtService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -29,18 +34,21 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(NoteController.class)
+@AutoConfigureMockMvc(addFilters = false)
 public class NoteAPITest {
     @Autowired
     MockMvc mockMvc;
-
     @Autowired
     ObjectMapper mapper;
-
     @MockBean
     NoteService noteService;
+    @MockBean
+    JwtAuthenticationFilter jwtAuthenticationFilter;
+    @Mock
+    JwtService jwtService;
 
-    User user1 = new User(1, "Rayven Yor", "yrayven@gmail.com", "password1");
-    User user2 = new User(2, "David Landup", "ldavid@gmail.com", "password2");
+    User user1 = new User(1, "Rayven Yor", "yrayven@gmail.com", "password1", Role.USER);
+    User user2 = new User(2, "David Landup", "ldavid@gmail.com", "password2", Role.USER);
 
     Note note1 = new Note("12345", user1, "MyNote", "https://clickup.com/blog/wp-content/uploads/2020/01/note-taking.png", true, new Date(), new Date());
     Note note2 = new Note("23456", user1, "1181 Lecture", "http://lecture1181.pdf", false, new Date(), new Date());

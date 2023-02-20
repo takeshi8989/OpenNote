@@ -1,6 +1,8 @@
 package opennote.User;
 
+import opennote.Folder.Request.NewFolderRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -10,9 +12,12 @@ import java.util.List;
 public class UserService {
     @Autowired
     private final UserRepository userRepository;
+    @Autowired
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<User> getUsers(){
@@ -25,11 +30,16 @@ public class UserService {
                 .orElseThrow(() -> new UserNotFoundException(id));
     }
 
+    public User getUserByUsername(String username) {
+        return userRepository.getUserByUsername(username);
+    }
+
     public User createUser(NewUserRequest request){
         User user = new User();
         user.setUsername(request.username());
         user.setEmail(request.email());
-        user.setPassword(request.password());
+        user.setPassword(passwordEncoder.encode(request.password()));
+        user.setRole(Role.USER);
         return userRepository.save(user);
     }
 

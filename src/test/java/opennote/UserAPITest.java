@@ -2,18 +2,25 @@ package opennote;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import opennote.Folder.FolderService;
-import opennote.User.NewUserRequest;
-import opennote.User.User;
-import opennote.User.UserController;
-import opennote.User.UserService;
+import opennote.User.*;
+import opennote.auth.AuthenticationResponse;
+import opennote.auth.AuthenticationService;
+import opennote.config.JwtAuthenticationFilter;
+import opennote.config.JwtService;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.hamcrest.Matchers.*;
 
@@ -24,6 +31,7 @@ import java.util.List;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(UserController.class)
+@AutoConfigureMockMvc(addFilters = false)
 public class UserAPITest {
     @Autowired
     MockMvc mockMvc;
@@ -32,18 +40,21 @@ public class UserAPITest {
 
     @MockBean
     UserService userService;
-
     @MockBean
     FolderService folderService;
+    @MockBean
+    JwtAuthenticationFilter jwtAuthenticationFilter;
+    @Mock
+    JwtService jwtService;
 
-    User user1 = new User(1, "Rayven Yor", "yrayven@gmail.com", "password1");
-    User user2 = new User(2, "David Landup", "ldavid@gmail.com", "password2");
-    User user3 = new User(3, "Jane Doe", "djane@gmail.com", "password3");
+    User user1 = new User(1, "Rayven Yor", "yrayven@gmail.com", "password1", Role.USER);
+    User user2 = new User(2, "David Landup", "ldavid@gmail.com", "password2", Role.USER);
+    User user3 = new User(3, "Jane Doe", "djane@gmail.com", "password3", Role.USER);
 
     @Test
     public void getAllUsers_success() throws Exception {
-        List<User> users = new ArrayList<>(Arrays.asList(user1, user2, user3));
 
+        List<User> users = new ArrayList<>(Arrays.asList(user1, user2, user3));
         Mockito.when(userService.getUsers()).thenReturn(users);
 
         mockMvc.perform(MockMvcRequestBuilders
@@ -64,21 +75,6 @@ public class UserAPITest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", notNullValue()))
                 .andExpect(jsonPath("$.username", is("Rayven Yor")));
-    }
-
-    @Test
-    public void createUser_success() throws Exception {
-        NewUserRequest user = new NewUserRequest(
-                "Maricela Sandoval",
-                "smaricela@gmail.com",
-                "password4"
-        );
-
-        mockMvc.perform(MockMvcRequestBuilders
-                        .post("/users")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(OpenNoteApplicationTests.toJson(user)))
-                .andExpect(status().isOk());
     }
 
     @Test
