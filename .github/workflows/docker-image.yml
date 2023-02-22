@@ -2,7 +2,7 @@ name: build & deploy app to fargate
 
 on:
   push:
-    path:
+    paths:
       - "open-note/**"
 
 jobs:
