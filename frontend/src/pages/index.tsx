@@ -16,7 +16,7 @@ const Home = () => {
       .then((res) => res.json())
       .then((data) => console.log(data));
   }, []);
-  return <div>home</div>;
+  return <div>home update</div>;
 };
 
 export default Home;
