@@ -5,6 +5,7 @@ const nextConfig = {
   },
   env: {
     LOCAL_URL: process.env.LOCAL_URL,
+    API_URL: process.env.API_URL,
   },
 };
 
