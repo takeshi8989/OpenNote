@@ -41,7 +41,6 @@ jobs:
       - name: Download task definition
         id: download-task
         run: |
-          cd open-note
           aws ecs describe-task-definition --task-definition task --query taskDefinition > task-definition.json
           echo "::set-output name=revision::$(cat task-definition.json | jq .revision)"
       - name: Build, tag, and push image to Amazon
