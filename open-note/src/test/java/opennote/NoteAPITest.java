@@ -1,6 +1,7 @@
 package opennote;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import opennote.config.SecurityConfig;
 import opennote.note.NewNoteRequest;
 import opennote.note.Note;
 import opennote.note.NoteController;
@@ -44,8 +45,10 @@ public class NoteAPITest {
     NoteService noteService;
     @MockBean
     JwtAuthenticationFilter jwtAuthenticationFilter;
-    @Mock
+    @MockBean
     JwtService jwtService;
+    @MockBean
+    SecurityConfig securityConfig;
 
     User user1 = new User(1, "Rayven Yor", "yrayven@gmail.com", "password1", Role.USER);
     User user2 = new User(2, "David Landup", "ldavid@gmail.com", "password2", Role.USER);

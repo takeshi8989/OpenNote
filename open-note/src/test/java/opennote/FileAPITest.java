@@ -1,6 +1,7 @@
 package opennote;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import opennote.config.SecurityConfig;
 import opennote.file.FileController;
 import opennote.file.FileService;
 import opennote.config.JwtAuthenticationFilter;
@@ -30,8 +31,10 @@ public class FileAPITest {
     FileService fileService;
     @MockBean
     JwtAuthenticationFilter jwtAuthenticationFilter;
-    @Mock
+    @MockBean
     JwtService jwtService;
+    @MockBean
+    SecurityConfig securityConfig;
 
     @Test
     public void uploadFile_success() throws Exception {

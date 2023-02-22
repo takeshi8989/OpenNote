@@ -1,6 +1,7 @@
 package opennote;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import opennote.config.SecurityConfig;
 import opennote.folder.FolderService;
 import opennote.user.*;
 import opennote.config.JwtAuthenticationFilter;
@@ -39,8 +40,10 @@ public class UserAPITest {
     FolderService folderService;
     @MockBean
     JwtAuthenticationFilter jwtAuthenticationFilter;
-    @Mock
+    @MockBean
     JwtService jwtService;
+    @MockBean
+    SecurityConfig securityConfig;
 
     User user1 = new User(1, "Rayven Yor", "yrayven@gmail.com", "password1", Role.USER);
     User user2 = new User(2, "David Landup", "ldavid@gmail.com", "password2", Role.USER);
