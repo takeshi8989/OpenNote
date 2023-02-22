@@ -1,4 +1,3 @@
-
 name: build & deploy app to fargate
 
 on: [push]
@@ -16,10 +15,11 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
-          java-version: '17'
-          distribution: 'oracle'
+          java-version: "17"
+          distribution: "oracle"
       - name: Test
         run: |
+          cd open-note
           mvn -DDATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }} \
           -DDATABASE_URL=${{ secrets.DATABASE_URL }} \
           -DDATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} \
@@ -41,6 +41,7 @@ jobs:
       - name: Download task definition
         id: download-task
         run: |
+          cd open-note
           aws ecs describe-task-definition --task-definition task --query taskDefinition > task-definition.json
           echo "::set-output name=revision::$(cat task-definition.json | jq .revision)"
       - name: Build, tag, and push image to Amazon
@@ -50,6 +51,7 @@ jobs:
           ECR_REPOSITORY: open-note
           IMAGE_TAG: latest
         run: |
+          cd open-note
           docker build \
           --build-arg DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }} \
           --build-arg DATABASE_URL=${{ secrets.DATABASE_URL }} \
@@ -78,5 +80,6 @@ jobs:
           cluster: OpenNoteCluster
       - name: De-register previous revision
         run: |
+          cd open-note
           aws ecs deregister-task-definition \
             --task-definition task:${{ steps.download-task.outputs.revision }}
