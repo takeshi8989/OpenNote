@@ -1,6 +1,9 @@
 name: build & deploy app to fargate
 
-on: [push]
+on:
+  push:
+    path:
+      - "open-note/**"
 
 jobs:
   deploy-app-fargate:
