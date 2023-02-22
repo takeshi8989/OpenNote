@@ -26,7 +26,9 @@ public class User implements UserDetails {
             generator = "user_id_sequence"
     )
     private Integer id;
+    @Column(unique = true)
     private String username;
+    @Column(unique = true)
     private String email;
 
     private String password;
@@ -119,6 +121,5 @@ public class User implements UserDetails {
     public void setNotes(List<Note> notes) {
         this.notes = notes;
     }
-
 
 }
