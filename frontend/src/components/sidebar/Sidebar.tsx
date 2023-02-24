@@ -61,9 +61,10 @@ const commnets: Commnet[] = [
   },
 ];
 
-const Sidebar = () => {
+const Sidebar = (): JSX.Element => {
   return (
     <div className=" mx-10 ">
+      {/* Folder Modal Button */}
       <Button
         flat
         auto
@@ -74,6 +75,7 @@ const Sidebar = () => {
       >
         Add to my Folder
       </Button>
+      {/* Comments */}
       <div className="flex justify-center items-center w-full my-auto mt-10">
         <BiCommentDetail size={30} className="mt-2 mr-2" />
         <Text size={"$2xl"}>Comments</Text>

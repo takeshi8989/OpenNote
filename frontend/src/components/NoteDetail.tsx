@@ -18,10 +18,10 @@ const tags: string[] = [
   "PHYS 1181",
 ];
 
-const NoteDetail = ({ note }: { note: Note }) => {
+const NoteDetail = ({ note }: { note: Note }): JSX.Element => {
   const [numPages, setNumPages] = useState<number>(0);
   useEffect(() => {
-    const url = note.url;
+    const url: string = note.url;
     pdfjs.getDocument(url).promise.then((doc) => setNumPages(doc.numPages));
   }, [note]);
   return (

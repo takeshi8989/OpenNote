@@ -8,7 +8,6 @@ import {
   Button,
 } from "@nextui-org/react";
 import { Layout } from "./Layout";
-import { AcmeLogo } from "./AcmeLogo";
 import { SearchIcon } from "./SearchIcon";
 import { LoginModal } from "./LoginModal";
 
@@ -22,6 +21,7 @@ export const Header = () => {
             OPEN NOTE
           </Text>
         </Navbar.Brand>
+        {/* Search Bar */}
         <Navbar.Content
           css={{
             "@xsMax": {
@@ -58,12 +58,15 @@ export const Header = () => {
               placeholder="Search..."
             />
           </Navbar.Item>
+          {/* Login Button */}
           {!isLoggedIn && <LoginModal />}
+          {/* New Note Button */}
           {isLoggedIn && (
             <Button bordered color="secondary" auto>
               NEW NOTE
             </Button>
           )}
+          {/* Avatar */}
           {isLoggedIn && (
             <Dropdown placement="bottom-right">
               <Navbar.Item>

@@ -19,7 +19,7 @@
 import React, { useState } from "react";
 import { Modal, Button, Text, Input, Row, Checkbox } from "@nextui-org/react";
 
-export const LoginModal = () => {
+export const LoginModal = (): JSX.Element => {
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
