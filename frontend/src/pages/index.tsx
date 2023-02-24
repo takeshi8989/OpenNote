@@ -1,5 +1,17 @@
 import { Header } from "@/components/header/Header";
+import NoteList from "@/components/NoteList";
+import { Note } from "@/types/note";
 import React from "react";
+import { pdfjs } from "react-pdf";
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+
+interface GetPDFRequest {
+  url: string;
+  headers: {
+    "Access-Control-Allow-Origin": "*";
+    // 'Content-Type': 'application/x-www-form-urlencoded',
+  };
+}
 
 const Home = () => {
   // useEffect(() => {
@@ -18,10 +30,35 @@ const Home = () => {
   //     .then((data) => console.log(data));
   // }, []);
 
+  // https://opennote-bucket.s3.us-west-2.amazonaws.com/multiply_analysis.pdf
+  const notes: Note[] = [
+    {
+      id: "1",
+      title: "Note1",
+      url: "https://www.africau.edu/images/default/sample.pdf",
+    },
+    {
+      id: "2",
+      title: "Note2",
+      url: "https://opennote-bucket.s3.us-west-2.amazonaws.com/multiply_analysis.pdf",
+    },
+  ];
+  const getPDF = async (): Promise<void> => {
+    const url: string =
+      "https://opennote-bucket.s3.us-west-2.amazonaws.com/multiply_analysis.pdf";
+
+    const pdf = await pdfjs.getDocument(url).promise.then((doc) => {
+      return doc;
+    });
+
+    const page = await pdf.getPage(1);
+  };
+
   return (
-    <div>
+    <div className="h-screen">
       <Header />
-      <div>Hello world!</div>
+      <button onClick={getPDF}>CLICK</button>
+      <NoteList notes={notes} />
     </div>
   );
 };
