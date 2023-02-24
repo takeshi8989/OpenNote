@@ -1,63 +1,66 @@
 import { Header } from "@/components/header/Header";
 import NoteList from "@/components/NoteList";
 import { Note } from "@/types/note";
-import React from "react";
-import { pdfjs } from "react-pdf";
+import React, { useState } from "react";
+import { Document, Page, pdfjs } from "react-pdf";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-interface GetPDFRequest {
-  url: string;
-  headers: {
-    "Access-Control-Allow-Origin": "*";
-    // 'Content-Type': 'application/x-www-form-urlencoded',
-  };
-}
+const notes: Note[] = [
+  {
+    id: "1",
+    title: "My PHYS Assignment",
+    url: "https://opennote-bucket.s3.us-west-2.amazonaws.com/Chap4%2C+5.pdf",
+    author: { username: "takeshi", email: "take@gmail.com" },
+  },
+  {
+    id: "2",
+    title: "My note 1",
+    url: "https://opennote-bucket.s3.us-west-2.amazonaws.com/multiply_analysis.pdf",
+    author: { username: "user1", email: "first@gmail.com" },
+  },
+  {
+    id: "3",
+    title: "Empty Note",
+    url: "https://opennote-bucket.s3.us-west-2.amazonaws.com/Chap4%2C+5.pdf",
+    author: { username: "user2", email: "second@gmail.com" },
+  },
+  {
+    id: "4",
+    title: "I hate writing",
+    url: "https://opennote-bucket.s3.us-west-2.amazonaws.com/multiply_analysis.pdf",
+    author: { username: "takeshi", email: "take@gmail.com" },
+  },
+
+  {
+    id: "5",
+    title: "Calculus 2",
+    url: "https://opennote-bucket.s3.us-west-2.amazonaws.com/Chap4%2C+5.pdf",
+    author: { username: "takeshi", email: "take@gmail.com" },
+  },
+  {
+    id: "6",
+    title: "Derivative of Integral",
+    url: "https://opennote-bucket.s3.us-west-2.amazonaws.com/multiply_analysis.pdf",
+    author: { username: "user1", email: "first@gmail.com" },
+  },
+  {
+    id: "7",
+    title: "My Perfect Note",
+    url: "https://opennote-bucket.s3.us-west-2.amazonaws.com/Chap4%2C+5.pdf",
+    author: { username: "user2", email: "second@gmail.com" },
+  },
+  {
+    id: "8",
+    title: "Note 1",
+    url: "https://opennote-bucket.s3.us-west-2.amazonaws.com/multiply_analysis.pdf",
+    author: { username: "takeshi", email: "take@gmail.com" },
+  },
+];
 
 const Home = () => {
-  // useEffect(() => {
-  //   if (localStorage.getItem("token") === null) {
-  //     // navigate login
-  //     return;
-  //   }
-  //   const url: string = process.env.API_URL as string;
-  //   fetch(`${url}/users`, {
-  //     method: "GET",
-  //     headers: new Headers({
-  //       Authorization: "Bearer " + localStorage.getItem("token"),
-  //     }),
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => console.log(data));
-  // }, []);
-
-  // https://opennote-bucket.s3.us-west-2.amazonaws.com/multiply_analysis.pdf
-  const notes: Note[] = [
-    {
-      id: "1",
-      title: "Note1",
-      url: "https://www.africau.edu/images/default/sample.pdf",
-    },
-    {
-      id: "2",
-      title: "Note2",
-      url: "https://opennote-bucket.s3.us-west-2.amazonaws.com/multiply_analysis.pdf",
-    },
-  ];
-  const getPDF = async (): Promise<void> => {
-    const url: string =
-      "https://opennote-bucket.s3.us-west-2.amazonaws.com/multiply_analysis.pdf";
-
-    const pdf = await pdfjs.getDocument(url).promise.then((doc) => {
-      return doc;
-    });
-
-    const page = await pdf.getPage(1);
-  };
-
   return (
     <div className="h-screen">
       <Header />
-      <button onClick={getPDF}>CLICK</button>
       <NoteList notes={notes} />
     </div>
   );

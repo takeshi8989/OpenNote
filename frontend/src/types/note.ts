@@ -1,8 +1,10 @@
+import { User } from "./user";
+
 export interface Note {
   id: string;
   title: string;
   url: string;
-  // user
+  author: User;
   // tags
   // likes
   // comments
