@@ -1,17 +1,25 @@
-import { Navbar, Text, Avatar, Dropdown, Input } from "@nextui-org/react";
+import { useState } from "react";
+import {
+  Navbar,
+  Text,
+  Avatar,
+  Dropdown,
+  Input,
+  Button,
+} from "@nextui-org/react";
 import { Layout } from "./Layout";
 import { AcmeLogo } from "./AcmeLogo";
 import { SearchIcon } from "./SearchIcon";
-import { LoginModal } from "../LoginModal";
+import { LoginModal } from "./LoginModal";
 
 export const Header = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
   return (
     <Layout>
       <Navbar isBordered variant="sticky">
         <Navbar.Brand css={{ mr: "$4" }}>
-          <AcmeLogo />
-          <Text b color="inherit" css={{ mr: "$11" }} hideIn="xs">
-            ACME
+          <Text b color="inherit" css={{ mr: "$11" }} hideIn="sm" size={30}>
+            OPEN NOTE
           </Text>
         </Navbar.Brand>
         <Navbar.Content
@@ -35,7 +43,6 @@ export const Header = () => {
               contentLeft={
                 <SearchIcon fill="var(--nextui-colors-accents6)" size={16} />
               }
-              contentLeftStyling={false}
               css={{
                 w: "100%",
                 "@xsMax": {
@@ -47,52 +54,50 @@ export const Header = () => {
                   dflex: "center",
                 },
               }}
+              contentLeftStyling={false}
               placeholder="Search..."
             />
           </Navbar.Item>
-          <LoginModal />
-          <Dropdown placement="bottom-right">
-            <Navbar.Item>
-              <Dropdown.Trigger>
-                <Avatar
-                  bordered
-                  as="button"
-                  color="primary"
-                  size="md"
-                  src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
-                />
-              </Dropdown.Trigger>
-            </Navbar.Item>
-            <Dropdown.Menu
-              aria-label="User menu actions"
-              color="secondary"
-              onAction={(actionKey) => console.log({ actionKey })}
-            >
-              <Dropdown.Item key="profile" css={{ height: "$18" }}>
-                <Text b color="inherit" css={{ d: "flex" }}>
-                  Signed in as
-                </Text>
-                <Text b color="inherit" css={{ d: "flex" }}>
-                  zoey@example.com
-                </Text>
-              </Dropdown.Item>
-              <Dropdown.Item key="settings" withDivider>
-                My Settings
-              </Dropdown.Item>
-              <Dropdown.Item key="team_settings">Team Settings</Dropdown.Item>
-              <Dropdown.Item key="analytics" withDivider>
-                Analytics
-              </Dropdown.Item>
-              <Dropdown.Item key="system">System</Dropdown.Item>
-              <Dropdown.Item key="configurations">Configurations</Dropdown.Item>
-              <Dropdown.Item key="help_and_feedback" withDivider>
-                Help & Feedback
-              </Dropdown.Item>
-              <Dropdown.Item key="logout" withDivider color="error">
-                Log Out
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
+          {!isLoggedIn && <LoginModal />}
+          {isLoggedIn && (
+            <Button bordered color="secondary" auto>
+              NEW NOTE
+            </Button>
+          )}
+          {isLoggedIn && (
+            <Dropdown placement="bottom-right">
+              <Navbar.Item>
+                <Dropdown.Trigger>
+                  <Avatar
+                    bordered
+                    as="button"
+                    size="lg"
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4mt9OP-78V6r8z1c0ohe_dtyh2OQNNVDI2f2BSd7npw&s"
+                  />
+                </Dropdown.Trigger>
+              </Navbar.Item>
+              <Dropdown.Menu
+                aria-label="User menu actions"
+                color="secondary"
+                onAction={(actionKey) => console.log({ actionKey })}
+              >
+                <Dropdown.Item key="profile" css={{ height: "$18" }}>
+                  <Text b color="inherit" css={{ d: "flex" }}>
+                    Signed in as
+                  </Text>
+                  <Text b color="inherit" css={{ d: "flex" }}>
+                    zoey@example.com
+                  </Text>
+                </Dropdown.Item>
+                <Dropdown.Item key="settings" withDivider>
+                  Your Profile
+                </Dropdown.Item>
+                <Dropdown.Item key="logout" withDivider color="error">
+                  Log Out
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          )}
         </Navbar.Content>
       </Navbar>
     </Layout>
