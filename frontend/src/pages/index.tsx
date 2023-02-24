@@ -60,7 +60,6 @@ const notes: Note[] = [
 const Home = () => {
   return (
     <div className="h-screen">
-      <Header />
       <NoteList notes={notes} />
     </div>
   );
