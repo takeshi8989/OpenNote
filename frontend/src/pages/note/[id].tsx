@@ -1,4 +1,4 @@
-import Sidebar from "@/components/sidebar/Sidebar";
+import Sidebar from "@/components/sidebar/NotePage/Sidebar";
 import React from "react";
 import NoteDetail from "@/components/NoteDetail";
 import { Note } from "@/types/note";
