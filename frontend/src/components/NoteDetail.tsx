@@ -1,4 +1,5 @@
 import { Note } from "@/types/note";
+import { Tag } from "@/types/tag";
 import { Text, Badge } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
 import { AiOutlineLike } from "react-icons/ai";
@@ -6,16 +7,18 @@ import { BiCommentDetail } from "react-icons/bi";
 import { GrDownload } from "react-icons/gr";
 import { TbClick } from "react-icons/tb";
 import { Document, Page, pdfjs } from "react-pdf";
+import CustomTag from "./tag/CustomTag";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-const tags: string[] = [
-  "Physics",
-  "Assignment",
-  "Langara",
-  "Chapter 4,5",
-  "Difficult",
-  "Test 2",
-  "PHYS 1181",
+const tags: Tag[] = [
+  { name: "Physics", color: "blue" },
+  { name: "Assignment", color: "green" },
+  { name: "Langara", color: "red" },
+  { name: "Chapter 4,5", color: "pink" },
+
+  { name: "Difficult", color: "gray" },
+  { name: "Test 2", color: "yellow" },
+  { name: "PHYS 1181", color: "blue" },
 ];
 
 const NoteDetail = ({ note }: { note: Note }): JSX.Element => {
@@ -69,9 +72,7 @@ const NoteDetail = ({ note }: { note: Note }): JSX.Element => {
       {/* Tags */}
       <div className="flex flex-wrap justify-center mx-auto w-1/3 mt-2 mb-5">
         {tags.map((tag) => (
-          <Badge key={tag} className="mx-1" size="lg" color={"primary"}>
-            {tag}
-          </Badge>
+          <CustomTag tag={tag} />
         ))}
       </div>
       {/* Description */}
