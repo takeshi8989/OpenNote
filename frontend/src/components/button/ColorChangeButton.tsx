@@ -2,33 +2,28 @@ import React, { useState } from "react";
 import { Button } from "@nextui-org/react";
 import { GrCycle } from "react-icons/gr";
 
-const ColorChangeButton = () => {
-  const [currentColor, setCurrentColor] = useState<string>("blue");
+const hexRange: string = "0123456789ABCDEF";
+const ColorChangeButton = ({
+  currentColor,
+  setCurrentColor,
+}: {
+  currentColor: string;
+  setCurrentColor: React.Dispatch<React.SetStateAction<string>>;
+}) => {
+  const setRandomColor = (): void => {
+    let color: string = "#";
+    for (let i = 0; i < 6; i++) {
+      const index: number = Math.floor(Math.random() * hexRange.length);
+      color += hexRange.charAt(index);
+    }
+    setCurrentColor(color);
+  };
   return (
     <Button
       auto
-      flat
-      ripple={false}
-      bordered
       className="mx-2"
-      css={{
-        borderRadius: "$xs", // radii.xs
-        border: "$space$1 solid transparent",
-        background: `$${currentColor}800`, // colors.pink800
-        color: `$${currentColor}100`,
-
-        boxShadow: "$md", // shadows.md
-        "&:hover": {
-          background: `$${currentColor}100`,
-          color: `$${currentColor}800`,
-        },
-        "&:active": {
-          background: `$${currentColor}200`,
-        },
-        "&:focus": {
-          borderColor: `$${currentColor}400`,
-        },
-      }}
+      style={{ backgroundColor: currentColor }}
+      onClick={setRandomColor}
     >
       <GrCycle size={24} />
     </Button>

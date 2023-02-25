@@ -4,18 +4,26 @@ import CustomTag from "./CustomTag";
 import ColorChangeButton from "../button/ColorChangeButton";
 import { Tag } from "@/types/tag";
 
-const tags: Tag[] = [
-  { name: "Langara", color: "pink" },
-  { name: "CPSC", color: "blue" },
-  { name: "1181", color: "green" },
-];
 const TagGenerator = () => {
+  const [currentColor, setCurrentColor] = useState<string>("#CCCCCC");
+  const [tags, setTags] = useState<Tag[]>([]);
   const [currentInput, setCurrentInput] = useState<string>("");
 
-  const submitNewTag = (e: any): void => {
-    if (e.key === "Enter") {
-      console.log(currentInput);
+  const handleKeyDown = (e: any): void => {
+    if (e.key === "Enter" && currentInput.length <= 10) {
+      if (tags.filter((tag) => tag.name === currentInput).length > 0) return;
+      const newTag: Tag = { name: currentInput, color: currentColor };
+      setTags([...tags, newTag]);
+      setCurrentInput("");
     }
+  };
+
+  const handleChange = (e: any): void => {
+    setCurrentInput(e.target.value);
+  };
+
+  const deleteTag = (tag: Tag): void => {
+    setTags(tags.filter((obj) => obj.name !== tag.name));
   };
 
   return (
@@ -24,9 +32,7 @@ const TagGenerator = () => {
         Tags
       </Text>
       {currentInput.length > 0 && (
-        <Badge size={"lg"} color={"secondary"} className="mt-4 ml-4">
-          {currentInput}
-        </Badge>
+        <CustomTag tag={{ name: currentInput, color: currentColor }} />
       )}
       <div className="mt-2 flex">
         <Input
@@ -34,15 +40,25 @@ const TagGenerator = () => {
           underlined
           placeholder="Tag"
           value={currentInput}
-          onChange={(e) => setCurrentInput(e.target.value)}
-          onKeyDown={submitNewTag}
+          onChange={handleChange}
+          onKeyDown={handleKeyDown}
         />
-        <ColorChangeButton />
+        <ColorChangeButton
+          currentColor={currentColor}
+          setCurrentColor={setCurrentColor}
+        />
       </div>
       <div className="w-full flex flex-wrap">
         {tags.map((tag) => (
           <Grid key={tag.name} className="mt-4 ml-4">
-            <Badge color={"default"} content={"x"} shape="rectangle" size="lg">
+            <Badge
+              color={"default"}
+              content={"x"}
+              shape="rectangle"
+              size="lg"
+              onClick={() => deleteTag(tag)}
+              style={{ cursor: "pointer" }}
+            >
               <CustomTag tag={tag} />
             </Badge>
           </Grid>

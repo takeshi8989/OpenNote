@@ -4,7 +4,7 @@ import { Tag } from "@/types/tag";
 
 const CustomTag = ({ tag }: { tag: Tag }) => {
   return (
-    <Badge size={"lg"} css={{ background: tag.color }} className="mx-1">
+    <Badge size={"lg"} css={{ backgroundColor: tag.color }} className="mx-1">
       {tag.name}
     </Badge>
   );
