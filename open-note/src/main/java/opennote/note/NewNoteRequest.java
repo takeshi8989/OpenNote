@@ -1,7 +1,7 @@
 package opennote.note;
 
 public record NewNoteRequest(
-        Integer userId,
+        String username,
         String title,
         String url,
         boolean isPublic

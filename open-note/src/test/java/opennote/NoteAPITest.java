@@ -119,7 +119,7 @@ public class NoteAPITest {
 
     @Test
     public void createNote_success() throws Exception {
-        NewNoteRequest request = new NewNoteRequest(1,"1160 Midterm", "http://midterm.pdf", false);
+        NewNoteRequest request = new NewNoteRequest("Rayven Yor","1160 Midterm", "http://midterm.pdf", false);
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/notes")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -129,7 +129,7 @@ public class NoteAPITest {
 
     @Test
     public void updateNote_success() throws  Exception {
-        NewNoteRequest request = new NewNoteRequest(1,"updated myNote", "http://updated.pdf", true);
+        NewNoteRequest request = new NewNoteRequest("Rayven Yor","updated myNote", "http://updated.pdf", true);
 
         Mockito.when(noteService.getNoteById(note3.getId())).thenReturn(note3);
         note3.setTitle("updated myNote");
