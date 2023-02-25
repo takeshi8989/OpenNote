@@ -32,7 +32,6 @@ public class NoteService {
     }
 
     public List<Note> getNotesByUserId(Integer userId){
-        User user = userService.getUserById(userId);
         return noteRepository.getNotesByUserId(userId);
     }
 

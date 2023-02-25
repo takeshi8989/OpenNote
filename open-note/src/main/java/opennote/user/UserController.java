@@ -1,6 +1,5 @@
 package opennote.user;
 
-import opennote.folder.FolderService;
 import opennote.user.requests.NewUserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -11,12 +10,9 @@ import java.util.List;
 @RequestMapping(value = "users")
 public class UserController {
     private final UserService userService;
-    private final FolderService folderService;
-
     @Autowired
-    public UserController(UserService userService, FolderService folderService) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.folderService = folderService;
     }
 
     @GetMapping
