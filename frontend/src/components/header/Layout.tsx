@@ -1,4 +1,3 @@
-import { Content } from "./Content";
 import { Box } from "./Box";
 
 export const Layout = ({ children }: any) => (

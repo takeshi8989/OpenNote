@@ -1,9 +1,6 @@
-import { Header } from "@/components/header/Header";
 import NoteList from "@/components/NoteList";
 import { Note } from "@/types/note";
-import React, { useState } from "react";
-import { Document, Page, pdfjs } from "react-pdf";
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+import React from "react";
 
 const notes: Note[] = [
   {
@@ -60,7 +57,6 @@ const notes: Note[] = [
 const Home = () => {
   return (
     <div className="h-screen">
-      <Header />
       <NoteList notes={notes} />
     </div>
   );
