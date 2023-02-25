@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, Checkbox } from "@nextui-org/react";
-import { Folder } from "@/types/folder";
+import { Folder } from "../../../types/folder";
 
 const folders: Folder[] = [
   { id: "1", title: "My Notes" },

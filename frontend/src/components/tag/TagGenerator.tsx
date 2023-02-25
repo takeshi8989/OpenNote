@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Text, Badge, Input, Grid } from "@nextui-org/react";
 import CustomTag from "./CustomTag";
 import ColorChangeButton from "../button/ColorChangeButton";
-import { Tag } from "@/types/tag";
+import { Tag } from "../../types/tag";
 
 const TagGenerator = () => {
   const [currentColor, setCurrentColor] = useState<string>("#CCCCCC");
