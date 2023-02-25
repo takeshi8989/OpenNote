@@ -2,8 +2,8 @@ import React from "react";
 import CommentList from "./CommentList";
 import { BiCommentDetail } from "react-icons/bi";
 import { Button, Text, Input } from "@nextui-org/react";
-import { SendButton } from "@/components/sidebar/SendButton";
-import { SendIcon } from "@/components/sidebar/SendIcon";
+import { SendButton } from "@/components/sidebar/NotePage/SendButton";
+import { SendIcon } from "@/components/sidebar/NotePage/SendIcon";
 import { Commnet } from "@/types/comment";
 
 const commnets: Commnet[] = [

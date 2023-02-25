@@ -6,6 +6,7 @@ import { AiOutlineLike } from "react-icons/ai";
 import { BiCommentDetail } from "react-icons/bi";
 import { GrDownload } from "react-icons/gr";
 import { TbClick } from "react-icons/tb";
+import CustomTag from "./tag/CustomTag";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const SinglePagePDF = ({ note }: { note: Note }): JSX.Element => {
@@ -27,12 +28,8 @@ const SinglePagePDF = ({ note }: { note: Note }): JSX.Element => {
           </Document>
           {/* 2 Tags */}
           <div className="flex absolute bottom-3 right-1">
-            <Badge className="mx-auto" size="lg">
-              AAAAAAAA
-            </Badge>
-            <Badge className="mx-auto" size="lg" color={"primary"}>
-              ABCDEFGH
-            </Badge>
+            <CustomTag tag={{ name: "Tag1", color: "blue" }} />
+            <CustomTag tag={{ name: "Tag2", color: "gray" }} />
           </div>
         </div>
       </Link>
