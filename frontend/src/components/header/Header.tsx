@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Navbar,
   Text,
@@ -10,9 +9,22 @@ import {
 import { Layout } from "./Layout";
 import { SearchIcon } from "./SearchIcon";
 import { LoginModal } from "./LoginModal";
+import { useAtom } from "jotai/react";
+import { isLoggedInAtom, usernameAtom } from "@/jotai/authAtom";
+import { useAtomValue } from "jotai/react";
+import { useRouter } from "next/router";
 
 export const Header = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
+  const [isLoggedIn, setIsLoggedIn] = useAtom(isLoggedInAtom);
+  const username = useAtomValue(usernameAtom);
+  const router = useRouter();
+
+  const handleLogout = (): void => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
+    setIsLoggedIn(false);
+    router.push("/");
+  };
   return (
     <Layout>
       <Navbar isBordered variant="sticky">
@@ -89,14 +101,14 @@ export const Header = () => {
                     Signed in as
                   </Text>
                   <Text b color="inherit" css={{ d: "flex" }}>
-                    zoey@example.com
+                    {username}
                   </Text>
                 </Dropdown.Item>
                 <Dropdown.Item key="settings" withDivider>
                   Your Profile
                 </Dropdown.Item>
                 <Dropdown.Item key="logout" withDivider color="error">
-                  Log Out
+                  <Text onClick={handleLogout}>Log Out</Text>
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
