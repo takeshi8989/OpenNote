@@ -40,7 +40,7 @@ public class NoteService {
     }
 
     public void createNote(NewNoteRequest request){
-        User user = userService.getUserById(request.userId());
+        User user = userService.getUserByUsername(request.username());
         Note note = new Note();
         note.setUser(user);
         note.setTitle(request.title());

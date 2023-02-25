@@ -34,7 +34,8 @@ public class FileService implements FileHandler{
         try {
             File file1 = convertMultiPartToFile(file);
             PutObjectResult putObjectResult = s3.putObject(bucketName, originalFileName, file1);
-            return putObjectResult.getContentMd5();
+            putObjectResult.getContentMd5();
+            return originalFileName;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

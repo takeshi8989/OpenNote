@@ -43,7 +43,7 @@ public class SecurityConfig implements WebMvcConfigurer{
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
-                .allowedOrigins("http://localhost:3000", "https://www.open-note.net", "https://open-note.net/")
+                .allowedOrigins("http://localhost:3000", "https://www.open-note.net", "https://open-note.net")
                 .allowedHeaders("Authorization", "Content-Type")
                 .allowCredentials(false)
                 .maxAge(-1);

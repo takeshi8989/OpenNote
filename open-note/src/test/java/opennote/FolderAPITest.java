@@ -101,7 +101,7 @@ public class FolderAPITest {
 
     @Test
     public void createFolder_success() throws Exception{
-        NewFolderRequest request = new NewFolderRequest(2, "Favorite movies");
+        NewFolderRequest request = new NewFolderRequest("David Landup", "Favorite movies");
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/folders")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -111,7 +111,7 @@ public class FolderAPITest {
 
     @Test
     public void updateFolder_success() throws  Exception{
-        NewFolderRequest request = new NewFolderRequest(2, "Favorite anime");
+        NewFolderRequest request = new NewFolderRequest("David Landup", "Favorite anime");
 
         Mockito.when(folderService.getFolderById(folder3.getId())).thenReturn(folder3);
         folder3.setTitle("Favorite anime");
