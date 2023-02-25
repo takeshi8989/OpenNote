@@ -12,7 +12,7 @@ import { SearchIcon } from "./SearchIcon";
 import { LoginModal } from "./LoginModal";
 
 export const Header = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   return (
     <Layout>
       <Navbar isBordered variant="sticky">

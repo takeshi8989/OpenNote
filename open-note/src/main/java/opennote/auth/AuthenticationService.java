@@ -5,6 +5,8 @@ import opennote.folder.FolderService;
 import opennote.folder.Request.NewFolderRequest;
 import opennote.user.*;
 import opennote.config.JwtService;
+import opennote.user.requests.LoginRequest;
+import opennote.user.requests.NewUserRequest;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,11 +15,8 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
-
-    private final UserRepository userRepository;
     private final UserService userService;
     private final FolderService folderService;
-    private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     public AuthenticationResponse signup(NewUserRequest request) {
@@ -27,7 +26,7 @@ public class AuthenticationService {
         return AuthenticationResponse.builder().token(jwtToken).build();
     }
 
-    public AuthenticationResponse login(NewUserRequest request) {
+    public AuthenticationResponse login(LoginRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.username(),

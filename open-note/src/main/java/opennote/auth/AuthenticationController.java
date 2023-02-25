@@ -1,7 +1,8 @@
 package opennote.auth;
 
 import lombok.RequiredArgsConstructor;
-import opennote.user.NewUserRequest;
+import opennote.user.requests.LoginRequest;
+import opennote.user.requests.NewUserRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,7 +22,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> login(@RequestBody NewUserRequest request) {
+    public ResponseEntity<AuthenticationResponse> login(@RequestBody LoginRequest request) {
         return ResponseEntity.ok(authenticationService.login(request));
     }
 }

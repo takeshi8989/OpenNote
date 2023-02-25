@@ -18,6 +18,8 @@
 
 import React, { useState } from "react";
 import { Modal, Button, Text, Input, Row, Checkbox } from "@nextui-org/react";
+import { useAuth } from "@/hooks/useAuth";
+import { LoginRequest, SignUpRequest } from "@/types/request/user";
 
 export const LoginModal = (): JSX.Element => {
   const [username, setUsername] = useState<string>("");
@@ -25,10 +27,22 @@ export const LoginModal = (): JSX.Element => {
   const [password, setPassword] = useState<string>("");
   const [visible, setVisible] = useState<boolean>(false);
   const [isSignUp, setIsSignUp] = useState<boolean>(false);
+  const [login, signup] = useAuth();
+
   const handler = () => setVisible(true);
 
   const closeHandler = (): void => {
     setVisible(false);
+  };
+
+  const handleAuth = () => {
+    if (isSignUp) {
+      const request: SignUpRequest = { username, email, password };
+      signup(request);
+    } else {
+      const request: LoginRequest = { username, password };
+      login(request);
+    }
   };
 
   return (
@@ -106,7 +120,7 @@ export const LoginModal = (): JSX.Element => {
           <Button auto flat color="error" onPress={closeHandler}>
             Close
           </Button>
-          <Button auto flat color="default" onPress={closeHandler}>
+          <Button auto flat color="default" onPress={handleAuth}>
             {isSignUp ? "Sign up" : "Log in"}
           </Button>
         </Modal.Footer>
