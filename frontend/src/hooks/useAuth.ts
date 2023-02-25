@@ -1,14 +1,16 @@
 import { LoginRequest, SignUpRequest } from "@/types/request/user";
+import { rejects } from "assert";
 import jwtDecode from "jwt-decode";
+import Error from "next/error";
 
 const url: string = process.env.API_URL as string;
 
-export const useAuth = (): [
-  (request: LoginRequest) => Promise<void>,
-  (request: SignUpRequest) => Promise<void>,
-  () => boolean
-] => {
-  const login = async (request: LoginRequest): Promise<void> => {
+export const useAuth = (): {
+  login: (request: LoginRequest) => Promise<boolean>;
+  signup: (request: SignUpRequest) => Promise<boolean>;
+  checkIsLoggedIn: () => boolean;
+} => {
+  const login = async (request: LoginRequest): Promise<boolean> => {
     try {
       const res: Response = await fetch(`${url}/auth/login`, {
         method: "POST",
@@ -19,13 +21,18 @@ export const useAuth = (): [
       });
       const data = await res.json();
       localStorage.setItem("token", data.token);
-      console.log(data.token);
+      const decoded: { exp: number; iat: number; sub: string } = jwtDecode(
+        data.token
+      );
+      localStorage.setItem("username", decoded.sub);
+      return true;
     } catch (error) {
-      () => console.log(error);
+      console.log(error);
+      return false;
     }
   };
 
-  const signup = async (request: SignUpRequest): Promise<void> => {
+  const signup = async (request: SignUpRequest): Promise<boolean> => {
     try {
       const res: Response = await fetch(`${url}/auth/signup`, {
         method: "POST",
@@ -36,21 +43,25 @@ export const useAuth = (): [
       });
       const data = await res.json();
       localStorage.setItem("token", data.token);
-      console.log(data.token);
+      const decoded: { exp: number; iat: number; sub: string } = jwtDecode(
+        data.token
+      );
+      localStorage.setItem("username", decoded.sub);
+      return true;
     } catch (error) {
-      () => console.log(error);
+      console.log(error);
+      return false;
     }
   };
 
-  const isLoggedIn = (): boolean => {
+  const checkIsLoggedIn = (): boolean => {
     const token = localStorage.getItem("token");
     if (token == null) {
       return false;
     }
-    const decoded: { exp: number; iat: number; username: string } =
-      jwtDecode(token);
+    const decoded: { exp: number; iat: number; sub: string } = jwtDecode(token);
     return new Date().getTime() / 1000 < decoded.exp;
   };
 
-  return [login, signup, isLoggedIn];
+  return { login, signup, checkIsLoggedIn };
 };

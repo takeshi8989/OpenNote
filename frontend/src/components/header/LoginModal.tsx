@@ -1,25 +1,10 @@
-//   const handleLogin = async (e: any): Promise<void> => {
-//     e.preventDefault();
-//     const request: UserRequest = { username, email, password };
-//     try {
-//       const res: Response = await fetch(`${url}/auth/${formType}`, {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify(request),
-//       });
-//       const data = await res.json();
-//       localStorage.setItem("token", data.token);
-//     } catch (error) {
-//       () => console.log(error);
-//     }
-//   };
-
 import React, { useState } from "react";
 import { Modal, Button, Text, Input, Row, Checkbox } from "@nextui-org/react";
 import { useAuth } from "@/hooks/useAuth";
 import { LoginRequest, SignUpRequest } from "@/types/request/user";
+import { useAtom } from "jotai/react";
+import { isLoggedInAtom } from "@/jotai/authAtom";
+import { useRouter } from "next/router";
 
 export const LoginModal = (): JSX.Element => {
   const [username, setUsername] = useState<string>("");
@@ -27,7 +12,9 @@ export const LoginModal = (): JSX.Element => {
   const [password, setPassword] = useState<string>("");
   const [visible, setVisible] = useState<boolean>(false);
   const [isSignUp, setIsSignUp] = useState<boolean>(false);
-  const [login, signup] = useAuth();
+  const [isLoggedIn, setIsLoggedIn] = useAtom(isLoggedInAtom);
+  const router = useRouter();
+  const { login, signup } = useAuth();
 
   const handler = () => setVisible(true);
 
@@ -35,13 +22,25 @@ export const LoginModal = (): JSX.Element => {
     setVisible(false);
   };
 
-  const handleAuth = () => {
+  const handleAuth = (): void => {
     if (isSignUp) {
       const request: SignUpRequest = { username, email, password };
-      signup(request);
+      signup(request).then((loginSuccess) => {
+        if (loginSuccess) {
+          setIsLoggedIn(true);
+          closeHandler();
+          router.push("/");
+        }
+      });
     } else {
       const request: LoginRequest = { username, password };
-      login(request);
+      login(request).then((loginSuccess) => {
+        if (loginSuccess) {
+          setIsLoggedIn(true);
+          closeHandler();
+          router.push("/");
+        }
+      });
     }
   };
 
@@ -69,7 +68,6 @@ export const LoginModal = (): JSX.Element => {
             size={14}
             className="text-center text-blue-400"
             onClick={() => {
-              console.log("fsa");
               setIsSignUp(!isSignUp);
             }}
           >
