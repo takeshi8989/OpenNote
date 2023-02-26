@@ -48,6 +48,7 @@ const CreateNoteBody = () => {
       username,
       title,
       url: currentFileUrl,
+      description,
       isPublic,
     };
     const createSuccess: boolean = await createNewNote(request);

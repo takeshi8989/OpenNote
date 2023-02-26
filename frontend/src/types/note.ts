@@ -4,6 +4,7 @@ export interface Note {
   id: string;
   title: string;
   url: string;
+  description: string;
   // author
   user: User;
   createdAt: string;

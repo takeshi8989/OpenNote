@@ -6,6 +6,7 @@ import { useAtomValue, useSetAtom } from "jotai";
 interface Props {
   createNewNote: (request: NewNoteRequest) => Promise<boolean>;
   setNoteListBySearch: () => Promise<void>;
+  getNoteById: (id: string) => Promise<Note | null>;
 }
 
 const url: string = process.env.API_URL as string;
@@ -45,7 +46,6 @@ export const useNote = (): Props => {
     try {
       const res = await fetch(requestEndpoint);
       const data: Note[] = await res.json();
-      console.log(data);
       return data;
     } catch (error) {
       console.log(error);
@@ -53,5 +53,16 @@ export const useNote = (): Props => {
     }
   };
 
-  return { createNewNote, setNoteListBySearch };
+  const getNoteById = async (id: string): Promise<Note | null> => {
+    try {
+      const res = await fetch(`${url}/notes/${id}`);
+      const data: Note = await res.json();
+      return data;
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  };
+
+  return { createNewNote, setNoteListBySearch, getNoteById };
 };
