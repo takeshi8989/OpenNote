@@ -2,7 +2,9 @@ package opennote.note;
 
 import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
+import lombok.Data;
 import opennote.folder.Folder;
+import opennote.tag.Tag;
 import opennote.user.User;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
@@ -14,6 +16,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "notes")
+@Data
 public class Note {
     @Id
     @GeneratedValue(generator = "uuid")
@@ -26,6 +29,9 @@ public class Note {
     @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "notes"})
     private User user;
 
+    @OneToMany(mappedBy = "note")
+    private List<Tag> tags = new ArrayList<>();
+
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "notes")
     @JsonBackReference
     private List<Folder> folders = new ArrayList<>();
@@ -37,76 +43,4 @@ public class Note {
     private Date createdAt;
     @UpdateTimestamp
     private Date updatedAt;
-
-    public Note(){}
-
-    public Note(String id, User user, String title, String url, String description, boolean isPublic, Date createdAt, Date updatedAt) {
-        this.id = id;
-        this.user = user;
-        this.title = title;
-        this.description = description;
-        this.url = url;
-        this.isPublic = isPublic;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
-
-    public String getId() {
-        return id;
-    }
-    public String getTitle() {
-        return title;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public boolean isPublic() {
-        return isPublic;
-    }
-
-    public void setPublic(boolean aPublic) {
-        isPublic = aPublic;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
 }
