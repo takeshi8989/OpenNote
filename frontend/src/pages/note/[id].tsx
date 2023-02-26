@@ -22,7 +22,7 @@ const Note = () => {
   return (
     <div className="h-screen w-full flex justify-center overflow-hidden">
       <div className="w-1/4 h-full overflow-y-scroll">
-        <Sidebar />
+        <Sidebar note={note} />
       </div>
       <div className="w-3/4 h-full overflow-y-scroll">
         <NoteDetail note={note} />

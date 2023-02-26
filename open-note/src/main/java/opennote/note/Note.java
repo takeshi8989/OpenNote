@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import opennote.folder.Folder;
 import opennote.tag.Tag;

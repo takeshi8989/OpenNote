@@ -56,6 +56,20 @@ public class FileService implements FileHandler{
         }
     }
 
+    public ResponseEntity<byte[]> downloadFileWithTitle(String fileName, String title) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-type", MediaType.ALL_VALUE);
+        headers.add("Content-Disposition", "attachment; filename="+title+".pdf");
+        S3Object object = s3.getObject(bucketName, fileName);
+        S3ObjectInputStream objectContent = object.getObjectContent();
+        try {
+            byte[] bytes = IOUtils.toByteArray(objectContent);
+            return ResponseEntity.status(HTTP_OK).headers(headers).body(bytes);
+        } catch (IOException e){
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public String deleteFile(String fileName) {
         s3.deleteObject(bucketName, fileName);

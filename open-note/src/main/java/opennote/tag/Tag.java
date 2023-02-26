@@ -1,6 +1,5 @@
 package opennote.tag;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 import opennote.note.Note;

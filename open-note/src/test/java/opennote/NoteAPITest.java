@@ -9,7 +9,6 @@ import opennote.note.NoteController;
 import opennote.note.NoteService;
 import opennote.tag.NewTagRequest;
 import opennote.tag.Tag;
-import opennote.user.Role;
 import opennote.user.User;
 import opennote.config.JwtAuthenticationFilter;
 import opennote.config.JwtService;
@@ -27,7 +26,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
