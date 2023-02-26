@@ -27,7 +27,7 @@ const NoteDetail = ({ note }: { note: Note }): JSX.Element => {
         {note.title}
       </Text>
       <Text className="text-center" size="$md">
-        {note.author?.username}
+        {note.user.username}
       </Text>
 
       {/* View, Like, Download, Comment */}

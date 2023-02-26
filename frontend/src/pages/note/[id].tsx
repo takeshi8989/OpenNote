@@ -7,7 +7,10 @@ const note: Note = {
   id: "1",
   title: "My PHYS Assignment",
   url: "https://opennote-bucket.s3.us-west-2.amazonaws.com/Chap4%2C+5.pdf",
-  author: { username: "takeshi", email: "take@gmail.com" },
+  user: { username: "takeshi", email: "take@gmail.com" },
+  createdAt: "",
+  updatedAt: "",
+  public: true,
 };
 const Note = () => {
   return (
