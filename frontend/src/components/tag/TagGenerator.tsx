@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, Badge, Input, Grid } from "@nextui-org/react";
+import { Text, Badge, Input, Grid, Button } from "@nextui-org/react";
 import CustomTag from "./CustomTag";
 import ColorChangeButton from "../button/ColorChangeButton";
 import { Tag } from "../../types/tag";
@@ -14,17 +14,17 @@ const TagGenerator = ({
   const [currentColor, setCurrentColor] = useState<string>("#CCCCCC");
   const [currentInput, setCurrentInput] = useState<string>("");
 
-  const handleKeyDown = (e: any): void => {
-    if (
-      e.key === "Enter" &&
-      currentInput.length <= 10 &&
-      currentInput.length > 0
-    ) {
+  const addTag = (): void => {
+    if (currentInput.length <= 10 && currentInput.length > 0) {
       if (tags.filter((tag) => tag.name === currentInput).length > 0) return;
       const newTag: Tag = { name: currentInput, color: currentColor };
       setTags([...tags, newTag]);
       setCurrentInput("");
     }
+  };
+
+  const handleKeyDown = (e: any) => {
+    if (e.key === "Enter") addTag();
   };
 
   const handleChange = (e: any): void => {
@@ -56,6 +56,17 @@ const TagGenerator = ({
           currentColor={currentColor}
           setCurrentColor={setCurrentColor}
         />
+        <Input
+          placeholder="#4A8B3C"
+          value={currentColor}
+          width="150px"
+          onChange={(e) => {
+            setCurrentColor(e.target.value);
+          }}
+        />
+        <Button auto bordered flat onClick={addTag} className="mx-2">
+          Add
+        </Button>
       </div>
       <div className="w-full flex flex-wrap">
         {tags.map((tag) => (
