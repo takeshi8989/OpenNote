@@ -41,8 +41,8 @@ public class NoteController {
     }
 
     @PostMapping
-    public void createNote(@RequestBody NewNoteRequest request){
-        noteService.createNote(request);
+    public Note createNote(@RequestBody NewNoteRequest request){
+        return noteService.createNote(request);
     }
 
     @PutMapping("/{id}")

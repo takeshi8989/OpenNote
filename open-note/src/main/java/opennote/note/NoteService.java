@@ -1,5 +1,8 @@
 package opennote.note;
 
+import lombok.RequiredArgsConstructor;
+import opennote.tag.NewTagRequest;
+import opennote.tag.TagService;
 import opennote.user.User;
 import opennote.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,15 +11,14 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class NoteService {
-    private final NoteRepository noteRepository;
-    private final UserService userService;
-
     @Autowired
-    public NoteService(NoteRepository noteRepository, UserService userService) {
-        this.noteRepository = noteRepository;
-        this.userService = userService;
-    }
+    private final NoteRepository noteRepository;
+    @Autowired
+    private final UserService userService;
+    @Autowired
+    private final TagService tagService;
 
     public List<Note> getAllNotes(){
         return noteRepository.findAll();
@@ -39,7 +41,7 @@ public class NoteService {
         return noteRepository.getNotesBySearch(query);
     }
 
-    public void createNote(NewNoteRequest request){
+    public Note createNote(NewNoteRequest request){
         User user = userService.getUserByUsername(request.username());
         Note note = new Note();
         note.setUser(user);
@@ -47,7 +49,14 @@ public class NoteService {
         note.setUrl(request.url());
         note.setDescription(request.description());
         note.setPublic(request.isPublic());
-        noteRepository.save(note);
+        addTags(note, request.tags());
+        return noteRepository.save(note);
+    }
+
+    public void addTags(Note note, List<NewTagRequest> tags){
+        for(NewTagRequest request: tags){
+            tagService.createTag(request, note);
+        }
     }
 
     public Note updateNote(NewNoteRequest request, String id){

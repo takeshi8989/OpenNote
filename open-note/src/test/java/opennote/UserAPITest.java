@@ -45,9 +45,10 @@ public class UserAPITest {
     @MockBean
     SecurityConfig securityConfig;
 
-    User user1 = new User(1, "Rayven Yor", "yrayven@gmail.com", "password1", Role.USER);
-    User user2 = new User(2, "David Landup", "ldavid@gmail.com", "password2", Role.USER);
-    User user3 = new User(3, "Jane Doe", "djane@gmail.com", "password3", Role.USER);
+    User user1 = ApplicationTests.user1;
+    User user2 = ApplicationTests.user2;
+    User user3 = ApplicationTests.user3;
+
 
     @Test
     public void getAllUsers_success() throws Exception {

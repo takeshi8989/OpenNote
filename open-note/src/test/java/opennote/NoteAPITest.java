@@ -2,10 +2,13 @@ package opennote;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import opennote.config.SecurityConfig;
+import opennote.folder.Folder;
 import opennote.note.NewNoteRequest;
 import opennote.note.Note;
 import opennote.note.NoteController;
 import opennote.note.NoteService;
+import opennote.tag.NewTagRequest;
+import opennote.tag.Tag;
 import opennote.user.Role;
 import opennote.user.User;
 import opennote.config.JwtAuthenticationFilter;
@@ -48,13 +51,16 @@ public class NoteAPITest {
     @MockBean
     SecurityConfig securityConfig;
 
-    User user1 = new User(1, "Rayven Yor", "yrayven@gmail.com", "password1", Role.USER);
-    User user2 = new User(2, "David Landup", "ldavid@gmail.com", "password2", Role.USER);
+    List<Tag> emptyTagList = new ArrayList<>();
+    List<NewTagRequest> emptyTagRequests = new ArrayList<>();
+    List<Folder> emptyFolderList = new ArrayList<>();
 
-    Note note1 = new Note("12345", user1, "MyNote", "https://clickup.com/blog/wp-content/uploads/2020/01/note-taking.png", "", true, new Date(), new Date());
-    Note note2 = new Note("23456", user1, "1181 Lecture", "http://lecture1181.pdf", "", false, new Date(), new Date());
-    Note note3 = new Note("34567", user2,"PHYS Lecture", "http://phys-test.pdf", "", true, new Date(), new Date());
+    User user1 = ApplicationTests.user1;
+    User user2 = ApplicationTests.user2;
 
+    Note note1 = ApplicationTests.note1;
+    Note note2 = ApplicationTests.note2;
+    Note note3 = ApplicationTests.note3;
 
     @Test
     public void getAllNotes_success() throws Exception{
@@ -119,7 +125,10 @@ public class NoteAPITest {
 
     @Test
     public void createNote_success() throws Exception {
-        NewNoteRequest request = new NewNoteRequest("Rayven Yor","1160 Midterm", "http://midterm.pdf", "", false);
+        NewTagRequest tag1 = new NewTagRequest("tag1", "blue");
+        NewTagRequest tag2 = new NewTagRequest("tag2", "red");
+        List<NewTagRequest> tags = new ArrayList<>(Arrays.asList(tag1, tag2));
+        NewNoteRequest request = new NewNoteRequest("Rayven Yor","1160 Midterm", "http://midterm.pdf", "", tags, false);
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/notes")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -129,7 +138,7 @@ public class NoteAPITest {
 
     @Test
     public void updateNote_success() throws  Exception {
-        NewNoteRequest request = new NewNoteRequest("Rayven Yor","updated myNote", "http://updated.pdf", "", true);
+        NewNoteRequest request = new NewNoteRequest("Rayven Yor","updated myNote", "http://updated.pdf", "", emptyTagRequests,true);
 
         Mockito.when(noteService.getNoteById(note3.getId())).thenReturn(note3);
         note3.setTitle("updated myNote");

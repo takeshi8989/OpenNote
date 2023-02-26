@@ -9,7 +9,6 @@ import opennote.folder.Request.AddRemoveNoteRequest;
 import opennote.folder.Request.NewFolderRequest;
 import opennote.note.Note;
 import opennote.note.NoteService;
-import opennote.user.Role;
 import opennote.user.User;
 import opennote.config.JwtAuthenticationFilter;
 import opennote.config.JwtService;
@@ -26,7 +25,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import static org.hamcrest.Matchers.*;
@@ -50,15 +48,15 @@ public class FolderAPITest {
     @MockBean
     SecurityConfig securityConfig;
 
-    User user1 = new User(1, "Rayven Yor", "yrayven@gmail.com", "password1", Role.USER);
-    User user2 = new User(2, "David Landup", "ldavid@gmail.com", "password2", Role.USER);
-
-    Note note1 = new Note("12345", user1, "MyNote", "https://clickup.com/blog/wp-content/uploads/2020/01/note-taking.png", "description", true, new Date(), new Date());
 
 
-    Folder folder1 = new Folder("12345", user1, "Title", new Date(), new Date());
-    Folder folder2 = new Folder("23456", user1, "MATH Folder", new Date(), new Date());
-    Folder folder3 = new Folder("34567", user2, "My project", new Date(), new Date());
+    User user1 = ApplicationTests.user1;
+    User user2 = ApplicationTests.user2;
+    Note note1 = ApplicationTests.note1;
+
+    Folder folder1 = ApplicationTests.folder1;
+    Folder folder2 = ApplicationTests.folder2;
+    Folder folder3 = ApplicationTests.folder3;
 
     @Test
     public void getAllFolders_success() throws Exception {
@@ -146,7 +144,6 @@ public class FolderAPITest {
         AddRemoveNoteRequest addRequest = new AddRemoveNoteRequest("12345", true);
         AddRemoveNoteRequest removeRequest = new AddRemoveNoteRequest("12345", false);
 
-
         Mockito.when(noteService.getNoteById(note1.getId())).thenReturn(note1);
         Mockito.when(folderService.addOrRemoveNote(addRequest, folder1.getId())).thenReturn(folder1);
         Mockito.when(folderService.addOrRemoveNote(removeRequest, folder1.getId())).thenReturn(folder1);
@@ -158,7 +155,7 @@ public class FolderAPITest {
                         .content(ApplicationTests.toJson(addRequest)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title").value("Title"))
-                .andExpect(jsonPath("$.notes", hasSize(1)));
+                .andExpect(jsonPath("$.notes", hasSize(2)));
 
         folder1.removeNote(note1);
         mockMvc.perform(MockMvcRequestBuilders
@@ -167,7 +164,7 @@ public class FolderAPITest {
                         .content(ApplicationTests.toJson(removeRequest)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title").value("Title"))
-                .andExpect(jsonPath("$.notes", hasSize(0)));
+                .andExpect(jsonPath("$.notes", hasSize(1)));
     }
 
     @Test
