@@ -51,7 +51,7 @@ const NoteDetail = ({ note }: { note: Note }): JSX.Element => {
         </Text>
       </div>
       {/* Note Pages from PDF File */}
-      <MultiPagePDF note={note} />
+      <MultiPagePDF url={note.url} />
       {/* Tags */}
       <div className="flex flex-wrap justify-center mx-auto w-1/3 mt-2 mb-5">
         {tags.map((tag) => (

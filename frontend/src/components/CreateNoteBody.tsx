@@ -1,14 +1,21 @@
-import { Text, Switch, Textarea, Button } from "@nextui-org/react";
+import { Text, Switch, Textarea, Button, Input } from "@nextui-org/react";
 import { useDropzone } from "react-dropzone";
 import React, { useCallback, useState } from "react";
 import TagGenerator from "./tag/TagGenerator";
 import { useFile } from "@/hooks/useFile";
-import { Note } from "@/types/note";
+import { useNote } from "@/hooks/useNote";
 import MultiPagePDF from "./MultiPagePDF";
+import { Tag } from "@/types/tag";
+import { NewNoteRequest } from "@/types/request/note";
 
 const CreateNoteBody = () => {
-  const { uploadFile } = useFile();
-  const [currentNote, setCurrentNote] = useState<Note | null>(null);
+  const { uploadFile, deleteFile } = useFile();
+  const { createNewNote } = useNote();
+  const [currentFileUrl, setCurrentFileUrl] = useState<string>("");
+  const [title, setTitle] = useState<string>("New Note");
+  const [isPublic, setIsPublic] = useState<boolean>(true);
+  const [tags, setTags] = useState<Tag[]>([]);
+  const [description, setDescription] = useState<string>("");
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     const file: File = acceptedFiles[0];
@@ -19,15 +26,36 @@ const CreateNoteBody = () => {
     showNote(fileUrl);
   }, []);
 
+  const resetNote = async (): Promise<void> => {
+    if (currentFileUrl !== "") {
+      const deleteSuccess: boolean = await deleteFile(currentFileUrl).then(
+        (result) => {
+          return result;
+        }
+      );
+      if (deleteSuccess) setCurrentFileUrl("");
+    }
+  };
+
   const showNote = (url: string): void => {
     if (url === "") return;
-    const note: Note = {
-      id: "new",
-      title: "title",
-      url,
-      author: null,
+    setCurrentFileUrl(url);
+  };
+
+  const createNote = async (): Promise<void> => {
+    const username: string = localStorage.getItem("username") as string;
+    const request: NewNoteRequest = {
+      username,
+      title,
+      url: currentFileUrl,
+      isPublic,
     };
-    setCurrentNote(note);
+    const createSuccess: boolean = await createNewNote(request);
+    if (createSuccess) {
+      setTitle("");
+      setCurrentFileUrl("");
+      setIsPublic(true);
+    }
   };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -35,20 +63,29 @@ const CreateNoteBody = () => {
   });
 
   return (
-    <div className="w-full mb-20">
-      <div className="w-1/2 mx-auto">
-        <Text size={"$5xl"} className="text-center">
-          New note
-        </Text>
-        <div className="flex justify-end items-center">
+    <div className="w-full mb-20 mt-20">
+      <div className="w-1/2 flex flex-col items-center mx-auto mt-10">
+        <Input
+          clearable
+          underlined
+          value={title}
+          size={"xl"}
+          className="w-full mx-auto text-2xl"
+          onChange={(e) => setTitle(e.target.value)}
+        />
+        <div className="w-full flex justify-end items-center">
           <Text size={"$xl"} className="mx-3">
             Public
           </Text>
-          <Switch checked={true} size="lg" />
+          <Switch
+            checked={true}
+            size="lg"
+            onChange={(e) => setIsPublic(e.target.checked)}
+          />
         </div>
       </div>
       {/* Drop File */}
-      {currentNote === null && (
+      {currentFileUrl === "" && (
         <div
           {...getRootProps({
             className:
@@ -56,14 +93,28 @@ const CreateNoteBody = () => {
           })}
         >
           <input {...getInputProps()} />
-          <p>Drag and drop a file here, or click to select file</p>
+          {isDragActive ? (
+            <p>Drop the files here ...</p>
+          ) : (
+            <p>Drag and drop a file here, or click to select file</p>
+          )}
         </div>
       )}
-      {currentNote !== null && (
-        <div className="hover:bg-gray-100">
-          <button>CLick</button>
-          <MultiPagePDF note={currentNote} />
-        </div>
+      {currentFileUrl !== "" && (
+        <>
+          <Button
+            color={"error"}
+            bordered
+            auto
+            className="mx-auto mb-2 mt-6"
+            onClick={resetNote}
+          >
+            Delete File
+          </Button>
+          <div className="hover:bg-gray-200">
+            <MultiPagePDF url={currentFileUrl} />
+          </div>
+        </>
       )}
       {/* Description */}
       <div className="w-full flex justify-center mt-20">
@@ -74,13 +125,22 @@ const CreateNoteBody = () => {
           size="xl"
           rows={4}
           width="50%"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
         />
       </div>
       {/* Tag */}
-      <TagGenerator />
+      <TagGenerator tags={tags} setTags={setTags} />
       {/* Submit */}
       <div className="w-full flex justify-center">
-        <Button bordered color="secondary" size={"xl"} auto className="text-xl">
+        <Button
+          bordered
+          color="secondary"
+          size={"xl"}
+          auto
+          className="text-xl"
+          onClick={createNote}
+        >
           Submit
         </Button>
       </div>

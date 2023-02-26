@@ -1,7 +1,11 @@
 import { v4 as uuidv4 } from "uuid";
 
 const url: string = process.env.API_URL as string;
-export const useFile = (): { uploadFile: (file: File) => Promise<string> } => {
+const BUCKET_OBJECT_URL: string = process.env.BUCKET_OBJECT_URL as string;
+export const useFile = (): {
+  uploadFile: (file: File) => Promise<string>;
+  deleteFile: (fileName: string) => Promise<boolean>;
+} => {
   const uploadFile = async (file: File): Promise<string> => {
     if (file.type !== "application/pdf") return "";
     const newFileName: string = uuidv4() + ".pdf";
@@ -19,13 +23,31 @@ export const useFile = (): { uploadFile: (file: File) => Promise<string> } => {
         body: formData,
       });
       const data = await res.text();
-      const fileURI: string = process.env.BUCKET_OBJECT_URL + data;
-      return fileURI;
+      const fileUrl: string = BUCKET_OBJECT_URL + data;
+      return fileUrl;
     } catch (error) {
       console.log(error);
       return "";
     }
   };
 
-  return { uploadFile };
+  const deleteFile = async (fileUrl: string): Promise<boolean> => {
+    const fileName: string = fileUrl.substring(BUCKET_OBJECT_URL.length);
+    const token: string = localStorage.getItem("token") as string;
+    try {
+      const res = await fetch(`${url}/files/${fileName}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(res.status);
+      return true;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  };
+
+  return { uploadFile, deleteFile };
 };
