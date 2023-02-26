@@ -1,9 +1,39 @@
 import { Text, Switch, Textarea, Button } from "@nextui-org/react";
-import React from "react";
-import FileSelectButton from "./button/FileSelectButton";
+import { useDropzone } from "react-dropzone";
+import React, { useCallback, useState } from "react";
 import TagGenerator from "./tag/TagGenerator";
+import { useFile } from "@/hooks/useFile";
+import { Note } from "@/types/note";
+import MultiPagePDF from "./MultiPagePDF";
 
 const CreateNoteBody = () => {
+  const { uploadFile } = useFile();
+  const [currentNote, setCurrentNote] = useState<Note | null>(null);
+
+  const onDrop = useCallback(async (acceptedFiles: File[]) => {
+    const file: File = acceptedFiles[0];
+    const fileUrl: string = await uploadFile(file).then((url) => {
+      return url;
+    });
+
+    showNote(fileUrl);
+  }, []);
+
+  const showNote = (url: string): void => {
+    if (url === "") return;
+    const note: Note = {
+      id: "new",
+      title: "title",
+      url,
+      author: null,
+    };
+    setCurrentNote(note);
+  };
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+  });
+
   return (
     <div className="w-full mb-20">
       <div className="w-1/2 mx-auto">
@@ -18,10 +48,23 @@ const CreateNoteBody = () => {
         </div>
       </div>
       {/* Drop File */}
-      <div className="w-1/2 mx-auto border border-3 border-dashed border-cyan-700	 h-80 rounded-md mt-10 flex flex-col items-center justify-center bg-gray-100">
-        <Text size={"$4xl"}>Drop File</Text>
-        <FileSelectButton />
-      </div>
+      {currentNote === null && (
+        <div
+          {...getRootProps({
+            className:
+              "w-1/2 mx-auto border border-3 border-dashed border-cyan-700	 h-80 rounded-md mt-10 flex flex-col items-center justify-center bg-gray-100",
+          })}
+        >
+          <input {...getInputProps()} />
+          <p>Drag and drop a file here, or click to select file</p>
+        </div>
+      )}
+      {currentNote !== null && (
+        <div className="hover:bg-gray-100">
+          <button>CLick</button>
+          <MultiPagePDF note={currentNote} />
+        </div>
+      )}
       {/* Description */}
       <div className="w-full flex justify-center mt-20">
         <Textarea
