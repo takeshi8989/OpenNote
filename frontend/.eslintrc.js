@@ -5,6 +5,7 @@ module.exports = {
     "airbnb/hooks",
     "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended",
+    "next/core-web-vitals",
   ],
   parser: "@typescript-eslint/parser",
   parserOptions: { ecmaFeatures: { jsx: true } },
