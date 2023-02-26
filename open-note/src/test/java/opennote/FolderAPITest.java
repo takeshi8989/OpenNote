@@ -53,7 +53,7 @@ public class FolderAPITest {
     User user1 = new User(1, "Rayven Yor", "yrayven@gmail.com", "password1", Role.USER);
     User user2 = new User(2, "David Landup", "ldavid@gmail.com", "password2", Role.USER);
 
-    Note note1 = new Note("12345", user1, "MyNote", "https://clickup.com/blog/wp-content/uploads/2020/01/note-taking.png", true, new Date(), new Date());
+    Note note1 = new Note("12345", user1, "MyNote", "https://clickup.com/blog/wp-content/uploads/2020/01/note-taking.png", "description", true, new Date(), new Date());
 
 
     Folder folder1 = new Folder("12345", user1, "Title", new Date(), new Date());

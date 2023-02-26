@@ -31,6 +31,7 @@ public class Note {
     private List<Folder> folders = new ArrayList<>();
     private String title;
     private String url;
+    private String description;
     private boolean isPublic;
     @CreationTimestamp
     private Date createdAt;
@@ -39,10 +40,11 @@ public class Note {
 
     public Note(){}
 
-    public Note(String id, User user, String title, String url, boolean isPublic, Date createdAt, Date updatedAt) {
+    public Note(String id, User user, String title, String url, String description, boolean isPublic, Date createdAt, Date updatedAt) {
         this.id = id;
         this.user = user;
         this.title = title;
+        this.description = description;
         this.url = url;
         this.isPublic = isPublic;
         this.createdAt = createdAt;
@@ -74,6 +76,14 @@ public class Note {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public boolean isPublic() {

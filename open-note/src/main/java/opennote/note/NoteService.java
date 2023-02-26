@@ -45,6 +45,7 @@ public class NoteService {
         note.setUser(user);
         note.setTitle(request.title());
         note.setUrl(request.url());
+        note.setDescription(request.description());
         note.setPublic(request.isPublic());
         noteRepository.save(note);
     }
@@ -54,6 +55,7 @@ public class NoteService {
                 .map(note -> {
                     note.setTitle(request.title());
                     note.setUrl(request.url());
+                    note.setDescription(request.description());
                     note.setPublic(request.isPublic());
                     return noteRepository.save(note);
                 })

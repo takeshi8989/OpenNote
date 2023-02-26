@@ -20,7 +20,8 @@ const tags: Tag[] = [
   { name: "PHYS 1181", color: "blue" },
 ];
 
-const NoteDetail = ({ note }: { note: Note }): JSX.Element => {
+const NoteDetail = ({ note }: { note: Note | null }): JSX.Element => {
+  if (note == null) return <div>Not Found</div>;
   return (
     <div>
       <Text className="text-center mt-4" size="$3xl">
@@ -60,11 +61,7 @@ const NoteDetail = ({ note }: { note: Note }): JSX.Element => {
       </div>
       {/* Description */}
       <div className="w-1/2 text-center mx-auto mb-20">
-        <Text>
-          This note is an assignment for PHYS 1181. I had to study hard because
-          there were an exam called TEST 2 but it is actually a midterm. I had
-          other exams in the week, so I was pretty busy in this week...
-        </Text>
+        <Text>{note.description}</Text>
       </div>
     </div>
   );
