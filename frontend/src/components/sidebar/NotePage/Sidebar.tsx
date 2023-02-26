@@ -5,6 +5,7 @@ import { Button, Text, Input } from "@nextui-org/react";
 import { SendButton } from "@/components/sidebar/NotePage/SendButton";
 import { SendIcon } from "@/components/sidebar/NotePage/SendIcon";
 import { Commnet } from "@/types/comment";
+import { Note } from "@/types/note";
 
 const commnets: Commnet[] = [
   {
@@ -61,9 +62,30 @@ const commnets: Commnet[] = [
   },
 ];
 
-const Sidebar = (): JSX.Element => {
+const BUCKET_OBJECT_URL: string = process.env.BUCKET_OBJECT_URL as string;
+const API_URL: string = process.env.API_URL as string;
+const Sidebar = ({ note }: { note: Note | null }): JSX.Element => {
+  if (note === null) return <div></div>;
+
+  const downloadNote = () => {
+    const fileKey = note.url.substring(BUCKET_OBJECT_URL.length);
+    window.open(`${API_URL}/files/download/${fileKey}/${note.title}`);
+  };
+
   return (
     <div className=" mx-10 ">
+      <Button
+        flat
+        auto
+        bordered
+        size="lg"
+        color="primary"
+        className="mx-auto mt-10"
+        type="submit"
+        onClick={downloadNote}
+      >
+        Download Note
+      </Button>
       {/* Folder Modal Button */}
       <Button
         flat

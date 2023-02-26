@@ -2,7 +2,6 @@ package opennote.tag;
 
 import lombok.RequiredArgsConstructor;
 import opennote.note.Note;
-import opennote.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
