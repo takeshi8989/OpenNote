@@ -4,7 +4,6 @@ import opennote.note.Note;
 
 public record NewTagRequest(
         String name,
-        String color,
-        Note note
+        String color
 ) {
 }

@@ -2,7 +2,10 @@ package opennote.note;
 
 import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import opennote.folder.Folder;
 import opennote.tag.Tag;
 import opennote.user.User;
@@ -17,6 +20,8 @@ import java.util.List;
 @Entity
 @Table(name = "notes")
 @Data
+@RequiredArgsConstructor
+@AllArgsConstructor
 public class Note {
     @Id
     @GeneratedValue(generator = "uuid")
