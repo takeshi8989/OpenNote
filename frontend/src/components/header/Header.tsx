@@ -5,6 +5,7 @@ import {
   Dropdown,
   Input,
   Button,
+  Link,
 } from "@nextui-org/react";
 import { Layout } from "./Layout";
 import { SearchIcon } from "./SearchIcon";
@@ -13,11 +14,21 @@ import { useAtom } from "jotai/react";
 import { isLoggedInAtom, usernameAtom } from "@/jotai/authAtom";
 import { useAtomValue } from "jotai/react";
 import { useRouter } from "next/router";
+import { searchQueryAtom } from "@/jotai/noteAtom";
+import { useNote } from "@/hooks/useNote";
 
 export const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useAtom(isLoggedInAtom);
+  const [searchQuery, setSearchQuery] = useAtom(searchQueryAtom);
+  const { setNoteListBySearch } = useNote();
   const username = useAtomValue(usernameAtom);
   const router = useRouter();
+
+  const handleSearch = (e: any): void => {
+    if (e.key === "Enter") {
+      setNoteListBySearch();
+    }
+  };
 
   const handleLogout = (): void => {
     localStorage.removeItem("token");
@@ -25,14 +36,17 @@ export const Header = () => {
     setIsLoggedIn(false);
     router.push("/");
   };
+
   return (
     <Layout>
       <Navbar isBordered variant="sticky">
-        <Navbar.Brand css={{ mr: "$4" }}>
-          <Text b color="inherit" css={{ mr: "$11" }} hideIn="sm" size={30}>
-            OPEN NOTE
-          </Text>
-        </Navbar.Brand>
+        <Link href="/">
+          <Navbar.Brand css={{ mr: "$4" }}>
+            <Text b color="black" css={{ mr: "$11" }} hideIn="sm" size={30}>
+              OPEN NOTE
+            </Text>
+          </Navbar.Brand>
+        </Link>
         {/* Search Bar */}
         <Navbar.Content
           css={{
@@ -68,15 +82,20 @@ export const Header = () => {
               }}
               contentLeftStyling={false}
               placeholder="Search..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={handleSearch}
             />
           </Navbar.Item>
           {/* Login Button */}
           {!isLoggedIn && <LoginModal />}
           {/* New Note Button */}
           {isLoggedIn && (
-            <Button bordered color="secondary" auto>
-              NEW NOTE
-            </Button>
+            <Link href="/create">
+              <Button bordered color="secondary" auto>
+                NEW NOTE
+              </Button>
+            </Link>
           )}
           {/* Avatar */}
           {isLoggedIn && (
