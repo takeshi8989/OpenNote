@@ -23,30 +23,30 @@ const tags: Tag[] = [
 const NoteDetail = ({ note }: { note: Note }): JSX.Element => {
   return (
     <div>
-      <Text className="text-center mt-4" size={"$3xl"}>
+      <Text className="text-center mt-4" size="$3xl">
         {note.title}
       </Text>
-      <Text className="text-center" size={"$md"}>
+      <Text className="text-center" size="$md">
         {note.author?.username}
       </Text>
 
       {/* View, Like, Download, Comment */}
       <div className="flex items-center justify-center mt-1">
         <TbClick size={30} />
-        <Text className="mr-4" size={"$xl"}>
+        <Text className="mr-4" size="$xl">
           123
         </Text>
         <AiOutlineLike size={30} />
-        <Text className="mr-4" size={"$xl"}>
+        <Text className="mr-4" size="$xl">
           31
         </Text>
         <GrDownload size={30} />
-        <Text className="mr-4" size={"$xl"}>
+        <Text className="mr-4" size="$xl">
           11
         </Text>
 
         <BiCommentDetail size={30} className="mt-1" />
-        <Text className="mr-4" size={"$xl"}>
+        <Text className="mr-4" size="$xl">
           3
         </Text>
       </div>

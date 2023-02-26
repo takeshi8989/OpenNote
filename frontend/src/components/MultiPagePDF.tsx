@@ -1,4 +1,3 @@
-import { Note } from "@/types/note";
 import React, { useState, useEffect } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -13,7 +12,7 @@ const MultiPagePDF = ({ url }: { url: string }) => {
       {Array.from(Array(numPages), (e, i) => (
         <Document file={url} key={i} className="my-5">
           <Page
-            className={"w-full"}
+            className="w-full"
             pageNumber={i + 1}
             renderTextLayer={false}
             renderAnnotationLayer={false}

@@ -37,7 +37,7 @@ const TagGenerator = ({
 
   return (
     <div className="w-1/2 mx-auto mt-10 mb-20">
-      <Text size={"$2xl"} className="text-left ml-4">
+      <Text size="$2xl" className="text-left ml-4">
         Tags
       </Text>
       {currentInput.length > 0 && (

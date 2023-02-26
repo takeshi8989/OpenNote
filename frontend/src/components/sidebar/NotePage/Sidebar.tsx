@@ -69,8 +69,8 @@ const Sidebar = (): JSX.Element => {
         flat
         auto
         bordered
-        size={"lg"}
-        color={"secondary"}
+        size="lg"
+        color="secondary"
         className="mx-auto mt-10"
       >
         Add to my Folder
@@ -78,7 +78,7 @@ const Sidebar = (): JSX.Element => {
       {/* Comments */}
       <div className="flex justify-center items-center w-full my-auto mt-10">
         <BiCommentDetail size={30} className="mt-2 mr-2" />
-        <Text size={"$2xl"}>Comments</Text>
+        <Text size="$2xl">Comments</Text>
       </div>
       <div className="w-full mt-4 flex justify-center">
         <Input

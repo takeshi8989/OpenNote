@@ -69,12 +69,12 @@ const CreateNoteBody = () => {
           clearable
           underlined
           value={title}
-          size={"xl"}
+          size="xl"
           className="w-full mx-auto text-2xl"
           onChange={(e) => setTitle(e.target.value)}
         />
         <div className="w-full flex justify-end items-center">
-          <Text size={"$xl"} className="mx-3">
+          <Text size="$xl" className="mx-3">
             Public
           </Text>
           <Switch
@@ -136,7 +136,7 @@ const CreateNoteBody = () => {
         <Button
           bordered
           color="secondary"
-          size={"xl"}
+          size="xl"
           auto
           className="text-xl"
           onClick={createNote}

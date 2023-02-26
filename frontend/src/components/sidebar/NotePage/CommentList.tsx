@@ -13,7 +13,7 @@ const CommentList = ({ comments }: { comments: Commnet[] }): JSX.Element => {
               size="md"
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4mt9OP-78V6r8z1c0ohe_dtyh2OQNNVDI2f2BSd7npw&s"
             />
-            <Text className="ml-2" size={"md"}>
+            <Text className="ml-2" size="md">
               {comment.author.username}
             </Text>
           </div>
