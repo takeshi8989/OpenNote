@@ -4,7 +4,11 @@ export interface Note {
   id: string;
   title: string;
   url: string;
-  author: User;
+  // author
+  user: User;
+  createdAt: string;
+  updatedAt: string;
+  public: boolean;
   // tags
   // likes
   // comments
