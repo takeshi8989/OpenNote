@@ -1,7 +1,5 @@
 import { LoginRequest, SignUpRequest } from "@/types/request/user";
-import { rejects } from "assert";
 import jwtDecode from "jwt-decode";
-import Error from "next/error";
 
 const url: string = process.env.API_URL as string;
 

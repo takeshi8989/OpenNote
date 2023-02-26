@@ -1,14 +1,13 @@
 import { Note } from "@/types/note";
 import { Tag } from "@/types/tag";
-import { Text, Badge } from "@nextui-org/react";
-import React, { useEffect, useState } from "react";
+import { Text } from "@nextui-org/react";
+import React from "react";
 import { AiOutlineLike } from "react-icons/ai";
 import { BiCommentDetail } from "react-icons/bi";
 import { GrDownload } from "react-icons/gr";
 import { TbClick } from "react-icons/tb";
-import { Document, Page, pdfjs } from "react-pdf";
+import MultiPagePDF from "./MultiPagePDF";
 import CustomTag from "./tag/CustomTag";
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const tags: Tag[] = [
   { name: "Physics", color: "blue" },
@@ -22,53 +21,37 @@ const tags: Tag[] = [
 ];
 
 const NoteDetail = ({ note }: { note: Note }): JSX.Element => {
-  const [numPages, setNumPages] = useState<number>(0);
-  useEffect(() => {
-    const url: string = note.url;
-    pdfjs.getDocument(url).promise.then((doc) => setNumPages(doc.numPages));
-  }, [note]);
   return (
     <div>
-      <Text className="text-center mt-4" size={"$3xl"}>
+      <Text className="text-center mt-4" size="$3xl">
         {note.title}
       </Text>
-      <Text className="text-center" size={"$md"}>
-        {note.author.username}
+      <Text className="text-center" size="$md">
+        {note.author?.username}
       </Text>
 
       {/* View, Like, Download, Comment */}
       <div className="flex items-center justify-center mt-1">
         <TbClick size={30} />
-        <Text className="mr-4" size={"$xl"}>
+        <Text className="mr-4" size="$xl">
           123
         </Text>
         <AiOutlineLike size={30} />
-        <Text className="mr-4" size={"$xl"}>
+        <Text className="mr-4" size="$xl">
           31
         </Text>
         <GrDownload size={30} />
-        <Text className="mr-4" size={"$xl"}>
+        <Text className="mr-4" size="$xl">
           11
         </Text>
 
         <BiCommentDetail size={30} className="mt-1" />
-        <Text className="mr-4" size={"$xl"}>
+        <Text className="mr-4" size="$xl">
           3
         </Text>
       </div>
       {/* Note Pages from PDF File */}
-      <div className="w-full flex flex-col items-center ">
-        {Array.from(Array(numPages), (e, i) => (
-          <Document file={note.url} key={i} className="my-5">
-            <Page
-              className={"w-full"}
-              pageNumber={i + 1}
-              renderTextLayer={false}
-              renderAnnotationLayer={false}
-            />
-          </Document>
-        ))}
-      </div>
+      <MultiPagePDF url={note.url} />
       {/* Tags */}
       <div className="flex flex-wrap justify-center mx-auto w-1/3 mt-2 mb-5">
         {tags.map((tag) => (

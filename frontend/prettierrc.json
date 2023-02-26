@@ -1,6 +1,7 @@
 {
   "tabWidth": 2,
-  "jsxSingleQuote": true,
+  "jsxSingleQuote": false,
   "semi": false,
-  "singleQuote": true
+  "singleQuote": false,
+  "endOfLine": "auto"
 }

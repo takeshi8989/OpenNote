@@ -1,6 +1,6 @@
 import { Note } from "@/types/note";
 import React from "react";
-import { Badge, Link } from "@nextui-org/react";
+import { Link } from "@nextui-org/react";
 import { Document, Page, pdfjs } from "react-pdf";
 import { AiOutlineLike } from "react-icons/ai";
 import { BiCommentDetail } from "react-icons/bi";
@@ -19,7 +19,7 @@ const SinglePagePDF = ({ note }: { note: Note }): JSX.Element => {
         <div className="relative">
           <Document file={note.url}>
             <Page
-              className={"w-full"}
+              className="w-full"
               pageNumber={1}
               renderTextLayer={false}
               renderAnnotationLayer={false}

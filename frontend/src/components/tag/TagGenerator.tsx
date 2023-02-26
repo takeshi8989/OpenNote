@@ -4,13 +4,22 @@ import CustomTag from "./CustomTag";
 import ColorChangeButton from "../button/ColorChangeButton";
 import { Tag } from "../../types/tag";
 
-const TagGenerator = () => {
+const TagGenerator = ({
+  tags,
+  setTags,
+}: {
+  tags: Tag[];
+  setTags: React.Dispatch<React.SetStateAction<Tag[]>>;
+}) => {
   const [currentColor, setCurrentColor] = useState<string>("#CCCCCC");
-  const [tags, setTags] = useState<Tag[]>([]);
   const [currentInput, setCurrentInput] = useState<string>("");
 
   const handleKeyDown = (e: any): void => {
-    if (e.key === "Enter" && currentInput.length <= 10) {
+    if (
+      e.key === "Enter" &&
+      currentInput.length <= 10 &&
+      currentInput.length > 0
+    ) {
       if (tags.filter((tag) => tag.name === currentInput).length > 0) return;
       const newTag: Tag = { name: currentInput, color: currentColor };
       setTags([...tags, newTag]);
@@ -28,7 +37,7 @@ const TagGenerator = () => {
 
   return (
     <div className="w-1/2 mx-auto mt-10 mb-20">
-      <Text size={"$2xl"} className="text-left ml-4">
+      <Text size="$2xl" className="text-left ml-4">
         Tags
       </Text>
       {currentInput.length > 0 && (

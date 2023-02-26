@@ -1,5 +1,6 @@
 import NoteList from "@/components/NoteList";
 import { Note } from "@/types/note";
+import { SignUpRequest } from "@/types/request/user";
 import React from "react";
 
 const notes: Note[] = [
