@@ -20,7 +20,8 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     public AuthenticationResponse signup(NewUserRequest request) {
         User user = userService.createUser(request);
-        folderService.createFolder(new NewFolderRequest(user.getUsername(), "myfolder"));
+        folderService.createFolder(new NewFolderRequest(user.getUsername(), "My Notes"));
+        folderService.createFolder(new NewFolderRequest(user.getUsername(), "My Favorites"));
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder().token(jwtToken).build();
     }
