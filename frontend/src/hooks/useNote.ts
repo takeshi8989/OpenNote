@@ -1,6 +1,6 @@
 import { noteListAtom, searchQueryAtom } from "@/jotai/noteAtom";
 import { Note } from "@/types/note";
-import { NewNoteRequest } from "@/types/request/note";
+import { NewNoteRequest } from "@/types/request/noteRequest";
 import { useAtomValue, useSetAtom } from "jotai";
 
 interface Props {

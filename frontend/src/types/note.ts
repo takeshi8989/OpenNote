@@ -1,3 +1,4 @@
+import { Tag } from "./tag";
 import { User } from "./user";
 
 export interface Note {
@@ -10,7 +11,7 @@ export interface Note {
   createdAt: string;
   updatedAt: string;
   public: boolean;
-  // tags
+  tags: Tag[];
   // likes
   // comments
   // views

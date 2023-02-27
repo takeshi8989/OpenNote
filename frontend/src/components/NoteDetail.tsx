@@ -1,5 +1,4 @@
 import { Note } from "@/types/note";
-import { Tag } from "@/types/tag";
 import { Text } from "@nextui-org/react";
 import React from "react";
 import { AiOutlineLike } from "react-icons/ai";
@@ -8,17 +7,6 @@ import { GrDownload } from "react-icons/gr";
 import { TbClick } from "react-icons/tb";
 import MultiPagePDF from "./MultiPagePDF";
 import CustomTag from "./tag/CustomTag";
-
-const tags: Tag[] = [
-  { name: "Physics", color: "blue" },
-  { name: "Assignment", color: "green" },
-  { name: "Langara", color: "red" },
-  { name: "Chapter 4,5", color: "pink" },
-
-  { name: "Difficult", color: "gray" },
-  { name: "Test 2", color: "yellow" },
-  { name: "PHYS 1181", color: "blue" },
-];
 
 const NoteDetail = ({ note }: { note: Note | null }): JSX.Element => {
   if (note == null) return <div>Not Found</div>;
@@ -55,7 +43,7 @@ const NoteDetail = ({ note }: { note: Note | null }): JSX.Element => {
       <MultiPagePDF url={note.url} />
       {/* Tags */}
       <div className="flex flex-wrap justify-center mx-auto w-1/3 mt-2 mb-5">
-        {tags.map((tag) => (
+        {note.tags.map((tag) => (
           <CustomTag tag={tag} />
         ))}
       </div>

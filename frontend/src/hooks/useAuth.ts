@@ -1,4 +1,4 @@
-import { LoginRequest, SignUpRequest } from "@/types/request/user";
+import { LoginRequest, SignUpRequest } from "@/types/request/userRequest";
 import jwtDecode from "jwt-decode";
 
 const url: string = process.env.API_URL as string;

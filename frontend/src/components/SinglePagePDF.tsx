@@ -28,8 +28,8 @@ const SinglePagePDF = ({ note }: { note: Note }): JSX.Element => {
           </Document>
           {/* 2 Tags */}
           <div className="flex absolute bottom-3 right-1">
-            <CustomTag tag={{ name: "Tag1", color: "blue" }} />
-            <CustomTag tag={{ name: "Tag2", color: "gray" }} />
+            {note.tags.length > 0 && <CustomTag tag={note.tags[0]} />}
+            {note.tags.length > 1 && <CustomTag tag={note.tags[1]} />}
           </div>
         </div>
       </Link>

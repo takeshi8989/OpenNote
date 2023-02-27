@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Modal, Button, Text, Input, Row, Checkbox } from "@nextui-org/react";
 import { useAuth } from "@/hooks/useAuth";
-import { LoginRequest, SignUpRequest } from "@/types/request/user";
+import { LoginRequest, SignUpRequest } from "@/types/request/userRequest";
 import { useAtom } from "jotai/react";
 import { isLoggedInAtom } from "@/jotai/authAtom";
 import { useRouter } from "next/router";

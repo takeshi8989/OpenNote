@@ -5,8 +5,8 @@ import TagGenerator from "./tag/TagGenerator";
 import { useFile } from "@/hooks/useFile";
 import { useNote } from "@/hooks/useNote";
 import MultiPagePDF from "./MultiPagePDF";
+import { NewNoteRequest } from "@/types/request/noteRequest";
 import { Tag } from "@/types/tag";
-import { NewNoteRequest } from "@/types/request/note";
 
 const CreateNoteBody = () => {
   const { uploadFile, deleteFile } = useFile();
@@ -48,6 +48,7 @@ const CreateNoteBody = () => {
       username,
       title,
       url: currentFileUrl,
+      tags,
       description,
       isPublic,
     };
