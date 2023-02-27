@@ -70,20 +70,6 @@ const Sidebar = ({ note }: { note: Note | null }): JSX.Element => {
   const downloadNote = () => {
     const fileKey = note.url.substring(BUCKET_OBJECT_URL.length);
     window.open(`${API_URL}/files/download/${fileKey}/${note.title}`);
-    incrementDownloadCount();
-  };
-
-  const incrementDownloadCount = async () => {
-    const token = localStorage.getItem("token");
-    const res = await fetch(`${API_URL}/notes/download/${note.id}`, {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    if (!res.ok) {
-      console.log("failed to increment download count.");
-    }
   };
 
   return (
