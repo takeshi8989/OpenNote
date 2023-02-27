@@ -47,4 +47,10 @@ public class Note {
     private Date createdAt;
     @UpdateTimestamp
     private Date updatedAt;
+
+    private Integer numDownload = 0;
+
+    public void incrementDownloadCount(){
+        this.numDownload++;
+    }
 }
