@@ -31,12 +31,15 @@ public class User implements UserDetails {
     @Column(unique = true)
     private String email;
 
+    @JsonIgnore
     private String password;
 
     @Enumerated(EnumType.STRING)
+    @JsonIgnore
     private Role role;
     @OneToMany(mappedBy = "user")
     @JsonManagedReference
+    @JsonIgnore
     private List<Folder> folders = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
