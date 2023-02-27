@@ -49,8 +49,9 @@ public class NoteService {
         note.setUrl(request.url());
         note.setDescription(request.description());
         note.setPublic(request.isPublic());
+        noteRepository.save(note);
         addTags(note, request.tags());
-        return noteRepository.save(note);
+        return note;
     }
 
     public void addTags(Note note, List<NewTagRequest> tags){
