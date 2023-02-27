@@ -40,7 +40,7 @@ const SinglePagePDF = ({ note }: { note: Note }): JSX.Element => {
         <AiOutlineLike size={24} />
         <p className="mr-2">31</p>
         <GrDownload size={20} />
-        <p className="mr-2">12</p>
+        <p className="mr-2">{note.numDownload}</p>
         <BiCommentDetail size={24} />
         <p className="mr-2">3</p>
       </div>

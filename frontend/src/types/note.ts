@@ -15,5 +15,5 @@ export interface Note {
   // likes
   // comments
   // views
-  // downloads
+  numDownload: number;
 }

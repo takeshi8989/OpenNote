@@ -54,10 +54,5 @@ public class NoteController {
     public void deleteNote(@PathVariable String id){
         noteService.deleteNote(id);
     }
-    
-    @PutMapping("/download/{id}")
-    public void getDownloaded(@RequestBody String id){
-        noteService.getDownloaded(id);
-    }
 
 }

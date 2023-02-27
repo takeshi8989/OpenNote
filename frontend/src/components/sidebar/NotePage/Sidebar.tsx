@@ -69,7 +69,7 @@ const Sidebar = ({ note }: { note: Note | null }): JSX.Element => {
 
   const downloadNote = () => {
     const fileKey = note.url.substring(BUCKET_OBJECT_URL.length);
-    window.open(`${API_URL}/files/download/${fileKey}/${note.title}`);
+    window.open(`${API_URL}/files/download/${fileKey}/${note.id}`);
   };
 
   return (

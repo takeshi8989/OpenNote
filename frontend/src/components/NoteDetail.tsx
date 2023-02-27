@@ -31,7 +31,7 @@ const NoteDetail = ({ note }: { note: Note | null }): JSX.Element => {
         </Text>
         <GrDownload size={30} />
         <Text className="mr-4" size="$xl">
-          11
+          {note.numDownload}
         </Text>
 
         <BiCommentDetail size={30} className="mt-1" />
