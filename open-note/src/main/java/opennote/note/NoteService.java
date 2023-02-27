@@ -75,4 +75,10 @@ public class NoteService {
     public void deleteNote(String id){
         noteRepository.deleteById(id);
     }
+
+    public void getDownloaded(String id){
+        Note note = getNoteById(id);
+        note.incrementDownloadCount();
+        noteRepository.save(note);
+    }
 }

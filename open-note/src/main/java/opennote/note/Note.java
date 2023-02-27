@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import opennote.folder.Folder;
 import opennote.tag.Tag;
 import opennote.user.User;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -47,4 +48,11 @@ public class Note {
     private Date createdAt;
     @UpdateTimestamp
     private Date updatedAt;
+
+    @Column(columnDefinition = "integer default 0")
+    private Integer numDownload = 0;
+
+    public void incrementDownloadCount(){
+        this.numDownload++;
+    }
 }

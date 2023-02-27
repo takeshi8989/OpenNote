@@ -55,5 +55,9 @@ public class NoteController {
         noteService.deleteNote(id);
     }
     
+    @PutMapping("/download/{id}")
+    public void getDownloaded(@RequestBody String id){
+        noteService.getDownloaded(id);
+    }
 
 }
