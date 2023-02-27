@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository
 public interface NoteRepository extends JpaRepository<Note, String> {
-    @Query(value = "SELECT * from notes ORDER BY updated_at DESC LIMIT 8", nativeQuery = true)
+    @Query(value = "SELECT * from notes WHERE is_public=true ORDER BY updated_at DESC LIMIT 8", nativeQuery = true)
     List<Note> getRecentNotes();
 
     @Query(value = "SELECT * from notes WHERE user_id=?1", nativeQuery = true)
