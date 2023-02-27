@@ -7,7 +7,13 @@ export const useFile = (): {
   deleteFile: (fileName: string) => Promise<boolean>;
 } => {
   const uploadFile = async (file: File): Promise<string> => {
-    if (file.type !== "application/pdf") return "";
+    if (file.type !== "application/pdf") {
+      console.log("file type is not PDF");
+    }
+    if (file.size > 1000000) {
+      console.log("file is too big");
+      return "";
+    }
     const newFileName: string = uuidv4() + ".pdf";
     const blob = file.slice(0, file.size);
     const newFile = new File([blob], newFileName, { type: "application/pdf" });
@@ -41,7 +47,6 @@ export const useFile = (): {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(res.status);
       return true;
     } catch (error) {
       console.log(error);

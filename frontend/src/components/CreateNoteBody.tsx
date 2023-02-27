@@ -22,6 +22,7 @@ const CreateNoteBody = () => {
     const fileUrl: string = await uploadFile(file).then((url) => {
       return url;
     });
+    // if fileUrl === ""
 
     showNote(fileUrl);
   }, []);
