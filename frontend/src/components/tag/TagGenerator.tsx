@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Text, Badge, Input, Grid, Button } from "@nextui-org/react";
 import CustomTag from "./CustomTag";
 import ColorChangeButton from "../button/ColorChangeButton";
-import { Tag } from "../../types/tag";
+import { Tag } from "@/types/tag";
 
 const TagGenerator = ({
   tags,
@@ -17,7 +17,7 @@ const TagGenerator = ({
   const addTag = (): void => {
     if (currentInput.length <= 10 && currentInput.length > 0) {
       if (tags.filter((tag) => tag.name === currentInput).length > 0) return;
-      const newTag: Tag = { name: currentInput, color: currentColor };
+      const newTag: Tag = { id: "", name: currentInput, color: currentColor };
       setTags([...tags, newTag]);
       setCurrentInput("");
     }
@@ -41,7 +41,7 @@ const TagGenerator = ({
         Tags
       </Text>
       {currentInput.length > 0 && (
-        <CustomTag tag={{ name: currentInput, color: currentColor }} />
+        <CustomTag tag={{ id: "", name: currentInput, color: currentColor }} />
       )}
       <div className="mt-2 flex">
         <Input
