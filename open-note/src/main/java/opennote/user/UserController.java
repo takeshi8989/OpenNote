@@ -19,11 +19,9 @@ public class UserController {
     public List<User> getUsers(){
         return userService.getUsers();
     }
-    @GetMapping("/{id}")
-    public User getUserById(@PathVariable Integer id) {
-        // give more specific error
-        return userService.getUserById(id);
-    }
+
+    @GetMapping("/{username}")
+    public User getUserByUsername(@PathVariable String username){return userService.getUserByUsername(username);}
 
     @PostMapping
     public User createUser(@RequestBody NewUserRequest request){

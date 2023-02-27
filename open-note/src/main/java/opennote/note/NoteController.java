@@ -1,5 +1,6 @@
 package opennote.note;
 
+import opennote.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,6 +49,11 @@ public class NoteController {
     @PutMapping("/{id}")
     public Note updateNote(@RequestBody NewNoteRequest request, @PathVariable String id){
         return noteService.updateNote(request, id);
+    }
+
+    @PutMapping("/like/{noteId}/{username}")
+    public Note toggleLike(@PathVariable String noteId, @PathVariable String username){
+        return noteService.toggleLike(noteId, username);
     }
 
     @DeleteMapping("/{id}")

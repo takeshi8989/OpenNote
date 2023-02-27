@@ -1,6 +1,7 @@
 package opennote.note;
 
 import lombok.RequiredArgsConstructor;
+import opennote.like.LikeService;
 import opennote.tag.NewTagRequest;
 import opennote.tag.TagService;
 import opennote.user.User;
@@ -19,6 +20,8 @@ public class NoteService {
     private final UserService userService;
     @Autowired
     private final TagService tagService;
+    @Autowired
+    private final LikeService likeService;
 
     public List<Note> getAllNotes(){
         return noteRepository.findAll();
@@ -70,6 +73,13 @@ public class NoteService {
                     return noteRepository.save(note);
                 })
                 .orElseThrow(() -> new NoteNotFoundException(id));
+    }
+
+    public Note toggleLike(String noteId, String username){
+        Note note = getNoteById(noteId);
+        User user = userService.getUserByUsername(username);
+        likeService.toggleLike(note, user);
+        return note;
     }
 
     public void deleteNote(String id){
