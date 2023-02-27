@@ -76,8 +76,7 @@ public class NoteService {
         noteRepository.deleteById(id);
     }
 
-    public void getDownloaded(String id){
-        Note note = getNoteById(id);
+    public void getDownloaded(Note note){
         note.incrementDownloadCount();
         noteRepository.save(note);
     }

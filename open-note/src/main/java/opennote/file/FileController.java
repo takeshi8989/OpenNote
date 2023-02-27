@@ -19,9 +19,9 @@ public class FileController {
         return fileService.saveFile(file);
     }
 
-    @GetMapping("/download/{fileName}/{title}")
-    public ResponseEntity<byte[]> download(@PathVariable String fileName, @PathVariable String title){
-        return fileService.downloadFileWithTitle(fileName, title);
+    @GetMapping("/download/{fileName}/{noteId}")
+    public ResponseEntity<byte[]> download(@PathVariable String fileName, @PathVariable String noteId){
+        return fileService.downloadFileWithTitle(fileName, noteId);
     }
 
     @DeleteMapping("/{fileName}")

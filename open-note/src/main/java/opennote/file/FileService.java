@@ -3,6 +3,10 @@ package opennote.file;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.*;
 import com.amazonaws.util.IOUtils;
+import lombok.RequiredArgsConstructor;
+import opennote.note.Note;
+import opennote.note.NoteService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -19,14 +23,13 @@ import java.util.stream.Collectors;
 import static java.net.HttpURLConnection.HTTP_OK;
 
 @Service
+@RequiredArgsConstructor
 public class FileService implements FileHandler{
     private final AmazonS3 s3;
+    @Autowired
+    private final NoteService noteService;
     @Value("${s3.bucket.name}")
     private String bucketName;
-
-    public FileService(AmazonS3 s3) {
-        this.s3 = s3;
-    }
 
     @Override
     public String saveFile(MultipartFile file) {
@@ -56,14 +59,16 @@ public class FileService implements FileHandler{
         }
     }
 
-    public ResponseEntity<byte[]> downloadFileWithTitle(String fileName, String title) {
+    public ResponseEntity<byte[]> downloadFileWithTitle(String fileName, String noteId) {
+        Note note = noteService.getNoteById(noteId);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-type", MediaType.ALL_VALUE);
-        headers.add("Content-Disposition", "attachment; filename="+title+".pdf");
+        headers.add("Content-Disposition", "attachment; filename="+note.getTitle()+".pdf");
         S3Object object = s3.getObject(bucketName, fileName);
         S3ObjectInputStream objectContent = object.getObjectContent();
         try {
             byte[] bytes = IOUtils.toByteArray(objectContent);
+            noteService.getDownloaded(note);
             return ResponseEntity.status(HTTP_OK).headers(headers).body(bytes);
         } catch (IOException e){
             throw new RuntimeException(e);
