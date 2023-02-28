@@ -7,6 +7,7 @@ interface Props {
   createNewNote: (request: NewNoteRequest) => Promise<boolean>;
   setNoteListBySearch: () => Promise<void>;
   getNoteById: (id: string) => Promise<Note | null>;
+  toggleLike: (note: Note) => Promise<Note | null>;
 }
 
 const url: string = process.env.API_URL as string;
@@ -64,5 +65,23 @@ export const useNote = (): Props => {
     }
   };
 
-  return { createNewNote, setNoteListBySearch, getNoteById };
+  const toggleLike = async (note: Note): Promise<Note | null> => {
+    const username: string = localStorage.getItem("username") as string;
+    const token: string = localStorage.getItem("token") as string;
+    try {
+      const res = await fetch(`${url}/notes/like/${note.id}/${username}`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data: Note = await res.json();
+      return data;
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  };
+
+  return { createNewNote, setNoteListBySearch, getNoteById, toggleLike };
 };

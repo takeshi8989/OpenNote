@@ -38,7 +38,7 @@ const SinglePagePDF = ({ note }: { note: Note }): JSX.Element => {
         <TbClick size={20} />
         <p className="mr-2">123</p>
         <AiOutlineLike size={24} />
-        <p className="mr-2">31</p>
+        <p className="mr-2">{note.likes.length}</p>
         <GrDownload size={20} />
         <p className="mr-2">{note.numDownload}</p>
         <BiCommentDetail size={24} />
