@@ -1,15 +1,38 @@
 import { Note } from "@/types/note";
 import { Text } from "@nextui-org/react";
-import React from "react";
-import { AiOutlineLike } from "react-icons/ai";
+import React, { useEffect, useState } from "react";
+import { AiFillLike } from "react-icons/ai";
 import { BiCommentDetail } from "react-icons/bi";
 import { GrDownload } from "react-icons/gr";
 import { TbClick } from "react-icons/tb";
 import MultiPagePDF from "./MultiPagePDF";
 import CustomTag from "./tag/CustomTag";
+import { useNote } from "@/hooks/useNote";
 
-const NoteDetail = ({ note }: { note: Note | null }): JSX.Element => {
+const NoteDetail = ({
+  note,
+  setNote,
+}: {
+  note: Note | null;
+  setNote: React.Dispatch<React.SetStateAction<Note | null>>;
+}): JSX.Element => {
+  const [likeNote, setLikeNote] = useState<boolean>(false);
+  const { getNoteById, toggleLike } = useNote();
+
+  useEffect(() => {
+    if (note === null) return;
+    const username: string = localStorage.getItem("username") as string;
+    const hasUserLike: boolean =
+      note.likes.filter((like) => like.user.username === username).length > 0;
+    setLikeNote(hasUserLike);
+  }, [note]);
+
   if (note == null) return <div>Not Found</div>;
+
+  const handleLike = async () => {
+    const data: Note | null = await toggleLike(note);
+    setNote(data);
+  };
   return (
     <div>
       <Text className="text-center mt-4" size="$3xl">
@@ -25,9 +48,13 @@ const NoteDetail = ({ note }: { note: Note | null }): JSX.Element => {
         <Text className="mr-4" size="$xl">
           123
         </Text>
-        <AiOutlineLike size={30} />
+        <AiFillLike
+          color={likeNote ? "#000000" : "#EEEEEE"}
+          size={30}
+          onClick={handleLike}
+        />
         <Text className="mr-4" size="$xl">
-          31
+          {note.likes.length}
         </Text>
         <GrDownload size={30} />
         <Text className="mr-4" size="$xl">

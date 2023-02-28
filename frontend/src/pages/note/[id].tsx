@@ -25,7 +25,7 @@ const Note = () => {
         <Sidebar note={note} />
       </div>
       <div className="w-3/4 h-full overflow-y-scroll">
-        <NoteDetail note={note} />
+        <NoteDetail note={note} setNote={setNote} />
       </div>
     </div>
   );
