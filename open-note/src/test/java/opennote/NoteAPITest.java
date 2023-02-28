@@ -86,6 +86,8 @@ public class NoteAPITest {
 
     @Test
     public void getNoteById_success() throws Exception{
+        note1.setId("12345");
+        note1.setTitle("MyNote");
         Mockito.when(noteService.getNoteById(note1.getId())).thenReturn(note1);
 
         mockMvc.perform(MockMvcRequestBuilders
@@ -98,6 +100,8 @@ public class NoteAPITest {
 
     @Test
     public void getNotesByUserId_success() throws Exception{
+        note2.setTitle("note2");
+        user1.setId(1);
         List<Note> notes = new ArrayList<>(Arrays.asList(note1, note2));
         Mockito.when(noteService.getNotesByUserId(user1.getId())).thenReturn(notes);
 
@@ -106,7 +110,7 @@ public class NoteAPITest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[1].title", Matchers.is("1181 Lecture")));
+                .andExpect(jsonPath("$[1].title", Matchers.is("note2")));
     }
 
     @Test
@@ -126,7 +130,7 @@ public class NoteAPITest {
         NewTagRequest tag1 = new NewTagRequest("tag1", "blue");
         NewTagRequest tag2 = new NewTagRequest("tag2", "red");
         List<NewTagRequest> tags = new ArrayList<>(Arrays.asList(tag1, tag2));
-        NewNoteRequest request = new NewNoteRequest("Rayven Yor","1160 Midterm", "http://midterm.pdf", "", tags, false);
+        NewNoteRequest request = new NewNoteRequest("user1","new note", "http://midterm.pdf", "", tags, false);
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/notes")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -136,10 +140,12 @@ public class NoteAPITest {
 
     @Test
     public void updateNote_success() throws  Exception {
-        NewNoteRequest request = new NewNoteRequest("Rayven Yor","updated myNote", "http://updated.pdf", "", emptyTagRequests,true);
+        note3.setId("34567");
+        note3.setTitle("updated myNote");
+        NewNoteRequest request = new NewNoteRequest("user4","updated myNote", "http://updated.pdf", "", emptyTagRequests,true);
 
         Mockito.when(noteService.getNoteById(note3.getId())).thenReturn(note3);
-        note3.setTitle("updated myNote");
+
         Mockito.when(noteService.updateNote(request, note3.getId())).thenReturn(note3);
         mockMvc.perform(MockMvcRequestBuilders
                         .put("/notes/34567")

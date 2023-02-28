@@ -3,6 +3,9 @@ package opennote.folder;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import opennote.note.Note;
 import opennote.user.User;
 import org.hibernate.annotations.CreationTimestamp;
@@ -15,6 +18,7 @@ import java.util.List;
 
 @Entity
 @Table( name = "folders" )
+@Data
 public class Folder {
     @Id
     @GeneratedValue(generator = "uuid")
@@ -47,42 +51,6 @@ public class Folder {
         this.user = user;
         this.title = title;
         this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
 

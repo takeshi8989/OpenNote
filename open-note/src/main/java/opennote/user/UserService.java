@@ -1,5 +1,6 @@
 package opennote.user;
 
+import lombok.RequiredArgsConstructor;
 import opennote.user.requests.NewUserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -9,16 +10,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
     @Autowired
     private final UserRepository userRepository;
     @Autowired
     private final PasswordEncoder passwordEncoder;
-
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     public List<User> getUsers(){
         return userRepository.findAll();
