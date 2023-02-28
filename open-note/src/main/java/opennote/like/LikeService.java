@@ -12,7 +12,7 @@ public class LikeService {
 
     public void toggleLike(Note note, User user){
         Like like = likeRepository.findLike(note.getId(), user.getId());
-        System.out.println(like);
+
         if(like == null){
             addLike(note, user);
         } else {
