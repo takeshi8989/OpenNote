@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import opennote.folder.Folder;
+import opennote.like.Like;
 import opennote.tag.Tag;
 import opennote.user.User;
 import org.hibernate.annotations.CreationTimestamp;
@@ -43,6 +44,8 @@ public class Note {
     private String url;
     private String description;
     private boolean isPublic;
+    @OneToMany(mappedBy = "note")
+    private List<Like> likes;
     @CreationTimestamp
     private Date createdAt;
     @UpdateTimestamp

@@ -65,11 +65,11 @@ public class UserAPITest {
     }
 
     @Test
-    public void getUserById_success() throws Exception {
-        Mockito.when(userService.getUserById(user1.getId())).thenReturn(user1);
+    public void getUserByUsername_success() throws Exception {
+        Mockito.when(userService.getUserByUsername(user1.getUsername())).thenReturn(user1);
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/users/1")
+                        .get("/users/Rayven Yor")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", notNullValue()))
