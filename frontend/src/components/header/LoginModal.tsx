@@ -14,7 +14,7 @@ export const LoginModal = (): JSX.Element => {
   const [isSignUp, setIsSignUp] = useState<boolean>(false);
   const [isLoggedIn, setIsLoggedIn] = useAtom(isLoggedInAtom);
   const router = useRouter();
-  const { login, signup } = useAuth();
+  const { validateSignUp, login, signup } = useAuth();
 
   const handler = () => setVisible(true);
 
@@ -24,6 +24,9 @@ export const LoginModal = (): JSX.Element => {
 
   const handleAuth = (): void => {
     if (isSignUp) {
+      if (!validateSignUp(username, password)) {
+        return;
+      }
       const request: SignUpRequest = { username, email, password };
       signup(request).then((loginSuccess) => {
         if (loginSuccess) {
@@ -82,6 +85,7 @@ export const LoginModal = (): JSX.Element => {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             placeholder="Username"
+            required
           />
           {isSignUp && (
             <Input
@@ -93,6 +97,8 @@ export const LoginModal = (): JSX.Element => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email"
+              type="email"
+              required
             />
           )}
           <Input
@@ -104,6 +110,8 @@ export const LoginModal = (): JSX.Element => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
+            type="password"
+            required
           />
           {!isSignUp && (
             <Row justify="space-between">
