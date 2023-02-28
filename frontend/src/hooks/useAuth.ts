@@ -4,10 +4,24 @@ import jwtDecode from "jwt-decode";
 const url: string = process.env.API_URL as string;
 
 export const useAuth = (): {
+  validateSignUp: (username: string, password: string) => boolean;
   login: (request: LoginRequest) => Promise<boolean>;
   signup: (request: SignUpRequest) => Promise<boolean>;
   checkIsLoggedIn: () => boolean;
 } => {
+  const validateSignUp = (username: string, password: string): boolean => {
+    const letterNumber = /^[0-9a-zA-Z]+$/;
+    if (!letterNumber.test(username)) {
+      console.log("invalid username");
+      return false;
+    }
+    if (password.length < 6) {
+      console.log("password is too short");
+      return false;
+    }
+    return true;
+  };
+
   const login = async (request: LoginRequest): Promise<boolean> => {
     try {
       const res: Response = await fetch(`${url}/auth/login`, {
@@ -61,5 +75,5 @@ export const useAuth = (): {
     return new Date().getTime() / 1000 < decoded.exp;
   };
 
-  return { login, signup, checkIsLoggedIn };
+  return { validateSignUp, login, signup, checkIsLoggedIn };
 };
