@@ -2,6 +2,9 @@ package opennote.user;
 
 import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import opennote.folder.Folder;
 import opennote.note.Note;
 import org.springframework.security.core.GrantedAuthority;
@@ -13,7 +16,10 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
+@Data
 @Table(name =  "users")
+@RequiredArgsConstructor
+@AllArgsConstructor
 public class User implements UserDetails {
     @Id
     @SequenceGenerator(
@@ -45,16 +51,6 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     private List<Note> notes = new ArrayList<>();
-    public User(){}
-
-
-    public User(Integer id, String username, String email, String password, Role role) {
-        this.id = id;
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -86,43 +82,7 @@ public class User implements UserDetails {
         return password;
     }
 
-    public Integer getId(){
-        return id;
-    }
-    public void setId(Integer id){this.id = id;}
-    public String getUsername() {
-        return username;
-    }
-    public void setUsername(String username) {
-        this.username = username;
-    }
-    public String getEmail() {
-        return email;
-    }
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
-    public Role getRole() {
-        return role;
-    }
-    public void setRole(Role role) {
-        this.role = role;
-    }
-    public List<Folder> getFolders() {
-        return folders;
-    }
-    public void setFolders(List<Folder> folders) {
-        this.folders = folders;
-    }
-    public List<Note> getNotes() {
-        return notes;
-    }
-    public void setNotes(List<Note> notes) {
-        this.notes = notes;
-    }
+
 
 }

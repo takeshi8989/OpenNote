@@ -49,10 +49,8 @@ public class UserAPITest {
     User user2 = ApplicationTests.user2;
     User user3 = ApplicationTests.user3;
 
-
     @Test
     public void getAllUsers_success() throws Exception {
-
         List<User> users = new ArrayList<>(Arrays.asList(user1, user2, user3));
         Mockito.when(userService.getUsers()).thenReturn(users);
 
@@ -61,27 +59,28 @@ public class UserAPITest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(3)))
-                .andExpect(jsonPath("$[2].username", is("Jane Doe")));
+                .andExpect(jsonPath("$[2].username", is("user3")));
     }
 
     @Test
     public void getUserByUsername_success() throws Exception {
+        user1.setUsername("user1");
         Mockito.when(userService.getUserByUsername(user1.getUsername())).thenReturn(user1);
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/users/Rayven Yor")
+                        .get("/users/user1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", notNullValue()))
-                .andExpect(jsonPath("$.username", is("Rayven Yor")));
+                .andExpect(jsonPath("$.username", is("user1")));
     }
 
     @Test
     public void updateUser_success() throws Exception {
         NewUserRequest user = new NewUserRequest(
-                "Dixie Montoya",
-                "mdixie@gmail.com",
-                "password5"
+                "updated",
+                "updated@gmail.com",
+                "password4"
         );
 
         Mockito.when(userService.getUserById(user1.getId())).thenReturn(user1);
