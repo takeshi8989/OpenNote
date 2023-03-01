@@ -9,15 +9,14 @@ import MultiPagePDF from "./MultiPagePDF";
 import CustomTag from "./tag/CustomTag";
 import { useNote } from "@/hooks/useNote";
 
-const NoteDetail = ({
-  note,
-  setNote,
-}: {
+interface Props {
   note: Note | null;
   setNote: React.Dispatch<React.SetStateAction<Note | null>>;
-}): JSX.Element => {
+}
+
+const NoteDetail = ({ note, setNote }: Props): JSX.Element => {
   const [likeNote, setLikeNote] = useState<boolean>(false);
-  const { getNoteById, toggleLike } = useNote();
+  const { toggleLike } = useNote();
 
   useEffect(() => {
     if (note === null) return;
