@@ -1,11 +1,17 @@
 import { Comment } from "@/types/comment";
-import React from "react";
+import React, { useEffect } from "react";
 import { Avatar, Text } from "@nextui-org/react";
 
 const CommentList = ({ comments }: { comments: Comment[] }): JSX.Element => {
+  const sortComments = (): Comment[] => {
+    return comments.sort((a: Comment, b: Comment) => {
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    });
+  };
+
   return (
     <div className="w-full mx-auto mt-8 mb-10">
-      {comments.map((comment) => (
+      {sortComments().map((comment) => (
         <div key={comment.id}>
           <div className="flex items-center mt-5">
             <Avatar
