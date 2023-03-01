@@ -63,7 +63,7 @@ const NoteDetail = ({
 
         <BiCommentDetail size={30} className="mt-1" />
         <Text className="mr-4" size="$xl">
-          3
+          {note.comments.length}
         </Text>
       </div>
       {/* Note Pages from PDF File */}

@@ -1,8 +1,8 @@
-import { Commnet } from "@/types/comment";
+import { Comment } from "@/types/comment";
 import React from "react";
 import { Avatar, Text } from "@nextui-org/react";
 
-const CommentList = ({ comments }: { comments: Commnet[] }): JSX.Element => {
+const CommentList = ({ comments }: { comments: Comment[] }): JSX.Element => {
   return (
     <div className="w-full mx-auto mt-8 mb-10">
       {comments.map((comment) => (

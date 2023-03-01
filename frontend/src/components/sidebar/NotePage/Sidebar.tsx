@@ -4,63 +4,7 @@ import { BiCommentDetail } from "react-icons/bi";
 import { Button, Text, Input } from "@nextui-org/react";
 import { SendButton } from "@/components/sidebar/NotePage/SendButton";
 import { SendIcon } from "@/components/sidebar/NotePage/SendIcon";
-import { Commnet } from "@/types/comment";
 import { Note } from "@/types/note";
-
-const commnets: Commnet[] = [
-  {
-    id: "1",
-    author: { username: "takeshi", email: "take@gmail.com" },
-    content: "This note is very helpful! Thank you!",
-    date: "2022 Aug 21",
-  },
-  {
-    id: "2",
-    author: { username: "user 2", email: "user2@gmail.com" },
-    content:
-      "I love this note! fdsalkjfldsaj fdkjkdkjfjkd jakfjk djkffdsafdsa fdsafsdfadsa",
-    date: "2023 Jan 12",
-  },
-  {
-    id: "11",
-    author: { username: "takeshi", email: "take@gmail.com" },
-    content: "This note is very helpful! Thank you!",
-    date: "2022 Aug 21",
-  },
-  {
-    id: "21",
-    author: { username: "user 2", email: "user2@gmail.com" },
-    content:
-      "I love this note! fdsalkjfldsaj fdkjkdkjfjkd jakfjk djkffdsafdsa fdsafsdfadsa",
-    date: "2023 Jan 12",
-  },
-  {
-    id: "12",
-    author: { username: "takeshi", email: "take@gmail.com" },
-    content: "This note is very helpful! Thank you!",
-    date: "2022 Aug 21",
-  },
-  {
-    id: "22",
-    author: { username: "user 2", email: "user2@gmail.com" },
-    content:
-      "I love this note! fdsalkjfldsaj fdkjkdkjfjkd jakfjk djkffdsafdsa fdsafsdfadsa",
-    date: "2023 Jan 12",
-  },
-  {
-    id: "13",
-    author: { username: "takeshi", email: "take@gmail.com" },
-    content: "This note is very helpful! Thank you!",
-    date: "2022 Aug 21",
-  },
-  {
-    id: "23",
-    author: { username: "user 2", email: "user2@gmail.com" },
-    content:
-      "I love this note! fdsalkjfldsaj fdkjkdkjfjkd jakfjk djkffdsafdsa fdsafsdfadsa",
-    date: "2023 Jan 12",
-  },
-];
 
 const BUCKET_OBJECT_URL: string = process.env.BUCKET_OBJECT_URL as string;
 const API_URL: string = process.env.API_URL as string;
@@ -114,7 +58,7 @@ const Sidebar = ({ note }: { note: Note | null }): JSX.Element => {
           }
         />
       </div>
-      <CommentList comments={commnets} />
+      <CommentList comments={note.comments} />
     </div>
   );
 };
