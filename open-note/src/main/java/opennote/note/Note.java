@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import opennote.comment.Comment;
 import opennote.folder.Folder;
 import opennote.like.Like;
 import opennote.tag.Tag;
@@ -46,6 +47,9 @@ public class Note {
     private boolean isPublic;
     @OneToMany(mappedBy = "note")
     private List<Like> likes;
+
+    @OneToMany(mappedBy = "note")
+    private List<Comment> comments;
     @CreationTimestamp
     private Date createdAt;
     @UpdateTimestamp

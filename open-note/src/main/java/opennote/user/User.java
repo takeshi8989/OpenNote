@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import opennote.comment.Comment;
 import opennote.folder.Folder;
 import opennote.note.Note;
 import org.springframework.security.core.GrantedAuthority;
@@ -51,6 +52,10 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     private List<Note> notes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "author")
+    @JsonIgnore
+    private List<Comment> comments = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

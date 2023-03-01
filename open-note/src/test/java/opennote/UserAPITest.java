@@ -71,7 +71,6 @@ public class UserAPITest {
                         .get("/users/user1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", notNullValue()))
                 .andExpect(jsonPath("$.username", is("user1")));
     }
 
@@ -92,7 +91,7 @@ public class UserAPITest {
     }
 
     @Test
-    public void delteUser_success() throws Exception {
+    public void deleteUser_success() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                         .delete("/users/1")
                         .contentType(MediaType.APPLICATION_JSON))

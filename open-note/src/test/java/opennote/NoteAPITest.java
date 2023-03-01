@@ -2,13 +2,11 @@ package opennote;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import opennote.config.SecurityConfig;
-import opennote.folder.Folder;
 import opennote.note.NewNoteRequest;
 import opennote.note.Note;
 import opennote.note.NoteController;
 import opennote.note.NoteService;
 import opennote.tag.NewTagRequest;
-import opennote.tag.Tag;
 import opennote.user.User;
 import opennote.config.JwtAuthenticationFilter;
 import opennote.config.JwtService;
@@ -49,12 +47,9 @@ public class NoteAPITest {
     @MockBean
     SecurityConfig securityConfig;
 
-    List<Tag> emptyTagList = new ArrayList<>();
     List<NewTagRequest> emptyTagRequests = new ArrayList<>();
-    List<Folder> emptyFolderList = new ArrayList<>();
 
     User user1 = ApplicationTests.user1;
-    User user2 = ApplicationTests.user2;
 
     Note note1 = ApplicationTests.note1;
     Note note2 = ApplicationTests.note2;
