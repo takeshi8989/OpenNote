@@ -1,6 +1,5 @@
 package opennote.note;
 
-import opennote.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,6 +45,7 @@ public class NoteController {
         return noteService.createNote(request);
     }
 
+
     @PutMapping("/{id}")
     public Note updateNote(@RequestBody NewNoteRequest request, @PathVariable String id){
         return noteService.updateNote(request, id);
@@ -60,5 +60,6 @@ public class NoteController {
     public void deleteNote(@PathVariable String id){
         noteService.deleteNote(id);
     }
+
 
 }
