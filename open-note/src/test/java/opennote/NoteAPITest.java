@@ -2,13 +2,11 @@ package opennote;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import opennote.config.SecurityConfig;
-import opennote.folder.Folder;
 import opennote.note.NewNoteRequest;
 import opennote.note.Note;
 import opennote.note.NoteController;
 import opennote.note.NoteService;
 import opennote.tag.NewTagRequest;
-import opennote.tag.Tag;
 import opennote.user.User;
 import opennote.config.JwtAuthenticationFilter;
 import opennote.config.JwtService;
