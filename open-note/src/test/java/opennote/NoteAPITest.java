@@ -49,12 +49,9 @@ public class NoteAPITest {
     @MockBean
     SecurityConfig securityConfig;
 
-    List<Tag> emptyTagList = new ArrayList<>();
     List<NewTagRequest> emptyTagRequests = new ArrayList<>();
-    List<Folder> emptyFolderList = new ArrayList<>();
 
     User user1 = ApplicationTests.user1;
-    User user2 = ApplicationTests.user2;
 
     Note note1 = ApplicationTests.note1;
     Note note2 = ApplicationTests.note2;
