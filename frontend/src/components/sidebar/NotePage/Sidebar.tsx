@@ -1,75 +1,36 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import CommentList from "./CommentList";
 import { BiCommentDetail } from "react-icons/bi";
 import { Button, Text, Input } from "@nextui-org/react";
 import { SendButton } from "@/components/sidebar/NotePage/SendButton";
 import { SendIcon } from "@/components/sidebar/NotePage/SendIcon";
-import { Commnet } from "@/types/comment";
 import { Note } from "@/types/note";
-
-const commnets: Commnet[] = [
-  {
-    id: "1",
-    author: { username: "takeshi", email: "take@gmail.com" },
-    content: "This note is very helpful! Thank you!",
-    date: "2022 Aug 21",
-  },
-  {
-    id: "2",
-    author: { username: "user 2", email: "user2@gmail.com" },
-    content:
-      "I love this note! fdsalkjfldsaj fdkjkdkjfjkd jakfjk djkffdsafdsa fdsafsdfadsa",
-    date: "2023 Jan 12",
-  },
-  {
-    id: "11",
-    author: { username: "takeshi", email: "take@gmail.com" },
-    content: "This note is very helpful! Thank you!",
-    date: "2022 Aug 21",
-  },
-  {
-    id: "21",
-    author: { username: "user 2", email: "user2@gmail.com" },
-    content:
-      "I love this note! fdsalkjfldsaj fdkjkdkjfjkd jakfjk djkffdsafdsa fdsafsdfadsa",
-    date: "2023 Jan 12",
-  },
-  {
-    id: "12",
-    author: { username: "takeshi", email: "take@gmail.com" },
-    content: "This note is very helpful! Thank you!",
-    date: "2022 Aug 21",
-  },
-  {
-    id: "22",
-    author: { username: "user 2", email: "user2@gmail.com" },
-    content:
-      "I love this note! fdsalkjfldsaj fdkjkdkjfjkd jakfjk djkffdsafdsa fdsafsdfadsa",
-    date: "2023 Jan 12",
-  },
-  {
-    id: "13",
-    author: { username: "takeshi", email: "take@gmail.com" },
-    content: "This note is very helpful! Thank you!",
-    date: "2022 Aug 21",
-  },
-  {
-    id: "23",
-    author: { username: "user 2", email: "user2@gmail.com" },
-    content:
-      "I love this note! fdsalkjfldsaj fdkjkdkjfjkd jakfjk djkffdsafdsa fdsafsdfadsa",
-    date: "2023 Jan 12",
-  },
-];
+import { useComment } from "@/hooks/useComment";
+import { Comment } from "@/types/comment";
 
 const BUCKET_OBJECT_URL: string = process.env.BUCKET_OBJECT_URL as string;
 const API_URL: string = process.env.API_URL as string;
 const Sidebar = ({ note }: { note: Note | null }): JSX.Element => {
+  const [currentComment, setCurrentComment] = useState<string>("");
+  const { createNewComment } = useComment();
+
   if (note === null) return <div></div>;
 
   const downloadNote = () => {
     const fileKey = note.url.substring(BUCKET_OBJECT_URL.length);
     window.open(`${API_URL}/files/download/${fileKey}/${note.id}`);
+  };
+
+  const sendComment = async (): Promise<void> => {
+    if (currentComment === "") return;
+    const data: Comment | null = await createNewComment(
+      currentComment,
+      note.id
+    ).then((res) => res);
+    if (data != null) {
+      note.comments.push(data);
+      setCurrentComment("");
+    }
   };
 
   return (
@@ -107,14 +68,19 @@ const Sidebar = ({ note }: { note: Note | null }): JSX.Element => {
           contentRightStyling={false}
           width="100%"
           placeholder="Type your message..."
+          value={currentComment}
+          onChange={(e) => setCurrentComment(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") sendComment();
+          }}
           contentRight={
-            <SendButton className="mr-2">
+            <SendButton className="mr-2" onClick={sendComment}>
               <SendIcon />
             </SendButton>
           }
         />
       </div>
-      <CommentList comments={commnets} />
+      <CommentList comments={note.comments} />
     </div>
   );
 };

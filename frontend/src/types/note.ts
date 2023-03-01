@@ -1,6 +1,7 @@
 import { Like } from "./like";
 import { Tag } from "./tag";
 import { User } from "./user";
+import { Comment } from "./comment";
 
 export interface Note {
   id: string;
@@ -13,7 +14,7 @@ export interface Note {
   updatedAt: string;
   public: boolean;
   tags: Tag[];
-  // comments
+  comments: Comment[];
   // views
   numDownload: number;
   likes: Like[];

@@ -1,8 +1,8 @@
 import { User } from "./user";
 
-export interface Commnet {
+export interface Comment {
   id: string;
   author: User;
   content: string;
-  date: string;
+  createdAt: string;
 }
