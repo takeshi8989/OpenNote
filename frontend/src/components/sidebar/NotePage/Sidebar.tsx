@@ -7,11 +7,15 @@ import { SendIcon } from "@/components/sidebar/NotePage/SendIcon";
 import { Note } from "@/types/note";
 import { useComment } from "@/hooks/useComment";
 import { Comment } from "@/types/comment";
+import { useAtomValue, useSetAtom } from "jotai";
+import { isLoggedInAtom, openLoginModalAtom } from "@/jotai/authAtom";
 
 const BUCKET_OBJECT_URL: string = process.env.BUCKET_OBJECT_URL as string;
 const API_URL: string = process.env.API_URL as string;
 const Sidebar = ({ note }: { note: Note | null }): JSX.Element => {
   const [currentComment, setCurrentComment] = useState<string>("");
+  const isLoggedIn = useAtomValue(isLoggedInAtom);
+  const setOpenLoginModal = useSetAtom(openLoginModalAtom);
   const { createNewComment } = useComment();
 
   if (note === null) return <div></div>;
@@ -22,6 +26,10 @@ const Sidebar = ({ note }: { note: Note | null }): JSX.Element => {
   };
 
   const sendComment = async (): Promise<void> => {
+    if (!isLoggedIn) {
+      setOpenLoginModal(true);
+      return;
+    }
     if (currentComment === "") return;
     const data: Comment | null = await createNewComment(
       currentComment,

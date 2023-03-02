@@ -7,6 +7,8 @@ import { useNote } from "@/hooks/useNote";
 import MultiPagePDF from "./MultiPagePDF";
 import { NewNoteRequest } from "@/types/request/noteRequest";
 import { Tag } from "@/types/tag";
+import { useAtomValue, useSetAtom } from "jotai";
+import { isLoggedInAtom, openLoginModalAtom } from "@/jotai/authAtom";
 
 const CreateNoteBody = () => {
   const { uploadFile, deleteFile } = useFile();
@@ -16,8 +18,14 @@ const CreateNoteBody = () => {
   const [isPublic, setIsPublic] = useState<boolean>(true);
   const [tags, setTags] = useState<Tag[]>([]);
   const [description, setDescription] = useState<string>("");
+  const isLoggedIn = useAtomValue(isLoggedInAtom);
+  const setOpenLoginModal = useSetAtom(openLoginModalAtom);
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
+    if (!isLoggedIn) {
+      setOpenLoginModal(true);
+      return;
+    }
     const file: File = acceptedFiles[0];
     const fileUrl: string = await uploadFile(file).then((url) => {
       return url;
@@ -44,6 +52,10 @@ const CreateNoteBody = () => {
   };
 
   const createNote = async (): Promise<void> => {
+    if (!isLoggedIn) {
+      setOpenLoginModal(true);
+      return;
+    }
     const username: string = localStorage.getItem("username") as string;
     const request: NewNoteRequest = {
       username,

@@ -8,6 +8,8 @@ import { TbClick } from "react-icons/tb";
 import MultiPagePDF from "./MultiPagePDF";
 import CustomTag from "./tag/CustomTag";
 import { useNote } from "@/hooks/useNote";
+import { useAtomValue, useSetAtom } from "jotai";
+import { isLoggedInAtom, openLoginModalAtom } from "@/jotai/authAtom";
 
 interface Props {
   note: Note | null;
@@ -16,6 +18,8 @@ interface Props {
 
 const NoteDetail = ({ note, setNote }: Props): JSX.Element => {
   const [likeNote, setLikeNote] = useState<boolean>(false);
+  const isLoggedIn = useAtomValue(isLoggedInAtom);
+  const setOpenLoginModal = useSetAtom(openLoginModalAtom);
   const { toggleLike } = useNote();
 
   useEffect(() => {
@@ -29,9 +33,14 @@ const NoteDetail = ({ note, setNote }: Props): JSX.Element => {
   if (note == null) return <div>Not Found</div>;
 
   const handleLike = async () => {
+    if (!isLoggedIn) {
+      setOpenLoginModal(true);
+      return;
+    }
     const data: Note | null = await toggleLike(note);
     setNote(data);
   };
+
   return (
     <div>
       <Text className="text-center mt-4" size="$3xl">
