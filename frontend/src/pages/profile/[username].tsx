@@ -1,8 +1,8 @@
-import Sidebar from "@/components/sidebar/ProfilePage/Sidebar";
-import UserInfo from "@/components/UserInfo";
-import { User } from "@/types/user";
+import Sidebar from "../../components/sidebar/ProfilePage/Sidebar";
+import UserInfo from "../../components/UserInfo";
+import { User } from "../../types/user";
 import React, { useEffect, useState } from "react";
-import { useUser } from "@/hooks/useUser";
+import { useUser } from "../../hooks/useUser";
 
 const ProfilePage = () => {
   const [currentUser, setCurrentUser] = useState<User>();
