@@ -8,9 +8,7 @@ import opennote.comment.NewCommentRequest;
 import opennote.config.JwtAuthenticationFilter;
 import opennote.config.JwtService;
 import opennote.config.SecurityConfig;
-import opennote.note.NewNoteRequest;
 import opennote.note.Note;
-import opennote.tag.NewTagRequest;
 import opennote.user.User;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -21,10 +19,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
