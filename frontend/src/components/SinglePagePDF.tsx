@@ -1,6 +1,6 @@
 import { Note } from "@/types/note";
 import React, { useState } from "react";
-import { Link, Loading } from "@nextui-org/react";
+import { Link, Loading, Text } from "@nextui-org/react";
 import { Document, Page, pdfjs } from "react-pdf";
 import { AiOutlineLike } from "react-icons/ai";
 import { BiCommentDetail } from "react-icons/bi";
@@ -11,6 +11,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 
 const SinglePagePDF = ({ note }: { note: Note }): JSX.Element => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [loadFailed, setLoadFailed] = useState<boolean>(false);
   const removeLoading = () => {
     setIsLoading(false);
   };
@@ -23,7 +24,7 @@ const SinglePagePDF = ({ note }: { note: Note }): JSX.Element => {
         {/* The first Page of PDF file */}
 
         <div className="relative">
-          {isLoading && (
+          {isLoading && !loadFailed && (
             <div
               className="flex justify-center items-center"
               style={{ width: "300px", height: "300px" }}
@@ -35,7 +36,8 @@ const SinglePagePDF = ({ note }: { note: Note }): JSX.Element => {
             file={note.url}
             onLoadSuccess={removeLoading}
             loading=""
-            error="Failed to Load PDF File."
+            error=""
+            onLoadError={() => setLoadFailed(true)}
           >
             <Page
               className="w-full"
@@ -65,6 +67,11 @@ const SinglePagePDF = ({ note }: { note: Note }): JSX.Element => {
           <p className="mr-2">{note.numDownload}</p>
           <BiCommentDetail size={24} />
           <p className="mr-2">{note.comments.length}</p>
+        </div>
+      )}
+      {loadFailed && (
+        <div className="mt-20 mx-auto">
+          <Text className="text-center">Failed to load PDF file.</Text>
         </div>
       )}
     </div>

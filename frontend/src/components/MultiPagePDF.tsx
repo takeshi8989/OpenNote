@@ -37,7 +37,7 @@ const MultiPagePDF = ({ url }: { url: string }) => {
       )}
       {Array.from(Array(numPages), (e, i) => (
         <Document
-          file={"f"}
+          file={url}
           key={i}
           className="my-5"
           onLoadSuccess={removeLoading}
