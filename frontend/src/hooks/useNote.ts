@@ -85,9 +85,8 @@ export const useNote = (): Props => {
   };
 
   const getNotesByUsername = async (username: string): Promise<Note[] | []> => {
-    const local = "http://localhost:8080/api/v1";
     try {
-      const res = await fetch(`${local}/notes/user/${username}`);
+      const res = await fetch(`${url}/notes/user/${username}`);
       const data: Note[] = await res.json();
       return data;
     } catch (error) {
