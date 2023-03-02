@@ -31,7 +31,12 @@ const SinglePagePDF = ({ note }: { note: Note }): JSX.Element => {
               <Loading size="lg" />;
             </div>
           )}
-          <Document file={note.url} onLoadSuccess={removeLoading}>
+          <Document
+            file={note.url}
+            onLoadSuccess={removeLoading}
+            loading=""
+            error="Failed to Load PDF File."
+          >
             <Page
               className="w-full"
               pageNumber={1}
