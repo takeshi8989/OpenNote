@@ -2,48 +2,20 @@ import React, { useEffect, useState } from "react";
 import { Avatar, Text } from "@nextui-org/react";
 import { Note } from "@/types/note";
 import { User } from "@/types/user";
-import { Tag } from "@/types/tag";
 import SinglePagePDF from "./SinglePagePDF";
-
-const user1: User = {
-  username: "take2",
-  email: "",
-};
-const tag1: Tag = {
-  id: "1",
-  name: "stri",
-  color: "red",
-};
-
-const tag2: Tag = {
-  id: "2",
-  name: "LKSJfdksal",
-  color: "blue",
-};
-
-const note: Note = {
-  id: "1",
-  title: "title",
-  url: "https://opennote-bucket.s3.us-west-2.amazonaws.com/e8efd39b-9c8a-4ee7-81d5-290a7761bad3.pdf",
-  description: "hello",
-  user: user1,
-  createdAt: "string",
-  updatedAt: "",
-  public: true,
-  tags: [tag1, tag2],
-  comments: [],
-  numDownload: 5,
-  likes: [],
-};
+import { useNote } from "@/hooks/useNote";
 
 const UserInfo = ({ user }: { user: User | undefined }) => {
   const [userNotes, setUserNotes] = useState<Note[]>([]);
+  const { getNotesByUsername } = useNote();
   useEffect(() => {
     fetchNotes();
   }, [user]);
 
-  const fetchNotes = () => {
-    return;
+  const fetchNotes = async (): Promise<void> => {
+    if (user == null) return;
+    const data: Note[] = await getNotesByUsername(user.username);
+    setUserNotes(data);
   };
   if (user == null) return <div>not found</div>;
 
@@ -71,9 +43,9 @@ const UserInfo = ({ user }: { user: User | undefined }) => {
         </Text>
       </div>
       <div className="mx-4 flex justify-around">
-        <SinglePagePDF note={note} />
-        <SinglePagePDF note={note} />
-        <SinglePagePDF note={note} />
+        {userNotes.length > 0 && <SinglePagePDF note={userNotes[0]} />}
+        {userNotes.length > 1 && <SinglePagePDF note={userNotes[1]} />}
+        {userNotes.length > 2 && <SinglePagePDF note={userNotes[2]} />}
       </div>
     </div>
   );

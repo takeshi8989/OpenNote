@@ -7,6 +7,7 @@ interface Props {
   createNewNote: (request: NewNoteRequest) => Promise<boolean>;
   setNoteListBySearch: () => Promise<void>;
   getNoteById: (id: string) => Promise<Note | null>;
+  getNotesByUsername: (username: string) => Promise<Note[] | []>;
   toggleLike: (note: Note) => Promise<Note | null>;
 }
 
@@ -83,5 +84,22 @@ export const useNote = (): Props => {
     }
   };
 
-  return { createNewNote, setNoteListBySearch, getNoteById, toggleLike };
+  const getNotesByUsername = async (username: string): Promise<Note[] | []> => {
+    try {
+      const res = await fetch(`${url}/notes/${username}`);
+      const data: Note[] = await res.json();
+      return data;
+    } catch (error) {
+      console.log(error);
+      return [];
+    }
+  };
+
+  return {
+    createNewNote,
+    setNoteListBySearch,
+    getNoteById,
+    getNotesByUsername,
+    toggleLike,
+  };
 };
