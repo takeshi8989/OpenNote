@@ -36,8 +36,8 @@ public class NoteService {
                 .orElseThrow(() -> new NoteNotFoundException(id));
     }
 
-    public List<Note> getNotesByUserId(Integer userId){
-        return noteRepository.getNotesByUserId(userId);
+    public List<Note> getNotesByUsername(String username){
+        return noteRepository.getNotesByUsername(username);
     }
 
     public List<Note> getNotesBySearch(String query){

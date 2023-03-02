@@ -94,14 +94,14 @@ public class NoteAPITest {
     }
 
     @Test
-    public void getNotesByUserId_success() throws Exception{
+    public void getNotesByUsername_success() throws Exception{
         note2.setTitle("note2");
         user1.setId(1);
         List<Note> notes = new ArrayList<>(Arrays.asList(note1, note2));
-        Mockito.when(noteService.getNotesByUserId(user1.getId())).thenReturn(notes);
+        Mockito.when(noteService.getNotesByUsername(user1.getUsername())).thenReturn(notes);
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/notes/user/1")
+                        .get("/notes/user/user1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))

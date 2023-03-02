@@ -124,8 +124,11 @@ export const Header = () => {
                   </Text>
                 </Dropdown.Item>
                 <Dropdown.Item key="settings" withDivider>
-                  Your Profile
+                  <Link href={`/profile/${username}`}>
+                    <Text>Your Profile</Text>
+                  </Link>
                 </Dropdown.Item>
+
                 <Dropdown.Item key="logout" withDivider color="error">
                   <Text onClick={handleLogout}>Log Out</Text>
                 </Dropdown.Item>

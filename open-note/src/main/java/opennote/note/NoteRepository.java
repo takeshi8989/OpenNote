@@ -11,8 +11,8 @@ public interface NoteRepository extends JpaRepository<Note, String> {
     @Query(value = "SELECT * from notes WHERE is_public=true ORDER BY updated_at DESC LIMIT 8", nativeQuery = true)
     List<Note> getRecentNotes();
 
-    @Query(value = "SELECT * from notes WHERE user_id=?1", nativeQuery = true)
-    List<Note> getNotesByUserId(Integer userId);
+    @Query(value = "SELECT notes.* from notes, users WHERE notes.user_id=users.id AND users.username=?1", nativeQuery = true)
+    List<Note> getNotesByUsername(String username);
 
     @Query(value = "SELECT notes.* from notes, folders, folder_notes " +
             "WHERE folder_notes.folder_id = folders.id " +
