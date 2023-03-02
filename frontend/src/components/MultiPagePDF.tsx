@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
-import { Loading } from "@nextui-org/react";
+import { Button, Loading, Text } from "@nextui-org/react";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const MultiPagePDF = ({ url }: { url: string }) => {
@@ -30,6 +30,11 @@ const MultiPagePDF = ({ url }: { url: string }) => {
           <Loading size="lg" />;
         </div>
       )}
+      {loadFailed && (
+        <div className="mt-20">
+          <Text className="text-center">Failed to load PDF file.</Text>
+        </div>
+      )}
       {Array.from(Array(numPages), (e, i) => (
         <Document
           file={"f"}
@@ -37,6 +42,7 @@ const MultiPagePDF = ({ url }: { url: string }) => {
           className="my-5"
           onLoadSuccess={removeLoading}
           loading=""
+          error=""
           onLoadError={displayLoadError}
         >
           <Page
