@@ -30,9 +30,9 @@ public class NoteController {
         return noteService.getNoteById(id);
     }
 
-    @GetMapping(value = "/user/{userId}")
-    public List<Note> getNotesByUserId(@PathVariable Integer userId){
-        return noteService.getNotesByUserId(userId);
+    @GetMapping(value = "/user/{username}")
+    public List<Note> getNotesByUsername(@PathVariable String username){
+        return noteService.getNotesByUsername(username);
     }
 
     @GetMapping("/search/{query}")
