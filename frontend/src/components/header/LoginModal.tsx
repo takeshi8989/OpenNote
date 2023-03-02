@@ -3,23 +3,24 @@ import { Modal, Button, Text, Input, Row, Checkbox } from "@nextui-org/react";
 import { useAuth } from "@/hooks/useAuth";
 import { LoginRequest, SignUpRequest } from "@/types/request/userRequest";
 import { useAtom } from "jotai/react";
-import { isLoggedInAtom } from "@/jotai/authAtom";
+import { isLoggedInAtom, openLoginModalAtom } from "@/jotai/authAtom";
 import { useRouter } from "next/router";
 
 export const LoginModal = (): JSX.Element => {
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [visible, setVisible] = useState<boolean>(false);
+  // const [visible, setVisible] = useState<boolean>(false);
+  const [openLoginModal, setOpenLoginModal] = useAtom(openLoginModalAtom);
   const [isSignUp, setIsSignUp] = useState<boolean>(false);
   const [isLoggedIn, setIsLoggedIn] = useAtom(isLoggedInAtom);
   const router = useRouter();
   const { validateSignUp, login, signup } = useAuth();
 
-  const handler = () => setVisible(true);
+  const handler = () => setOpenLoginModal(true);
 
   const closeHandler = (): void => {
-    setVisible(false);
+    setOpenLoginModal(false);
   };
 
   const handleAuth = (): void => {
@@ -55,7 +56,7 @@ export const LoginModal = (): JSX.Element => {
       <Modal
         closeButton
         aria-labelledby="modal-title"
-        open={visible}
+        open={openLoginModal}
         onClose={closeHandler}
       >
         <Modal.Header>

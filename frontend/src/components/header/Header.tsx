@@ -11,7 +11,11 @@ import { Layout } from "./Layout";
 import { SearchIcon } from "./SearchIcon";
 import { LoginModal } from "./LoginModal";
 import { useAtom } from "jotai/react";
-import { isLoggedInAtom, usernameAtom } from "@/jotai/authAtom";
+import {
+  isLoggedInAtom,
+  openLoginModalAtom,
+  usernameAtom,
+} from "@/jotai/authAtom";
 import { useAtomValue } from "jotai/react";
 import { useRouter } from "next/router";
 import { searchQueryAtom } from "@/jotai/noteAtom";
@@ -20,6 +24,7 @@ import { useNote } from "@/hooks/useNote";
 export const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useAtom(isLoggedInAtom);
   const [searchQuery, setSearchQuery] = useAtom(searchQueryAtom);
+  const [openLoginModal, setOpenLoginModal] = useAtom(openLoginModalAtom);
   const { setNoteListBySearch } = useNote();
   const username = useAtomValue(usernameAtom);
   const router = useRouter();
@@ -28,6 +33,11 @@ export const Header = () => {
     if (e.key === "Enter") {
       setNoteListBySearch();
     }
+  };
+
+  const navigateCreatePage = () => {
+    if (!isLoggedIn) setOpenLoginModal(true);
+    else router.push("/create");
   };
 
   const handleLogout = (): void => {
@@ -87,16 +97,15 @@ export const Header = () => {
               onKeyDown={handleSearch}
             />
           </Navbar.Item>
+
+          {/* New Note Button */}
+          <Button bordered color="secondary" auto onClick={navigateCreatePage}>
+            NEW NOTE
+          </Button>
+
           {/* Login Button */}
           {!isLoggedIn && <LoginModal />}
-          {/* New Note Button */}
-          {isLoggedIn && (
-            <Link href="/create">
-              <Button bordered color="secondary" auto>
-                NEW NOTE
-              </Button>
-            </Link>
-          )}
+
           {/* Avatar */}
           {isLoggedIn && (
             <Dropdown placement="bottom-right">
