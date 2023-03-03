@@ -14,7 +14,6 @@ import java.util.List;
 public class NoteController {
     @Autowired
     private final NoteService noteService;
-
     @GetMapping("/all")
     public List<Note> getAllNotes(){
         return noteService.getAllNotes();
@@ -69,5 +68,9 @@ public class NoteController {
         noteService.deleteNote(id);
     }
 
+    @DeleteMapping("/folder/{noteId}/{folderId}")
+    public void deleteFromFolder(@PathVariable String noteId, @PathVariable String folderId){
+        noteService.deleteFromFolder(noteId, folderId);
+    }
 
 }
