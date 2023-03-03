@@ -3,17 +3,22 @@ import UserInfo from "../../components/UserInfo";
 import { User } from "../../types/user";
 import React, { useEffect, useState } from "react";
 import { useUser } from "../../hooks/useUser";
+import { useRouter } from "next/router";
 
 const ProfilePage = () => {
+  const router = useRouter();
+  const { username } = router.query;
   const [currentUser, setCurrentUser] = useState<User>();
   const { getUserByUsername } = useUser();
   useEffect(() => {
     setUser();
-  }, []);
+  }, [username]);
 
   const setUser = async (): Promise<void> => {
-    const user: User | null = await getUserByUsername();
-    if (user) setCurrentUser(user);
+    if (username != null && typeof username === "string") {
+      const user: User | null = await getUserByUsername(username);
+      if (user) setCurrentUser(user);
+    }
   };
 
   return (
