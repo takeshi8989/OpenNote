@@ -9,6 +9,7 @@ import { useComment } from "@/hooks/useComment";
 import { Comment } from "@/types/comment";
 import { useAtomValue, useSetAtom } from "jotai";
 import { isLoggedInAtom, openLoginModalAtom } from "@/jotai/authAtom";
+import UserFolderModal from "./UserFolderModal";
 
 const BUCKET_OBJECT_URL: string = process.env.BUCKET_OBJECT_URL as string;
 const API_URL: string = process.env.API_URL as string;
@@ -56,16 +57,7 @@ const Sidebar = ({ note }: { note: Note | null }): JSX.Element => {
         Download Note
       </Button>
       {/* Folder Modal Button */}
-      <Button
-        flat
-        auto
-        bordered
-        size="lg"
-        color="secondary"
-        className="mx-auto mt-10"
-      >
-        Add to my Folder
-      </Button>
+      <UserFolderModal />
       {/* Comments */}
       <div className="flex justify-center items-center w-full my-auto mt-10">
         <BiCommentDetail size={30} className="mt-2 mr-2" />
