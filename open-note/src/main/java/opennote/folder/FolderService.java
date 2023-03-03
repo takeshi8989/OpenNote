@@ -3,7 +3,6 @@ package opennote.folder;
 import lombok.RequiredArgsConstructor;
 import opennote.folder.Request.NewFolderRequest;
 import opennote.note.Note;
-import opennote.note.NoteService;
 import opennote.user.User;
 import opennote.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -58,7 +58,11 @@ public class Note {
     @Column(columnDefinition = "integer default 0")
     private Integer numDownload = 0;
 
+    @Column(columnDefinition = "integer default 0")
+    private Integer numViews = 0;
+
     public void incrementDownloadCount(){
         this.numDownload++;
     }
+    public void incrementViewsCount(){this.numViews++;}
 }

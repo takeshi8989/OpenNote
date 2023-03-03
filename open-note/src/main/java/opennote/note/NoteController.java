@@ -63,6 +63,11 @@ public class NoteController {
         return noteService.toggleLike(noteId, username);
     }
 
+    @PutMapping("/view/{noteId}")
+    public void incrementView(@PathVariable String noteId){
+        noteService.incrementView(noteId);
+    }
+
     @DeleteMapping("/{id}")
     public void deleteNote(@PathVariable String id){
         noteService.deleteNote(id);
