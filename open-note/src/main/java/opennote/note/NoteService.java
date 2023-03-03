@@ -1,7 +1,6 @@
 package opennote.note;
 
 import lombok.RequiredArgsConstructor;
-import opennote.folder.Folder;
 import opennote.folder.FolderService;
 import opennote.like.LikeService;
 import opennote.note.Request.NewNoteRequest;
@@ -95,6 +94,11 @@ public class NoteService {
         User user = userService.getUserByUsername(username);
         likeService.toggleLike(note, user);
         return note;
+    }
+
+    public void incrementView(String noteId){
+        Note note = getNoteById(noteId);
+        note.incrementViewsCount();
     }
 
     public void deleteNote(String id){
