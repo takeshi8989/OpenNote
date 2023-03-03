@@ -9,8 +9,10 @@ import { NewNoteRequest } from "@/types/request/noteRequest";
 import { Tag } from "@/types/tag";
 import { useAtomValue, useSetAtom } from "jotai";
 import { isLoggedInAtom, openLoginModalAtom } from "@/jotai/authAtom";
+import { useRouter } from "next/router";
 
 const CreateNoteBody = () => {
+  const router = useRouter();
   const { uploadFile, deleteFile } = useFile();
   const { createNewNote } = useNote();
   const [currentFileUrl, setCurrentFileUrl] = useState<string>("");
@@ -65,11 +67,12 @@ const CreateNoteBody = () => {
       description,
       isPublic,
     };
-    const createSuccess: boolean = await createNewNote(request);
-    if (createSuccess) {
+    const noteId: string = await createNewNote(request).then((id) => id);
+    if (noteId != "") {
       setTitle("");
       setCurrentFileUrl("");
       setIsPublic(true);
+      router.push(`/note/${noteId}`);
     }
   };
 

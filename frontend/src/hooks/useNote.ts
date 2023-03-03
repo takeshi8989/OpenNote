@@ -4,7 +4,7 @@ import { NewNoteRequest } from "@/types/request/noteRequest";
 import { useAtomValue, useSetAtom } from "jotai";
 
 interface Props {
-  createNewNote: (request: NewNoteRequest) => Promise<boolean>;
+  createNewNote: (request: NewNoteRequest) => Promise<string>;
   setNoteListBySearch: () => Promise<void>;
   getNoteById: (id: string) => Promise<Note | null>;
   getNotesByUsername: (username: string) => Promise<Note[] | []>;
@@ -16,7 +16,7 @@ export const useNote = (): Props => {
   const searchQuery = useAtomValue(searchQueryAtom);
   const setNoteList = useSetAtom(noteListAtom);
 
-  const createNewNote = async (request: NewNoteRequest): Promise<boolean> => {
+  const createNewNote = async (request: NewNoteRequest): Promise<string> => {
     const token: string = localStorage.getItem("token") as string;
     try {
       const res = await fetch(`${url}/notes`, {
@@ -27,13 +27,12 @@ export const useNote = (): Props => {
         },
         body: JSON.stringify(request),
       });
-      if (res.ok) {
-        return true;
-      }
-      return false;
+      const data: Note = await res.json();
+      return data.id;
     } catch (error) {
       console.log(error);
-      return false;
+      // throw error;
+      return "";
     }
   };
 
