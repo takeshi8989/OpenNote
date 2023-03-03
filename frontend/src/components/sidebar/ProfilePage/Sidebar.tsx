@@ -1,6 +1,7 @@
-import { Button, Text } from "@nextui-org/react";
+import { Text } from "@nextui-org/react";
 import React from "react";
 import FolderList from "./FolderList";
+import NewFolderModal from "./NewFolderModal";
 
 const folders: string[] = ["folder1", "folder2", "folder3"];
 
@@ -11,16 +12,7 @@ const Sidebar = () => {
         Your Folders
       </Text>
       {/* Folder Modal Button */}
-      <Button
-        flat
-        auto
-        bordered
-        size="lg"
-        color="secondary"
-        className="mx-auto mt-5"
-      >
-        Create New Folder
-      </Button>
+      <NewFolderModal />
       <FolderList folders={folders} />
     </div>
   );
