@@ -60,7 +60,7 @@ const SinglePagePDF = ({ note }: { note: Note }): JSX.Element => {
       {!isLoading && (
         <div className="flex items-center justify-end mt-1">
           <TbClick size={20} />
-          <p className="mr-2">123</p>
+          <p className="mr-2">{note.numViews}</p>
           <AiOutlineLike size={24} />
           <p className="mr-2">{note.likes.length}</p>
           <GrDownload size={20} />

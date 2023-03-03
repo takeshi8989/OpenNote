@@ -15,7 +15,7 @@ export interface Note {
   public: boolean;
   tags: Tag[];
   comments: Comment[];
-  // views
   numDownload: number;
+  numViews: number;
   likes: Like[];
 }

@@ -54,7 +54,7 @@ const NoteDetail = ({ note, setNote }: Props): JSX.Element => {
       <div className="flex items-center justify-center mt-1">
         <TbClick size={30} />
         <Text className="mr-4" size="$xl">
-          123
+          {note.numViews}
         </Text>
         <AiFillLike
           color={likeNote ? "#000000" : "#EEEEEE"}
