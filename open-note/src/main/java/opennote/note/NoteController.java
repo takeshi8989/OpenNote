@@ -1,5 +1,7 @@
 package opennote.note;
 
+import lombok.RequiredArgsConstructor;
+import opennote.folder.FolderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -7,13 +9,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("notes")
+@RequiredArgsConstructor
 public class NoteController {
-    private final NoteService noteService;
-
     @Autowired
-    public NoteController(NoteService noteService) {
-        this.noteService = noteService;
-    }
+    private final NoteService noteService;
 
     @GetMapping("/all")
     public List<Note> getAllNotes(){
@@ -42,7 +41,10 @@ public class NoteController {
 
     @PostMapping
     public Note createNote(@RequestBody NewNoteRequest request){
-        return noteService.createNote(request);
+        Note note = noteService.createNote(request);
+        noteService.addTags(note, request.tags());
+        noteService.addToAllFolders(note, request.folderIds());
+        return note;
     }
 
 

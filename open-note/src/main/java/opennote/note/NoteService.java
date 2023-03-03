@@ -1,6 +1,7 @@
 package opennote.note;
 
 import lombok.RequiredArgsConstructor;
+import opennote.folder.FolderService;
 import opennote.like.LikeService;
 import opennote.tag.NewTagRequest;
 import opennote.tag.TagService;
@@ -22,6 +23,8 @@ public class NoteService {
     private final TagService tagService;
     @Autowired
     private final LikeService likeService;
+    @Autowired
+    private final FolderService folderService;
 
     public List<Note> getAllNotes(){
         return noteRepository.findAll();
@@ -53,8 +56,13 @@ public class NoteService {
         note.setDescription(request.description());
         note.setPublic(request.isPublic());
         noteRepository.save(note);
-        addTags(note, request.tags());
         return note;
+    }
+
+    public void addToAllFolders(Note note, List<String> folderIds) {
+        for (String id : folderIds) {
+            folderService.addNote(note, id);
+        }
     }
 
     public void addTags(Note note, List<NewTagRequest> tags){

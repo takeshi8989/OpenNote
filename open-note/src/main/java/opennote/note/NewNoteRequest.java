@@ -9,6 +9,7 @@ public record NewNoteRequest(
         String url,
         String description,
         List<NewTagRequest> tags,
+        List<String> folderIds,
         boolean isPublic
 
 ) {
