@@ -11,6 +11,7 @@ interface Props {
   toggleLike: (note: Note) => Promise<Note | null>;
   addNoteToFolders: (noteId: string, folderIds: string[]) => Promise<boolean>;
   incrementViewCount: (noteId: string) => Promise<boolean>;
+  updateNote: (noteId: string, request: NewNoteRequest) => Promise<string>;
   deleteNote: (noteId: string) => Promise<boolean>;
 }
 
@@ -136,6 +137,26 @@ export const useNote = (): Props => {
     }
   };
 
+  const updateNote = async (noteId: string, request: NewNoteRequest) => {
+    const token: string = localStorage.getItem("token") as string;
+    try {
+      const res = await fetch(`${url}/notes/${noteId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(request),
+      });
+      const data: Note = await res.json();
+      return data.id;
+    } catch (error) {
+      console.log(error);
+      // throw error;
+      return "";
+    }
+  };
+
   const deleteNote = async (noteId: string) => {
     const token: string = localStorage.getItem("token") as string;
     try {
@@ -160,6 +181,7 @@ export const useNote = (): Props => {
     toggleLike,
     addNoteToFolders,
     incrementViewCount,
+    updateNote,
     deleteNote,
   };
 };

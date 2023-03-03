@@ -1,6 +1,7 @@
 import { Note } from "@/types/note";
 import { Button, Text } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import { AiFillLike } from "react-icons/ai";
 import { BiCommentDetail } from "react-icons/bi";
 import { GrDownload } from "react-icons/gr";
@@ -18,6 +19,7 @@ interface Props {
 }
 
 const NoteDetail = ({ note, setNote }: Props): JSX.Element => {
+  const router = useRouter();
   const [likeNote, setLikeNote] = useState<boolean>(false);
   const isLoggedIn = useAtomValue(isLoggedInAtom);
   const setOpenLoginModal = useSetAtom(openLoginModalAtom);
@@ -77,7 +79,13 @@ const NoteDetail = ({ note, setNote }: Props): JSX.Element => {
       </div>
       <div className="flex items-center justify-center mt-5">
         <DeleteNoteModal note={note} />
-        <Button flat auto bordered className="mx-3">
+        <Button
+          flat
+          auto
+          bordered
+          className="mx-3"
+          onClick={() => router.push(`/edit/${note.id}`)}
+        >
           Edit
         </Button>
       </div>
