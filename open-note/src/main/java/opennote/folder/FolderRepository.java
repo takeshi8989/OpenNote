@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface FolderRepository extends JpaRepository<Folder, String> {
-    @Query(value = "SELECT * FROM folders WHERE user_id = ?1", nativeQuery = true)
-    List<Folder> getFoldersByUserId(Integer userId);
+    @Query(value = "SELECT folders.* from folders, users WHERE folders.user_id=users.id AND users.username=?1", nativeQuery = true)
+    List<Folder> getFoldersByUsername(String username);
 }

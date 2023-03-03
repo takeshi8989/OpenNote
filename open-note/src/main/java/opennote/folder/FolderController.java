@@ -28,9 +28,9 @@ public class FolderController {
         return folderService.getFolderById(id);
     }
 
-    @GetMapping("/user/{userId}")
-    public List<Folder> getFoldersByUserId(@PathVariable Integer userId){
-        return folderService.getFoldersByUserId(userId);
+    @GetMapping("/user/{username}")
+    public List<Folder> getFoldersByUsername(@PathVariable String username){
+        return folderService.getFoldersByUsername(username);
     }
 
     @PostMapping

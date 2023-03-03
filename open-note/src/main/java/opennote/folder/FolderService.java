@@ -35,8 +35,8 @@ public class FolderService {
                 .orElseThrow(() -> new FolderNotFoundException(id));
     }
 
-    public List<Folder> getFoldersByUserId(Integer userId){
-        return folderRepository.getFoldersByUserId(userId);
+    public List<Folder> getFoldersByUsername(String username){
+        return folderRepository.getFoldersByUsername(username);
     }
 
     public void createFolder(NewFolderRequest request){
