@@ -57,7 +57,7 @@ const Sidebar = ({ note }: { note: Note | null }): JSX.Element => {
         Download Note
       </Button>
       {/* Folder Modal Button */}
-      <UserFolderModal />
+      <UserFolderModal note={note} />
       {/* Comments */}
       <div className="flex justify-center items-center w-full my-auto mt-10">
         <BiCommentDetail size={30} className="mt-2 mr-2" />

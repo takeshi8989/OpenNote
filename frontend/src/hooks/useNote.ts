@@ -9,6 +9,7 @@ interface Props {
   getNoteById: (id: string) => Promise<Note | null>;
   getNotesByUsername: (username: string) => Promise<Note[] | []>;
   toggleLike: (note: Note) => Promise<Note | null>;
+  addNoteToFolders: (noteId: string, folderIds: string[]) => Promise<boolean>;
 }
 
 const url: string = process.env.API_URL as string;
@@ -94,11 +95,35 @@ export const useNote = (): Props => {
     }
   };
 
+  const addNoteToFolders = async (
+    noteId: string,
+    folderIds: string[]
+  ): Promise<boolean> => {
+    const token: string = localStorage.getItem("token") as string;
+    const request = { folderIds };
+    try {
+      const res = await fetch(`${url}/notes/folder/${noteId}`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(request),
+      });
+      if (res.ok) return true;
+      return false;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  };
+
   return {
     createNewNote,
     setNoteListBySearch,
     getNoteById,
     getNotesByUsername,
     toggleLike,
+    addNoteToFolders,
   };
 };
