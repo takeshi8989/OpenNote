@@ -1,11 +1,26 @@
+import { Folder } from "@/types/folder";
+import { User } from "@/types/user";
 import { Text } from "@nextui-org/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import FolderList from "./FolderList";
 import NewFolderModal from "./NewFolderModal";
+import { useFolder } from "@/hooks/useFolder";
 
-const folders: string[] = ["folder1", "folder2", "folder3"];
+const Sidebar = ({ user }: { user: User | undefined }) => {
+  const [folders, setFolders] = useState<Folder[]>([]);
+  const { getFoldersByUsername } = useFolder();
+  useEffect(() => {
+    if (user) fetchUserFolders(user?.username);
+  }, [user]);
 
-const Sidebar = () => {
+  const fetchUserFolders = async (username: string): Promise<void> => {
+    const data: Folder[] | null = await getFoldersByUsername(username).then(
+      (res) => res
+    );
+    if (data) {
+      setFolders(data);
+    }
+  };
   return (
     <div className=" mx-10 ">
       <Text size="$3xl" className="text-center mt-10">

@@ -1,5 +1,8 @@
+import { Folder } from "@/types/folder";
+
 interface Props {
   createNewFolder: (title: string) => Promise<boolean>;
+  getFoldersByUsername: (username: string) => Promise<Folder[] | null>;
 }
 
 const url: string = process.env.API_URL as string;
@@ -30,5 +33,18 @@ export const useFolder = (): Props => {
     }
   };
 
-  return { createNewFolder };
+  const getFoldersByUsername = async (
+    username: string
+  ): Promise<Folder[] | null> => {
+    try {
+      const res = await fetch(`${url}/folders/user/${username}`);
+      const data: Folder[] = await res.json();
+      return data;
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  };
+
+  return { createNewFolder, getFoldersByUsername };
 };
