@@ -1,4 +1,4 @@
-package opennote.note;
+package opennote.note.Request;
 
 import opennote.tag.NewTagRequest;
 

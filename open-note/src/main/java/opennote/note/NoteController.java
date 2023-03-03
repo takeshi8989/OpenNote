@@ -1,7 +1,8 @@
 package opennote.note;
 
 import lombok.RequiredArgsConstructor;
-import opennote.folder.FolderService;
+import opennote.note.Request.AddFolderRequest;
+import opennote.note.Request.NewNoteRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,6 +48,11 @@ public class NoteController {
         return note;
     }
 
+    @PostMapping("/folder/{noteId}")
+    public void addToAllNotes(@PathVariable String noteId, @RequestBody AddFolderRequest request){
+        Note note = noteService.getNoteById(noteId);
+        noteService.addToAllFolders(note, request.folderIds());
+    }
 
     @PutMapping("/{id}")
     public Note updateNote(@RequestBody NewNoteRequest request, @PathVariable String id){

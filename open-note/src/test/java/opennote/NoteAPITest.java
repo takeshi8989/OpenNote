@@ -3,7 +3,7 @@ package opennote;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import opennote.config.SecurityConfig;
 import opennote.folder.FolderService;
-import opennote.note.NewNoteRequest;
+import opennote.note.Request.NewNoteRequest;
 import opennote.note.Note;
 import opennote.note.NoteController;
 import opennote.note.NoteService;

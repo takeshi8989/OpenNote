@@ -3,6 +3,7 @@ package opennote.note;
 import lombok.RequiredArgsConstructor;
 import opennote.folder.FolderService;
 import opennote.like.LikeService;
+import opennote.note.Request.NewNoteRequest;
 import opennote.tag.NewTagRequest;
 import opennote.tag.TagService;
 import opennote.user.User;

@@ -5,7 +5,6 @@ import opennote.config.SecurityConfig;
 import opennote.folder.Folder;
 import opennote.folder.FolderController;
 import opennote.folder.FolderService;
-import opennote.folder.Request.AddRemoveNoteRequest;
 import opennote.folder.Request.NewFolderRequest;
 import opennote.note.Note;
 import opennote.user.User;
