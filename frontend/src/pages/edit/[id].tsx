@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useNote } from "@/hooks/useNote";
+import { useNote } from "../../hooks/useNote";
 import { useRouter } from "next/router";
-import EditNoteBody from "@/components/EditNoteBody";
-import { Note } from "@/types/note";
+import EditNoteBody from "../../components/EditNoteBody";
+import { Note } from "../../types/note";
 
 const EditNotePage = () => {
   const router = useRouter();
