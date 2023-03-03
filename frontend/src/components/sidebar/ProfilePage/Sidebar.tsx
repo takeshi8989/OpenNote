@@ -24,7 +24,7 @@ const Sidebar = ({ user }: { user: User | undefined }) => {
   return (
     <div className=" mx-10 ">
       <Text size="$3xl" className="text-center mt-10">
-        Your Folders
+        Folders
       </Text>
       {/* Folder Modal Button */}
       <NewFolderModal />
