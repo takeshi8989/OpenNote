@@ -5,6 +5,7 @@ export interface NewNoteRequest {
   title: string;
   url: string;
   tags: Tag[];
+  folderIds: string[];
   description: string;
   isPublic: boolean;
 }

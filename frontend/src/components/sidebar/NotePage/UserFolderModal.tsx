@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Button, Text, Checkbox } from "@nextui-org/react";
 import { useFolder } from "@/hooks/useFolder";
+import { useNote } from "@/hooks/useNote";
 import { useAtomValue, useSetAtom } from "jotai";
 import { isLoggedInAtom, openLoginModalAtom } from "@/jotai/authAtom";
 import { Folder } from "@/types/folder";
+import { Note } from "@/types/note";
 
-const UserFolderModal = () => {
+const UserFolderModal = ({ note }: { note: Note | null }) => {
   const [visible, setVisible] = useState(false);
   const [folders, setFolders] = useState<Folder[]>([]);
+  const [selectedFolderIds, setSelectedFolderIds] = useState<string[]>([]);
   const isLoggedIn = useAtomValue(isLoggedInAtom);
   const setOpenLoginModal = useSetAtom(openLoginModalAtom);
   const { getFoldersByUsername } = useFolder();
+  const { addNoteToFolders } = useNote();
 
   useEffect(() => {
     fetchUserFolders();
@@ -38,6 +42,25 @@ const UserFolderModal = () => {
     setVisible(false);
   };
 
+  const checkSelectedFolders = (checked: boolean, id: string) => {
+    if (checked) {
+      setSelectedFolderIds([...selectedFolderIds, id]);
+    } else {
+      setSelectedFolderIds(
+        selectedFolderIds.filter((selectedId) => selectedId != id)
+      );
+    }
+  };
+
+  const addToFolders = async () => {
+    if (note == null) return;
+    const res: boolean = await addNoteToFolders(
+      note.id,
+      selectedFolderIds
+    ).then((res) => res);
+    closeHandler();
+  };
+
   return (
     <div className="mx-auto mt-10">
       <Button
@@ -59,20 +82,29 @@ const UserFolderModal = () => {
       >
         <Modal.Header>
           <Text id="modal-title" size={18}>
-            Create New Folder
+            Add to Folders
           </Text>
         </Modal.Header>
         <Modal.Body className="px-10">
           <div className="w-full mx-auto mt-6">
             {folders.map((folder) => (
               <div key={folder.id} className="w-full flex justify-start my-2">
-                <Checkbox value={folder.id}>{folder.title}</Checkbox>
+                <Checkbox
+                  value={folder.id}
+                  defaultSelected={
+                    folder.notes.filter((note) => note.id === note.id).length >
+                    0
+                  }
+                  onChange={(e) => checkSelectedFolders(e, folder.id)}
+                >
+                  {folder.title}
+                </Checkbox>
               </div>
             ))}
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button auto flat color="error" onPress={closeHandler}>
+          <Button auto flat color="primary" onPress={addToFolders}>
             Apply
           </Button>
           <Button auto flat color="error" onPress={closeHandler}>

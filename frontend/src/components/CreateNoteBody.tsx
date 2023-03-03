@@ -11,7 +11,11 @@ import { useAtomValue, useSetAtom } from "jotai";
 import { isLoggedInAtom, openLoginModalAtom } from "@/jotai/authAtom";
 import { useRouter } from "next/router";
 
-const CreateNoteBody = () => {
+const CreateNoteBody = ({
+  selectedFolderIds,
+}: {
+  selectedFolderIds: string[];
+}) => {
   const router = useRouter();
   const { uploadFile, deleteFile } = useFile();
   const { createNewNote } = useNote();
@@ -64,6 +68,7 @@ const CreateNoteBody = () => {
       title,
       url: currentFileUrl,
       tags,
+      folderIds: selectedFolderIds,
       description,
       isPublic,
     };

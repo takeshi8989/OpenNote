@@ -3,7 +3,11 @@ import { Text, Checkbox } from "@nextui-org/react";
 import { Folder } from "../../../types/folder";
 import { useFolder } from "@/hooks/useFolder";
 
-const Sidebar = () => {
+interface Props {
+  selectedFolderIds: string[];
+  setSelectedFolderIds: React.Dispatch<React.SetStateAction<string[]>>;
+}
+const Sidebar = ({ selectedFolderIds, setSelectedFolderIds }: Props) => {
   const [folders, setFolders] = useState<Folder[]>([]);
   const { getFoldersByUsername } = useFolder();
   useEffect(() => {
@@ -19,6 +23,17 @@ const Sidebar = () => {
       setFolders(data);
     }
   };
+
+  const checkSelectedFolders = (e: boolean, id: string) => {
+    if (e == true) {
+      setSelectedFolderIds([...selectedFolderIds, id]);
+    } else {
+      setSelectedFolderIds(
+        selectedFolderIds.filter((selectedId) => selectedId != id)
+      );
+    }
+  };
+
   return (
     <div className="mx-16">
       <Text size="$2xl" className="text-center mt-10">
@@ -31,6 +46,7 @@ const Sidebar = () => {
               defaultSelected={folder.title === "My Notes"}
               isDisabled={folder.title === "My Notes"}
               value={folder.id}
+              onChange={(e) => checkSelectedFolders(e, folder.id)}
             >
               {folder.title}
             </Checkbox>
