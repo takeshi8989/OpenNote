@@ -5,10 +5,8 @@ import opennote.config.SecurityConfig;
 import opennote.folder.Folder;
 import opennote.folder.FolderController;
 import opennote.folder.FolderService;
-import opennote.folder.Request.AddRemoveNoteRequest;
 import opennote.folder.Request.NewFolderRequest;
 import opennote.note.Note;
-import opennote.note.NoteService;
 import opennote.user.User;
 import opennote.config.JwtAuthenticationFilter;
 import opennote.config.JwtService;
@@ -39,8 +37,6 @@ public class FolderAPITest {
     ObjectMapper mapper;
     @MockBean
     FolderService folderService;
-    @MockBean
-    NoteService noteService;
     @MockBean
     JwtAuthenticationFilter jwtAuthenticationFilter;
     @MockBean
@@ -126,57 +122,6 @@ public class FolderAPITest {
                         .content(ApplicationTests.toJson(request)))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.title").value("Favorite anime"));
-    }
-
-    @Test
-    public void addNote_success() throws  Exception{
-        folder1.setId("12345");
-        folder1.setTitle("Title");
-        AddRemoveNoteRequest request = new AddRemoveNoteRequest("12345", true);
-
-        Mockito.when(noteService.getNoteById(note1.getId())).thenReturn(note1);
-        Mockito.when(folderService.addOrRemoveNote(request, folder1.getId())).thenReturn(folder1);
-        folder1.addNote(note1);
-
-        mockMvc.perform(MockMvcRequestBuilders
-                        .put("/folders/note/12345")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(ApplicationTests.toJson(request)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.title").value("Title"))
-                .andExpect(jsonPath("$.notes", hasSize(1)));
-    }
-
-    @Test
-    public void removeNote_success() throws  Exception{
-        note1.setId("12345");
-        folder1.setId("12345");
-        folder1.setTitle("Title");
-        folder1.setNotes(new ArrayList<>());
-        AddRemoveNoteRequest addRequest = new AddRemoveNoteRequest("12345", true);
-        AddRemoveNoteRequest removeRequest = new AddRemoveNoteRequest("12345", false);
-
-        Mockito.when(noteService.getNoteById(note1.getId())).thenReturn(note1);
-        Mockito.when(folderService.addOrRemoveNote(addRequest, folder1.getId())).thenReturn(folder1);
-        Mockito.when(folderService.addOrRemoveNote(removeRequest, folder1.getId())).thenReturn(folder1);
-        folder1.addNote(note1);
-
-        mockMvc.perform(MockMvcRequestBuilders
-                        .put("/folders/note/12345")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(ApplicationTests.toJson(addRequest)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.title").value("Title"))
-                .andExpect(jsonPath("$.notes", hasSize(1)));
-
-        folder1.removeNote(note1);
-        mockMvc.perform(MockMvcRequestBuilders
-                        .put("/folders/note/12345")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(ApplicationTests.toJson(removeRequest)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.title").value("Title"))
-                .andExpect(jsonPath("$.notes", hasSize(0)));
     }
 
     @Test

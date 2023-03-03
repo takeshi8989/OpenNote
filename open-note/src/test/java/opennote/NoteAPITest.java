@@ -2,7 +2,8 @@ package opennote;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import opennote.config.SecurityConfig;
-import opennote.note.NewNoteRequest;
+import opennote.folder.FolderService;
+import opennote.note.Request.NewNoteRequest;
 import opennote.note.Note;
 import opennote.note.NoteController;
 import opennote.note.NoteService;
@@ -40,6 +41,8 @@ public class NoteAPITest {
     ObjectMapper mapper;
     @MockBean
     NoteService noteService;
+    @MockBean
+    FolderService folderService;
     @MockBean
     JwtAuthenticationFilter jwtAuthenticationFilter;
     @MockBean
@@ -125,7 +128,7 @@ public class NoteAPITest {
         NewTagRequest tag1 = new NewTagRequest("tag1", "blue");
         NewTagRequest tag2 = new NewTagRequest("tag2", "red");
         List<NewTagRequest> tags = new ArrayList<>(Arrays.asList(tag1, tag2));
-        NewNoteRequest request = new NewNoteRequest("user1","new note", "http://midterm.pdf", "", tags, false);
+        NewNoteRequest request = new NewNoteRequest("user1","new note", "http://midterm.pdf", "", tags, new ArrayList<>()  ,false);
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/notes")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -137,7 +140,7 @@ public class NoteAPITest {
     public void updateNote_success() throws  Exception {
         note3.setId("34567");
         note3.setTitle("updated myNote");
-        NewNoteRequest request = new NewNoteRequest("user4","updated myNote", "http://updated.pdf", "", emptyTagRequests,true);
+        NewNoteRequest request = new NewNoteRequest("user4","updated myNote", "http://updated.pdf", "", emptyTagRequests, new ArrayList<>(), true);
 
         Mockito.when(noteService.getNoteById(note3.getId())).thenReturn(note3);
 

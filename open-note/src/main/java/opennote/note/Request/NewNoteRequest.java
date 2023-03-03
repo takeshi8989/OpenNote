@@ -1,4 +1,4 @@
-package opennote.note;
+package opennote.note.Request;
 
 import opennote.tag.NewTagRequest;
 
@@ -9,6 +9,7 @@ public record NewNoteRequest(
         String url,
         String description,
         List<NewTagRequest> tags,
+        List<String> folderIds,
         boolean isPublic
 
 ) {

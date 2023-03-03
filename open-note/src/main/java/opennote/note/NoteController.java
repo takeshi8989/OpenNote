@@ -1,5 +1,8 @@
 package opennote.note;
 
+import lombok.RequiredArgsConstructor;
+import opennote.note.Request.AddFolderRequest;
+import opennote.note.Request.NewNoteRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -7,14 +10,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("notes")
+@RequiredArgsConstructor
 public class NoteController {
-    private final NoteService noteService;
-
     @Autowired
-    public NoteController(NoteService noteService) {
-        this.noteService = noteService;
-    }
-
+    private final NoteService noteService;
     @GetMapping("/all")
     public List<Note> getAllNotes(){
         return noteService.getAllNotes();
@@ -42,9 +41,17 @@ public class NoteController {
 
     @PostMapping
     public Note createNote(@RequestBody NewNoteRequest request){
-        return noteService.createNote(request);
+        Note note = noteService.createNote(request);
+        noteService.addTags(note, request.tags());
+        noteService.addToAllFolders(note, request.folderIds());
+        return note;
     }
 
+    @PostMapping("/folder/{noteId}")
+    public void addToAllNotes(@PathVariable String noteId, @RequestBody AddFolderRequest request){
+        Note note = noteService.getNoteById(noteId);
+        noteService.addToAllFolders(note, request.folderIds());
+    }
 
     @PutMapping("/{id}")
     public Note updateNote(@RequestBody NewNoteRequest request, @PathVariable String id){
@@ -61,5 +68,9 @@ public class NoteController {
         noteService.deleteNote(id);
     }
 
+    @DeleteMapping("/folder/{noteId}/{folderId}")
+    public void deleteFromFolder(@PathVariable String noteId, @PathVariable String folderId){
+        noteService.deleteFromFolder(noteId, folderId);
+    }
 
 }
