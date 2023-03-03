@@ -3,7 +3,7 @@ import { User } from "@/types/user";
 import { Text } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
 import FolderList from "./FolderList";
-import NewFolderModal from "./NewFolderModal";
+import NewFolderModal from "../../modal/NewFolderModal";
 import { useFolder } from "@/hooks/useFolder";
 
 const Sidebar = ({ user }: { user: User | undefined }) => {
