@@ -42,8 +42,8 @@ const UserFolderModal = ({ note }: { note: Note | null }) => {
     setVisible(false);
   };
 
-  const checkSelectedFolders = (e: boolean, id: string) => {
-    if (e == true) {
+  const checkSelectedFolders = (checked: boolean, id: string) => {
+    if (checked) {
       setSelectedFolderIds([...selectedFolderIds, id]);
     } else {
       setSelectedFolderIds(
