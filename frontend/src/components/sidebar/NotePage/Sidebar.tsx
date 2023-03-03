@@ -9,7 +9,7 @@ import { useComment } from "@/hooks/useComment";
 import { Comment } from "@/types/comment";
 import { useAtomValue, useSetAtom } from "jotai";
 import { isLoggedInAtom, openLoginModalAtom } from "@/jotai/authAtom";
-import UserFolderModal from "./UserFolderModal";
+import UserFolderModal from "../../modal/UserFolderModal";
 
 const BUCKET_OBJECT_URL: string = process.env.BUCKET_OBJECT_URL as string;
 const API_URL: string = process.env.API_URL as string;

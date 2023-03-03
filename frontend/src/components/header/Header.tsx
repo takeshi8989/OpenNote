@@ -9,7 +9,7 @@ import {
 } from "@nextui-org/react";
 import { Layout } from "./Layout";
 import { SearchIcon } from "./SearchIcon";
-import { LoginModal } from "./LoginModal";
+import { LoginModal } from "../modal/LoginModal";
 import { useAtom } from "jotai/react";
 import {
   isLoggedInAtom,

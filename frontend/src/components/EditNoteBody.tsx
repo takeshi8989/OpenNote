@@ -1,6 +1,6 @@
 import { Text, Switch, Textarea, Button, Input } from "@nextui-org/react";
 import { useDropzone } from "react-dropzone";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import TagGenerator from "./tag/TagGenerator";
 import { useFile } from "@/hooks/useFile";
 import { useNote } from "@/hooks/useNote";
@@ -10,22 +10,32 @@ import { Tag } from "@/types/tag";
 import { useAtomValue, useSetAtom } from "jotai";
 import { isLoggedInAtom, openLoginModalAtom } from "@/jotai/authAtom";
 import { useRouter } from "next/router";
+import { Note } from "@/types/note";
 
-const CreateNoteBody = ({
-  selectedFolderIds,
-}: {
-  selectedFolderIds: string[];
-}) => {
+const EditNoteBody = ({ note }: { note: Note | null }) => {
   const router = useRouter();
   const { uploadFile, deleteFile } = useFile();
-  const { createNewNote } = useNote();
-  const [currentFileUrl, setCurrentFileUrl] = useState<string>("");
+  const { updateNote } = useNote();
+  const [currentFileUrl, setCurrentFileUrl] = useState<string>();
   const [title, setTitle] = useState<string>("New Note");
   const [isPublic, setIsPublic] = useState<boolean>(true);
   const [tags, setTags] = useState<Tag[]>([]);
   const [description, setDescription] = useState<string>("");
   const isLoggedIn = useAtomValue(isLoggedInAtom);
   const setOpenLoginModal = useSetAtom(openLoginModalAtom);
+
+  useEffect(() => {
+    if (note == null) return;
+    setNoteInfo(note);
+  }, [note]);
+
+  const setNoteInfo = (note: Note) => {
+    setCurrentFileUrl(note.url);
+    setTitle(note.title);
+    setIsPublic(note.public);
+    setTags(note.tags);
+    setDescription(note.description);
+  };
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     if (!isLoggedIn) {
@@ -42,7 +52,7 @@ const CreateNoteBody = ({
   }, []);
 
   const resetNote = async (): Promise<void> => {
-    if (currentFileUrl !== "") {
+    if (currentFileUrl !== "" && currentFileUrl) {
       const deleteSuccess: boolean = await deleteFile(currentFileUrl).then(
         (result) => {
           return result;
@@ -57,23 +67,19 @@ const CreateNoteBody = ({
     setCurrentFileUrl(url);
   };
 
-  const createNote = async (): Promise<void> => {
-    if (!isLoggedIn) {
-      setOpenLoginModal(true);
-      return;
-    }
-    if (currentFileUrl == null || currentFileUrl === "") return;
+  const onUpdateNote = async (): Promise<void> => {
+    if (note == null || currentFileUrl == null || currentFileUrl === "") return;
     const username: string = localStorage.getItem("username") as string;
     const request: NewNoteRequest = {
       username,
       title,
       url: currentFileUrl,
       tags,
-      folderIds: selectedFolderIds,
+      folderIds: [],
       description,
       isPublic,
     };
-    const noteId: string = await createNewNote(request).then((id) => id);
+    const noteId: string = await updateNote(note.id, request).then((id) => id);
     if (noteId != "") {
       setTitle("");
       setCurrentFileUrl("");
@@ -124,7 +130,7 @@ const CreateNoteBody = ({
           )}
         </div>
       )}
-      {currentFileUrl !== "" && (
+      {currentFileUrl !== "" && currentFileUrl && (
         <>
           <Button
             color={"error"}
@@ -163,7 +169,7 @@ const CreateNoteBody = ({
           size="xl"
           auto
           className="text-xl"
-          onClick={createNote}
+          onClick={onUpdateNote}
         >
           Submit
         </Button>
@@ -172,4 +178,4 @@ const CreateNoteBody = ({
   );
 };
 
-export default CreateNoteBody;
+export default EditNoteBody;
