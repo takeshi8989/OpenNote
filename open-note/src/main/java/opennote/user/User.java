@@ -41,6 +41,9 @@ public class User implements UserDetails {
     @JsonIgnore
     private String password;
 
+    @Column(columnDefinition = "varchar(255) default ''")
+    private String info = "";
+
     @Enumerated(EnumType.STRING)
     @JsonIgnore
     private Role role;
