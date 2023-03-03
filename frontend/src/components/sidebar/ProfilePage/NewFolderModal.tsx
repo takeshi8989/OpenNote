@@ -1,13 +1,23 @@
 import React, { useState } from "react";
 import { Modal, Button, Text, Input } from "@nextui-org/react";
 import { useFolder } from "@/hooks/useFolder";
+import { useAtomValue, useSetAtom } from "jotai";
+import { isLoggedInAtom, openLoginModalAtom } from "@/jotai/authAtom";
 
 const NewFolderModal = () => {
   const [visible, setVisible] = React.useState(false);
   const [folderTitle, setFolderTitle] = useState<string>("");
   const { createNewFolder } = useFolder();
+  const isLoggedIn = useAtomValue(isLoggedInAtom);
+  const setOpenLoginModal = useSetAtom(openLoginModalAtom);
 
-  const handler = () => setVisible(true);
+  const handler = () => {
+    if (!isLoggedIn) {
+      setOpenLoginModal(true);
+      return;
+    }
+    setVisible(true);
+  };
 
   const handleCreate = async () => {
     const res: boolean = await createNewFolder(folderTitle).then((res) => res);
