@@ -2,15 +2,15 @@ import { Text, Switch, Textarea, Button, Input } from "@nextui-org/react";
 import { useDropzone } from "react-dropzone";
 import React, { useCallback, useState, useEffect } from "react";
 import TagGenerator from "./tag/TagGenerator";
-import { useFile } from "@/hooks/useFile";
-import { useNote } from "@/hooks/useNote";
+import { useFile } from "../hooks/useFile";
+import { useNote } from "../hooks/useNote";
 import MultiPagePDF from "./MultiPagePDF";
-import { NewNoteRequest } from "@/types/request/noteRequest";
-import { Tag } from "@/types/tag";
+import { NewNoteRequest } from "../types/request/noteRequest";
+import { Tag } from "../types/tag";
 import { useAtomValue, useSetAtom } from "jotai";
-import { isLoggedInAtom, openLoginModalAtom } from "@/jotai/authAtom";
+import { isLoggedInAtom, openLoginModalAtom } from "../jotai/authAtom";
 import { useRouter } from "next/router";
-import { Note } from "@/types/note";
+import { Note } from "../types/note";
 
 const EditNoteBody = ({ note }: { note: Note | null }) => {
   const router = useRouter();
