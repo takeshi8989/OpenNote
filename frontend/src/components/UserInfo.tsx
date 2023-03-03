@@ -39,7 +39,7 @@ const UserInfo = ({ user }: { user: User | undefined }) => {
           Info
         </Text>
         <Text size="$lg" className="mx-4">
-          lkfjsalfdjasl fdjsalfjdslakj fksjalfndakj rejwl ajfdlk fjsalkn lkefjal
+          {user.info}
         </Text>
       </div>
       <div className="mx-4 flex justify-around">
