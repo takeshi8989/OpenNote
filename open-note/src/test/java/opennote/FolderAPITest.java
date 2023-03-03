@@ -88,14 +88,14 @@ public class FolderAPITest {
     }
 
     @Test
-    public void getFoldersByUserId_success() throws Exception{
+    public void getFoldersByUsername_success() throws Exception{
         folder2.setTitle("MATH Folder");
         user1.setId(1);
         List<Folder> folders = new ArrayList<>(Arrays.asList(folder1, folder2));
-        Mockito.when(folderService.getFoldersByUserId(user1.getId())).thenReturn(folders);
+        Mockito.when(folderService.getFoldersByUsername(user1.getUsername())).thenReturn(folders);
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/folders/user/1")
+                        .get("/folders/user/user1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
