@@ -1,18 +1,24 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Text, Checkbox } from "@nextui-org/react";
 import { Folder } from "../../../types/folder";
-
-const folders: Folder[] = [
-  { id: "1", title: "My Notes" },
-  { id: "2", title: "Coding Tips" },
-  { id: "3", title: "Math Calc 2" },
-  {
-    id: "4",
-    title: "Programming Languages and Tech Stack",
-  },
-];
+import { useFolder } from "@/hooks/useFolder";
 
 const Sidebar = () => {
+  const [folders, setFolders] = useState<Folder[]>([]);
+  const { getFoldersByUsername } = useFolder();
+  useEffect(() => {
+    fetchUserFolders();
+  }, []);
+
+  const fetchUserFolders = async (): Promise<void> => {
+    const username: string = localStorage.getItem("username") as string;
+    const data: Folder[] | null = await getFoldersByUsername(username).then(
+      (res) => res
+    );
+    if (data) {
+      setFolders(data);
+    }
+  };
   return (
     <div className="mx-16">
       <Text size="$2xl" className="text-center mt-10">

@@ -24,7 +24,7 @@ const ProfilePage = () => {
   return (
     <div className="h-screen w-full flex justify-center overflow-hidden">
       <div className="w-1/4 h-full overflow-y-scroll">
-        <Sidebar />
+        <Sidebar user={currentUser} />
       </div>
       <div className="w-3/4 h-full overflow-y-scroll">
         <UserInfo user={currentUser} />
