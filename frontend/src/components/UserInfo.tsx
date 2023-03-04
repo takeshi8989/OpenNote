@@ -24,7 +24,7 @@ const UserInfo = ({ user, setUser }: Props) => {
   }, [user]);
 
   const handleInfoKeyDown = (e: any) => {
-    if (e.key === "Enter") updateUserInfo();
+    if (e.key === "Enter" && !e.shiftKey) updateUserInfo();
   };
 
   const updateUserInfo = async () => {
