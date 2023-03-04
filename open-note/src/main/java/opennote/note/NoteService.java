@@ -1,6 +1,7 @@
 package opennote.note;
 
 import lombok.RequiredArgsConstructor;
+import opennote.folder.Folder;
 import opennote.folder.FolderService;
 import opennote.like.LikeService;
 import opennote.note.Request.NewNoteRequest;
@@ -67,6 +68,22 @@ public class NoteService {
         for (String id : folderIds) {
             folderService.addNote(note, id);
         }
+    }
+
+    public void updateFolders(Note note, List<String> folderIds){
+        for(String folderId: folderIds){
+            Folder folder = folderService.getFolderById(folderId);
+            if(note.getFolders().indexOf(folder) == -1) {
+                folderService.addNote(note, folderId);
+            }
+        }
+
+        for(Folder folder: note.getFolders()){
+            if(folderIds.indexOf(folder.getId()) == -1){
+                folderService.removeNote(note, folder.getId());
+            }
+        }
+        noteRepository.save(note);
     }
 
     public void deleteFromFolder(String noteId, String folderId){

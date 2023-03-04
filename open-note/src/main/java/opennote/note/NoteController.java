@@ -62,9 +62,9 @@ public class NoteController {
     }
 
     @PostMapping("/folder/{noteId}")
-    public void addToAllNotes(@PathVariable String noteId, @RequestBody AddFolderRequest request){
+    public void updateFolders(@PathVariable String noteId, @RequestBody AddFolderRequest request){
         Note note = noteService.getNoteById(noteId);
-        noteService.addToAllFolders(note, request.folderIds());
+        noteService.updateFolders(note, request.folderIds());
     }
 
     @PutMapping("/{id}")
