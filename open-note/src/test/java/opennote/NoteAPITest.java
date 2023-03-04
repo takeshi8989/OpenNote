@@ -131,8 +131,8 @@ public class NoteAPITest {
 
     @Test
     public void createNote_success() throws Exception {
-        NewTagRequest tag1 = new NewTagRequest("tag1", "blue");
-        NewTagRequest tag2 = new NewTagRequest("tag2", "red");
+        NewTagRequest tag1 = new NewTagRequest("","tag1", "blue");
+        NewTagRequest tag2 = new NewTagRequest("","tag2", "red");
         List<NewTagRequest> tags = new ArrayList<>(Arrays.asList(tag1, tag2));
         NewNoteRequest request = new NewNoteRequest("user1","new note", "http://midterm.pdf", "", tags, new ArrayList<>()  ,false);
         mockMvc.perform(MockMvcRequestBuilders

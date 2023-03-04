@@ -5,12 +5,15 @@ import opennote.folder.FolderService;
 import opennote.like.LikeService;
 import opennote.note.Request.NewNoteRequest;
 import opennote.tag.NewTagRequest;
+import opennote.tag.Tag;
 import opennote.tag.TagService;
 import opennote.user.User;
 import opennote.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -72,9 +75,33 @@ public class NoteService {
     }
 
     public void addTags(Note note, List<NewTagRequest> tags){
-        for(NewTagRequest request: tags){
-            tagService.createTag(request, note);
+        for(NewTagRequest tag: tags){
+            tagService.createTag(tag, note);
         }
+    }
+
+    public void removeOldTags(List<Tag> oldTags){
+        for(Tag tag: oldTags){
+            tagService.removeTag(tag);
+        }
+    }
+
+    public void updateTags(Note note, List<NewTagRequest> tags){
+        HashMap<String, Integer> newTagIds = new HashMap<>();
+        List<NewTagRequest> newTags = new ArrayList<>();
+        for(NewTagRequest tag: tags){
+            if(tag.id().equals("")) newTags.add(tag);
+            newTagIds.put(tag.id(), 1);
+        }
+        List<Tag> oldTags = new ArrayList<>();
+        for(Tag tag: note.getTags()){
+            if(newTagIds.get(tag.getId()) == null){
+                oldTags.add(tag);
+            }
+        }
+
+        addTags(note, newTags);
+        removeOldTags(oldTags);
     }
 
     public Note updateNote(NewNoteRequest request, String id){
@@ -84,6 +111,7 @@ public class NoteService {
                     note.setUrl(request.url());
                     note.setDescription(request.description());
                     note.setPublic(request.isPublic());
+                    updateTags(note, request.tags());
                     return noteRepository.save(note);
                 })
                 .orElseThrow(() -> new NoteNotFoundException(id));

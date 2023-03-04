@@ -18,7 +18,11 @@ public class TagService {
         return tagRepository.save(tag);
     }
 
-    public void deleteTags(String noteId){
+    public void removeTag(Tag tag){
+        tagRepository.deleteById(tag.getId());
+    }
+
+    public void deleteTagsFromNote(String noteId){
         tagRepository.deleteAllByNoteId(noteId);
     }
 

@@ -87,7 +87,7 @@ public class NoteController {
         Note note = noteService.getNoteById(id);
         String domain = "https://" + bucketName + ".s3." + region + ".amazonaws.com/";
         fileService.deleteFile(note.getUrl().substring(domain.length()));
-        tagService.deleteTags(id);
+        tagService.deleteTagsFromNote(id);
         noteService.deleteNote(id);
     }
 
