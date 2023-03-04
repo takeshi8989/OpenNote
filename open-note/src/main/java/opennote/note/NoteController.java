@@ -16,10 +16,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class NoteController {
 
-    @Value ("${AWS_S3_BUCKET_NAME}")
+    @Value("${s3.bucket.name}")
     private String bucketName;
 
-    @Value ("${AWS_S3_REGION}")
+    @Value ("${s3.region.name}")
     private String region;
 
     @Autowired

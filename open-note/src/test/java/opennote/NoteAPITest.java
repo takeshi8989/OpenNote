@@ -2,12 +2,14 @@ package opennote;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import opennote.config.SecurityConfig;
+import opennote.file.FileService;
 import opennote.folder.FolderService;
 import opennote.note.Request.NewNoteRequest;
 import opennote.note.Note;
 import opennote.note.NoteController;
 import opennote.note.NoteService;
 import opennote.tag.NewTagRequest;
+import opennote.tag.TagService;
 import opennote.user.User;
 import opennote.config.JwtAuthenticationFilter;
 import opennote.config.JwtService;
@@ -43,6 +45,10 @@ public class NoteAPITest {
     NoteService noteService;
     @MockBean
     FolderService folderService;
+    @MockBean
+    TagService tagService;
+    @MockBean
+    FileService fileService;
     @MockBean
     JwtAuthenticationFilter jwtAuthenticationFilter;
     @MockBean
