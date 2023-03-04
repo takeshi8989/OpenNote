@@ -18,4 +18,8 @@ public class TagService {
         return tagRepository.save(tag);
     }
 
+    public void deleteTags(String noteId){
+        tagRepository.deleteAllByNoteId(noteId);
+    }
+
 }
