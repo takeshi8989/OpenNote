@@ -44,8 +44,9 @@ public class UserService {
 
         return userRepository.findById(id)
                 .map(user -> {
-                    user.setUsername(request.username());
+                    // user.setUsername(request.username());
                     // user.setEmail(request.email());
+                    user.setInfo(request.info());
                     return userRepository.save(user);
                 })
                 .orElseThrow(() -> new UserNotFoundException(id));

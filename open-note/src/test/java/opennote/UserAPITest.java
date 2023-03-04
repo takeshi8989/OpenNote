@@ -80,6 +80,7 @@ public class UserAPITest {
                 "updated",
                 "updated@gmail.com",
                 "password4"
+                ,""
         );
 
         Mockito.when(userService.getUserById(user1.getId())).thenReturn(user1);
