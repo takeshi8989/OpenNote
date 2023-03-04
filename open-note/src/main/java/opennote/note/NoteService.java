@@ -99,6 +99,7 @@ public class NoteService {
     public void incrementView(String noteId){
         Note note = getNoteById(noteId);
         note.incrementViewsCount();
+        noteRepository.save(note);
     }
 
     public void deleteNote(String id){
