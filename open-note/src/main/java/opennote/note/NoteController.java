@@ -1,9 +1,12 @@
 package opennote.note;
 
 import lombok.RequiredArgsConstructor;
+import opennote.file.FileService;
 import opennote.note.Request.AddFolderRequest;
 import opennote.note.Request.NewNoteRequest;
+import opennote.tag.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,8 +15,19 @@ import java.util.List;
 @RequestMapping("notes")
 @RequiredArgsConstructor
 public class NoteController {
+
+    @Value("${s3.bucket.name}")
+    private String bucketName;
+
+    @Value ("${s3.region.name}")
+    private String region;
+
     @Autowired
     private final NoteService noteService;
+    @Autowired
+    private final FileService fileService;
+    @Autowired
+    private final TagService tagService;
     @GetMapping("/all")
     public List<Note> getAllNotes(){
         return noteService.getAllNotes();
@@ -70,6 +84,10 @@ public class NoteController {
 
     @DeleteMapping("/{id}")
     public void deleteNote(@PathVariable String id){
+        Note note = noteService.getNoteById(id);
+        String domain = "https://" + bucketName + ".s3." + region + ".amazonaws.com/";
+        fileService.deleteFile(note.getUrl().substring(domain.length()));
+        tagService.deleteTags(id);
         noteService.deleteNote(id);
     }
 
