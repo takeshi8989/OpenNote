@@ -1,16 +1,41 @@
 import React, { useEffect, useState } from "react";
-import { Avatar, Text } from "@nextui-org/react";
+import { Avatar, Text, Textarea } from "@nextui-org/react";
 import { Note } from "@/types/note";
 import { User } from "@/types/user";
 import SinglePagePDF from "./SinglePagePDF";
 import { useNote } from "@/hooks/useNote";
+import { useUser } from "@/hooks/useUser";
+import { BsPen } from "react-icons/bs";
 
-const UserInfo = ({ user }: { user: User | undefined }) => {
+interface Props {
+  user: User | undefined;
+  setUser: React.Dispatch<React.SetStateAction<User | undefined>>;
+}
+
+const UserInfo = ({ user, setUser }: Props) => {
   const [userNotes, setUserNotes] = useState<Note[]>([]);
+  const [isInfoEditing, setIsInfoEditing] = useState<boolean>(false);
+  const [userInfo, setUserInfo] = useState<string>("");
   const { getNotesByUsername } = useNote();
+  const { updateUser } = useUser();
   useEffect(() => {
     fetchNotes();
+    if (user) setUserInfo(user.info);
   }, [user]);
+
+  const handleInfoKeyDown = (e: any) => {
+    if (e.key === "Enter" && !e.shiftKey) updateUserInfo();
+  };
+
+  const updateUserInfo = async () => {
+    if (!user) return;
+    user.info = userInfo;
+    const data: User | null = await updateUser(user).then((res) => res);
+    if (data) {
+      setUser(data);
+      setIsInfoEditing(false);
+    }
+  };
 
   const fetchNotes = async (): Promise<void> => {
     if (user == null) return;
@@ -35,12 +60,28 @@ const UserInfo = ({ user }: { user: User | undefined }) => {
       </div>
       {/* Info */}
       <div className="w-1/2 mx-auto mt-8">
-        <Text className="text-left" size="$3xl">
-          Info
-        </Text>
-        <Text size="$lg" className="mx-4">
-          {user.info}
-        </Text>
+        <div className="flex items-center">
+          <Text className="text-left mx-4 " size="$3xl">
+            Info
+          </Text>
+          <BsPen size={20} onClick={() => setIsInfoEditing(true)} />
+        </div>
+        {isInfoEditing ? (
+          <Textarea
+            underlined
+            color="primary"
+            size="xl"
+            rows={4}
+            width="100%"
+            value={userInfo}
+            onChange={(e) => setUserInfo(e.target.value)}
+            onKeyDown={handleInfoKeyDown}
+          />
+        ) : (
+          <Text size="$lg" className="mx-4">
+            {userInfo}
+          </Text>
+        )}
       </div>
       <div className="mx-4 flex justify-around">
         {userNotes.length > 0 && <SinglePagePDF note={userNotes[0]} />}

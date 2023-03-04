@@ -27,7 +27,7 @@ const ProfilePage = () => {
         <Sidebar user={currentUser} />
       </div>
       <div className="w-3/4 h-full overflow-y-scroll">
-        <UserInfo user={currentUser} />
+        <UserInfo user={currentUser} setUser={setCurrentUser} />
       </div>
     </div>
   );
