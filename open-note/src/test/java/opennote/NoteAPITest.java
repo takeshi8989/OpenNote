@@ -161,6 +161,8 @@ public class NoteAPITest {
 
     @Test
     public void deleteNote_success() throws Exception{
+        note1.setUrl("https://amazon-bucket-name-region-filename---//--blur-blur");
+        Mockito.when(noteService.getNoteById("12345")).thenReturn(note1);
         mockMvc.perform(MockMvcRequestBuilders
                         .delete("/notes/12345")
                         .contentType(MediaType.APPLICATION_JSON))
