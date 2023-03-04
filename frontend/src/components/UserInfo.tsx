@@ -10,14 +10,16 @@ import { BsPen } from "react-icons/bs";
 interface Props {
   user: User | undefined;
   setUser: React.Dispatch<React.SetStateAction<User | undefined>>;
+  isAuthorized: boolean;
 }
 
-const UserInfo = ({ user, setUser }: Props) => {
+const UserInfo = ({ user, setUser, isAuthorized }: Props) => {
   const [userNotes, setUserNotes] = useState<Note[]>([]);
   const [isInfoEditing, setIsInfoEditing] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<string>("");
   const { getNotesByUsername } = useNote();
   const { updateUser } = useUser();
+
   useEffect(() => {
     fetchNotes();
     if (user) setUserInfo(user.info);
@@ -64,7 +66,9 @@ const UserInfo = ({ user, setUser }: Props) => {
           <Text className="text-left mx-4 " size="$3xl">
             Info
           </Text>
-          <BsPen size={20} onClick={() => setIsInfoEditing(true)} />
+          {isAuthorized && (
+            <BsPen size={20} onClick={() => setIsInfoEditing(true)} />
+          )}
         </div>
         {isInfoEditing ? (
           <Textarea

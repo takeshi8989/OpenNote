@@ -77,18 +77,20 @@ const NoteDetail = ({ note, setNote }: Props): JSX.Element => {
           {note.comments.length}
         </Text>
       </div>
-      <div className="flex items-center justify-center mt-5">
-        <DeleteNoteModal note={note} />
-        <Button
-          flat
-          auto
-          bordered
-          className="mx-3"
-          onClick={() => router.push(`/edit/${note.id}`)}
-        >
-          Edit
-        </Button>
-      </div>
+      {note.user.username === localStorage.getItem("username") && (
+        <div className="flex items-center justify-center mt-5">
+          <DeleteNoteModal note={note} />
+          <Button
+            flat
+            auto
+            bordered
+            className="mx-3"
+            onClick={() => router.push(`/edit/${note.id}`)}
+          >
+            Edit
+          </Button>
+        </div>
+      )}
 
       {/* Note Pages from PDF File */}
       <MultiPagePDF url={note.url} />

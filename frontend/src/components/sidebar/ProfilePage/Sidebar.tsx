@@ -6,7 +6,12 @@ import FolderList from "./FolderList";
 import NewFolderModal from "../../modal/NewFolderModal";
 import { useFolder } from "@/hooks/useFolder";
 
-const Sidebar = ({ user }: { user: User | undefined }) => {
+interface Props {
+  user: User | undefined;
+  isAuthorized: boolean;
+}
+
+const Sidebar = ({ user, isAuthorized }: Props) => {
   const [folders, setFolders] = useState<Folder[]>([]);
   const { getFoldersByUsername } = useFolder();
   useEffect(() => {
@@ -27,7 +32,7 @@ const Sidebar = ({ user }: { user: User | undefined }) => {
         Folders
       </Text>
       {/* Folder Modal Button */}
-      <NewFolderModal />
+      {isAuthorized && <NewFolderModal />}
       <FolderList folders={folders} />
     </div>
   );
