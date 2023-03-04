@@ -8,6 +8,7 @@ const EditNotePage = () => {
   const router = useRouter();
   const { id } = router.query;
   const [note, setNote] = useState<Note | null>(null);
+  const [username, setUsername] = useState<string>("");
   const { getNoteById } = useNote();
 
   useEffect(() => {
@@ -18,11 +19,15 @@ const EditNotePage = () => {
         }
       });
     }
+    if (typeof localStorage.getItem("username") === "string") {
+      const name = localStorage.getItem("username") as string;
+      setUsername(name);
+    }
   }, [id]);
 
   return (
     <div className="w-full flex justify-center overflow-hidden">
-      <EditNoteBody note={note} />
+      {note && username === note.user.username && <EditNoteBody note={note} />}
     </div>
   );
 };
