@@ -70,6 +70,7 @@ const EditNoteBody = ({ note }: { note: Note | null }) => {
   const onUpdateNote = async (): Promise<void> => {
     if (note == null || currentFileUrl == null || currentFileUrl === "") return;
     const username: string = localStorage.getItem("username") as string;
+    console.log(tags);
     const request: NewNoteRequest = {
       username,
       title,

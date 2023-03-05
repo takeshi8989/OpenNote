@@ -97,8 +97,9 @@ public class NoteService {
         }
     }
 
-    public void removeOldTags(List<Tag> oldTags){
+    public void removeOldTags(Note note, List<Tag> oldTags){
         for(Tag tag: oldTags){
+            note.getTags().remove(tag);
             tagService.removeTag(tag);
         }
     }
@@ -118,7 +119,7 @@ public class NoteService {
         }
 
         addTags(note, newTags);
-        removeOldTags(oldTags);
+        removeOldTags(note, oldTags);
     }
 
     public Note updateNote(NewNoteRequest request, String id){

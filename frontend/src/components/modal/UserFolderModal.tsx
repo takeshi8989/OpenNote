@@ -58,6 +58,7 @@ const UserFolderModal = ({ note }: { note: Note | null }) => {
       note.id,
       selectedFolderIds
     ).then((res) => res);
+    fetchUserFolders();
     closeHandler();
   };
 
@@ -92,8 +93,7 @@ const UserFolderModal = ({ note }: { note: Note | null }) => {
                 <Checkbox
                   value={folder.id}
                   defaultSelected={
-                    folder.notes.filter((note) => note.id === note.id).length >
-                    0
+                    folder.notes.filter((n) => n.id === note?.id).length != 0
                   }
                   onChange={(e) => checkSelectedFolders(e, folder.id)}
                 >
