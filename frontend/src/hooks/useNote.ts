@@ -140,7 +140,7 @@ export const useNote = (): Props => {
   const updateNote = async (noteId: string, request: NewNoteRequest) => {
     const token: string = localStorage.getItem("token") as string;
     try {
-      const res = await fetch(`http://localhost:8080/api/v1/notes/${noteId}`, {
+      const res = await fetch(`${url}/notes/${noteId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
