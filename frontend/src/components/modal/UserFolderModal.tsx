@@ -58,6 +58,7 @@ const UserFolderModal = ({ note }: { note: Note | null }) => {
       note.id,
       selectedFolderIds
     ).then((res) => res);
+    fetchUserFolders();
     closeHandler();
   };
 
