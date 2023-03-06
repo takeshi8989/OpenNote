@@ -3,14 +3,9 @@ import { useAtomValue } from "jotai";
 import { useEffect } from "react";
 import SinglePagePDF from "./SinglePagePDF";
 import { useNote } from "@/hooks/useNote";
+import { Note } from "@/types/note";
 
-const NoteList = (): JSX.Element => {
-  const notes = useAtomValue(noteListAtom);
-  const searchQuery = useAtomValue(searchQueryAtom);
-  const { setNoteListBySearch } = useNote();
-  useEffect(() => {
-    setNoteListBySearch();
-  }, [searchQuery]);
+const NoteList = ({ notes }: { notes: Note[] }): JSX.Element => {
   return (
     <div className="flex h-full justify-around flex-wrap mx-20">
       {notes.map((note) => (

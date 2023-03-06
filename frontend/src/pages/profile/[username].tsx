@@ -4,6 +4,8 @@ import { User } from "../../types/user";
 import React, { useEffect, useState } from "react";
 import { useUser } from "../../hooks/useUser";
 import { useRouter } from "next/router";
+import { useAtomValue } from "jotai";
+import { isLoggedInAtom } from "@/jotai/authAtom";
 
 const ProfilePage = () => {
   const router = useRouter();
@@ -11,11 +13,13 @@ const ProfilePage = () => {
   const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<User>();
   const { getUserByUsername } = useUser();
+  const isLoggedIn = useAtomValue(isLoggedInAtom);
+
   useEffect(() => {
     setUser();
     if (typeof localStorage.getItem("username") === "string") {
       const name = localStorage.getItem("username") as string;
-      setIsAuthorized(name === username);
+      setIsAuthorized(name === username && isLoggedIn);
     }
   }, [username]);
 
