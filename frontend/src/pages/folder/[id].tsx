@@ -1,9 +1,9 @@
-import { useFolder } from "@/hooks/useFolder";
-import { Folder } from "@/types/folder";
+import { useFolder } from "../../hooks/useFolder";
+import { Folder } from "../../types/folder";
 import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
 import { Text } from "@nextui-org/react";
-import NoteList from "@/components/NoteList";
+import NoteList from "../../components/NoteList";
 
 const FolderPage = () => {
   const router = useRouter();
