@@ -10,7 +10,7 @@ const Home = () => {
   const { setNoteListBySearch } = useNote();
   useEffect(() => {
     setNoteListBySearch();
-  }, [searchQuery]);
+  }, []);
 
   return (
     <div className="h-screen">
