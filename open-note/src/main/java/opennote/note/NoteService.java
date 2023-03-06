@@ -35,8 +35,9 @@ public class NoteService {
         return noteRepository.findAll();
     }
 
-    public List<Note> getRecentNotes(){
-        return noteRepository.getRecentNotes();
+    public List<Note> getDefaultNotes() {
+        // recent, like, view, etc...
+        return noteRepository.getMostViewedNotes();
     }
 
     public Note getNoteById(String id){

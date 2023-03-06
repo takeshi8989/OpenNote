@@ -11,6 +11,9 @@ public interface NoteRepository extends JpaRepository<Note, String> {
     @Query(value = "SELECT * from notes WHERE is_public=true ORDER BY updated_at DESC LIMIT 12", nativeQuery = true)
     List<Note> getRecentNotes();
 
+    @Query(value = "SELECT * from notes ORDER BY num_views DESC LIMIT 12", nativeQuery = true)
+    List<Note> getMostViewedNotes();
+
     @Query(value = "SELECT notes.* from notes, users WHERE notes.user_id=users.id AND users.username=?1", nativeQuery = true)
     List<Note> getNotesByUsername(String username);
 
