@@ -49,7 +49,7 @@ public class NoteService {
     }
 
     public List<Note> getNotesBySearch(String query){
-        return noteRepository.getNotesBySearch(query);
+        return noteRepository.getNotesBySearch(query.toLowerCase());
     }
 
     public Note createNote(NewNoteRequest request){
