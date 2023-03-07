@@ -13,20 +13,26 @@ const EditNotePage = () => {
   const [username, setUsername] = useState<string>("");
   const isLoggedIn = useAtomValue(isLoggedInAtom);
   const { getNoteById } = useNote();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     if (id != null && typeof id === "string") {
-      getNoteById(id).then((data) => {
-        if (data != null) {
-          setNote(data);
-        }
-      });
+      fetchNote(id);
     }
     if (isLoggedIn && typeof localStorage.getItem("username") === "string") {
       const name = localStorage.getItem("username") as string;
       setUsername(name);
     }
   }, [id]);
+
+  const fetchNote = async (strId: string) => {
+    const data: Note | null = await getNoteById(strId).then((data) => data);
+    if (data) setNote(data);
+    setIsLoading(false);
+  };
+
+  if (isLoading) return <div></div>;
+  if (!note?.user) return <div>NOT FOUND</div>;
 
   return (
     <div className="w-full flex justify-center overflow-hidden">
