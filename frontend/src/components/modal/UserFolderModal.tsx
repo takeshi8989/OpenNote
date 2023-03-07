@@ -92,6 +92,7 @@ const UserFolderModal = ({ note }: { note: Note | null }) => {
               <div key={folder.id} className="w-full flex justify-start my-2">
                 <Checkbox
                   value={folder.id}
+                  isDisabled={folder.title === "My Notes"}
                   defaultSelected={
                     folder.notes.filter((n) => n.id === note?.id).length != 0
                   }

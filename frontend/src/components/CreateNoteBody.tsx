@@ -26,6 +26,7 @@ const CreateNoteBody = ({
   const [description, setDescription] = useState<string>("");
   const isLoggedIn = useAtomValue(isLoggedInAtom);
   const setOpenLoginModal = useSetAtom(openLoginModalAtom);
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     if (!isLoggedIn) {
@@ -62,7 +63,10 @@ const CreateNoteBody = ({
       setOpenLoginModal(true);
       return;
     }
-    if (currentFileUrl == null || currentFileUrl === "") return;
+    if (currentFileUrl == null || currentFileUrl === "") {
+      setErrorMessage("Please upload a file");
+      return;
+    }
     const username: string = localStorage.getItem("username") as string;
     const request: NewNoteRequest = {
       username,
@@ -78,7 +82,10 @@ const CreateNoteBody = ({
       setTitle("");
       setCurrentFileUrl("");
       setIsPublic(true);
+      setErrorMessage("");
       router.push(`/note/${noteId}`);
+    } else {
+      setErrorMessage("Note creation failed, please try again");
     }
   };
 
@@ -156,6 +163,9 @@ const CreateNoteBody = ({
       {/* Tag */}
       <TagGenerator tags={tags} setTags={setTags} />
       {/* Submit */}
+      <Text size="$lg" className="text-center text-red-400">
+        {errorMessage}
+      </Text>
       <div className="w-full flex justify-center">
         <Button
           bordered

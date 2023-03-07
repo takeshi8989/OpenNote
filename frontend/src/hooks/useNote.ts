@@ -18,7 +18,6 @@ interface Props {
 
 const url: string = process.env.API_URL as string;
 export const useNote = (): Props => {
-  const username = useAtomValue(usernameAtom);
   const searchQuery = useAtomValue(searchQueryAtom);
   const setNoteList = useSetAtom(noteListAtom);
 
@@ -76,6 +75,7 @@ export const useNote = (): Props => {
 
   const toggleLike = async (note: Note): Promise<Note | null> => {
     const token: string = localStorage.getItem("token") as string;
+    const username: string = localStorage.getItem("username") as string;
     try {
       const res = await fetch(`${url}/notes/like/${note.id}/${username}`, {
         method: "PUT",
