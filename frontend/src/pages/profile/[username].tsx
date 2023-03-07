@@ -14,6 +14,7 @@ const ProfilePage = () => {
   const [currentUser, setCurrentUser] = useState<User>();
   const { getUserByUsername } = useUser();
   const isLoggedIn = useAtomValue(isLoggedInAtom);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     setUser();
@@ -27,8 +28,12 @@ const ProfilePage = () => {
     if (username != null && typeof username === "string") {
       const user: User | null = await getUserByUsername(username);
       if (user) setCurrentUser(user);
+      setIsLoading(false);
     }
   };
+
+  if (isLoading) return <div></div>;
+  if (!currentUser) return <div>NOT FOUND</div>;
 
   return (
     <div className="h-screen w-full flex justify-center overflow-hidden">
