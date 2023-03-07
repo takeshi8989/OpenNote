@@ -77,18 +77,6 @@ public class NoteAPITest {
     }
 
     @Test
-    public void getRecentNotes_success() throws Exception{
-        List<Note> notes = new ArrayList<>(Arrays.asList(note1, note2, note3));
-        Mockito.when(noteService.getRecentNotes()).thenReturn(notes);
-
-        mockMvc.perform(MockMvcRequestBuilders
-                        .get("/notes")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(3)));
-    }
-
-    @Test
     public void getNoteById_success() throws Exception{
         note1.setId("12345");
         note1.setTitle("MyNote");

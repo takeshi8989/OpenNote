@@ -47,7 +47,10 @@ export const useNote = (): Props => {
 
   const getNotes = async (): Promise<Note[]> => {
     let requestEndpoint = `${url}/notes`;
-    if (searchQuery !== "") requestEndpoint += `/search/${searchQuery}`;
+    if (searchQuery !== "") {
+      let seperateBySpace = searchQuery.replaceAll(" ", "+");
+      requestEndpoint += `/search/${seperateBySpace}`;
+    }
     try {
       const res = await fetch(requestEndpoint);
       const data: Note[] = await res.json();

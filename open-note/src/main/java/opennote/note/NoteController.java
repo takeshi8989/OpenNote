@@ -34,8 +34,8 @@ public class NoteController {
     }
 
     @GetMapping
-    public List<Note> getRecentNotes(){
-        return noteService.getRecentNotes();
+    public List<Note> getDefaultNotes(){
+        return noteService.getDefaultNotes();
     }
 
     @GetMapping(value = "/{id}")
