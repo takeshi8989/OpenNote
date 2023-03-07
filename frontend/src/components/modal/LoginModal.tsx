@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Modal, Button, Text, Input, Row, Checkbox } from "@nextui-org/react";
 import { useAuth } from "@/hooks/useAuth";
 import { LoginRequest, SignUpRequest } from "@/types/request/userRequest";
@@ -10,7 +10,7 @@ export const LoginModal = (): JSX.Element => {
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  // const [visible, setVisible] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const [openLoginModal, setOpenLoginModal] = useAtom(openLoginModalAtom);
   const [isSignUp, setIsSignUp] = useState<boolean>(false);
   const [isLoggedIn, setIsLoggedIn] = useAtom(isLoggedInAtom);
@@ -19,33 +19,59 @@ export const LoginModal = (): JSX.Element => {
 
   const handler = () => setOpenLoginModal(true);
 
+  useEffect(() => {
+    resetModal();
+  }, [isSignUp]);
+
   const closeHandler = (): void => {
     setOpenLoginModal(false);
+    resetModal();
+  };
+
+  const resetModal = () => {
+    setUsername("");
+    setEmail("");
+    setPassword("");
+    setErrorMessage("");
   };
 
   const handleAuth = (): void => {
     if (isSignUp) {
-      if (!validateSignUp(username, password)) {
-        return;
-      }
-      const request: SignUpRequest = { username, email, password };
-      signup(request).then((loginSuccess) => {
-        if (loginSuccess) {
-          setIsLoggedIn(true);
-          closeHandler();
-          router.push("/");
-        }
-      });
+      handleSignUp();
     } else {
-      const request: LoginRequest = { username, password };
-      login(request).then((loginSuccess) => {
-        if (loginSuccess) {
-          setIsLoggedIn(true);
-          closeHandler();
-          router.push("/");
-        }
-      });
+      handleLogin();
     }
+  };
+
+  const handleSignUp = () => {
+    const msg = validateSignUp(username, password);
+    if (msg !== "") {
+      setErrorMessage(msg);
+      return;
+    }
+    const request: SignUpRequest = { username, email, password };
+    signup(request).then((loginSuccess) => {
+      if (loginSuccess) {
+        setIsLoggedIn(true);
+        closeHandler();
+        router.push("/");
+      } else {
+        setErrorMessage("Failed to signup");
+      }
+    });
+  };
+
+  const handleLogin = () => {
+    const request: LoginRequest = { username, password };
+    login(request).then((loginSuccess) => {
+      if (loginSuccess) {
+        setIsLoggedIn(true);
+        closeHandler();
+        router.push("/");
+      } else {
+        setErrorMessage("the user does not exist. login failed.");
+      }
+    });
   };
 
   return (
@@ -68,6 +94,11 @@ export const LoginModal = (): JSX.Element => {
           </Text>
         </Modal.Header>
         <Modal.Body>
+          {errorMessage && (
+            <Text size="$lg" className="text-center text-red-400">
+              {errorMessage}
+            </Text>
+          )}
           <Text
             size={14}
             className="text-center text-blue-400"
