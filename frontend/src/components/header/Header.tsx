@@ -134,9 +134,12 @@ export const Header = () => {
                   </Text>
                 </Dropdown.Item>
                 <Dropdown.Item key="settings" withDivider>
-                  <Link href={`/profile/${username}`}>
-                    <Text>Your Profile</Text>
-                  </Link>
+                  <Text
+                    className="w-full h-full"
+                    onClick={() => router.push(`/profile/${username}`)}
+                  >
+                    Your Profile
+                  </Text>
                 </Dropdown.Item>
 
                 <Dropdown.Item key="logout" withDivider color="error">
