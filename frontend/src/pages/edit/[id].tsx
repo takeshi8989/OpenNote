@@ -4,13 +4,13 @@ import { useRouter } from "next/router";
 import EditNoteBody from "../../components/EditNoteBody";
 import { Note } from "../../types/note";
 import { useAtomValue } from "jotai";
-import { isLoggedInAtom } from "@/jotai/authAtom";
+import { isLoggedInAtom, usernameAtom } from "@/jotai/authAtom";
 
 const EditNotePage = () => {
   const router = useRouter();
   const { id } = router.query;
   const [note, setNote] = useState<Note | null>(null);
-  const [username, setUsername] = useState<string>("");
+  const username = useAtomValue(usernameAtom);
   const isLoggedIn = useAtomValue(isLoggedInAtom);
   const { getNoteById } = useNote();
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -18,10 +18,6 @@ const EditNotePage = () => {
   useEffect(() => {
     if (id != null && typeof id === "string") {
       fetchNote(id);
-    }
-    if (isLoggedIn && typeof localStorage.getItem("username") === "string") {
-      const name = localStorage.getItem("username") as string;
-      setUsername(name);
     }
   }, [id]);
 
@@ -36,7 +32,9 @@ const EditNotePage = () => {
 
   return (
     <div className="w-full flex justify-center overflow-hidden">
-      {note && username === note.user.username && <EditNoteBody note={note} />}
+      {isLoggedIn && note && username === note.user.username && (
+        <EditNoteBody note={note} />
+      )}
     </div>
   );
 };

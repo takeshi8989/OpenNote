@@ -10,7 +10,11 @@ import MultiPagePDF from "./MultiPagePDF";
 import CustomTag from "./tag/CustomTag";
 import { useNote } from "@/hooks/useNote";
 import { useAtomValue, useSetAtom } from "jotai";
-import { isLoggedInAtom, openLoginModalAtom } from "@/jotai/authAtom";
+import {
+  isLoggedInAtom,
+  openLoginModalAtom,
+  usernameAtom,
+} from "@/jotai/authAtom";
 import DeleteNoteModal from "./modal/DeleteNoteModal";
 
 interface Props {
@@ -21,13 +25,13 @@ interface Props {
 const NoteDetail = ({ note, setNote }: Props): JSX.Element => {
   const router = useRouter();
   const [likeNote, setLikeNote] = useState<boolean>(false);
+  const username = useAtomValue(usernameAtom);
   const isLoggedIn = useAtomValue(isLoggedInAtom);
   const setOpenLoginModal = useSetAtom(openLoginModalAtom);
   const { toggleLike } = useNote();
 
   useEffect(() => {
     if (!note) return;
-    const username: string = localStorage.getItem("username") as string;
     const hasUserLike: boolean =
       note.likes?.filter((like) => like.user.username === username).length > 0;
     setLikeNote(hasUserLike);
@@ -77,21 +81,20 @@ const NoteDetail = ({ note, setNote }: Props): JSX.Element => {
           {note.comments?.length}
         </Text>
       </div>
-      {isLoggedIn &&
-        note.user?.username === localStorage.getItem("username") && (
-          <div className="flex items-center justify-center mt-5">
-            <DeleteNoteModal note={note} />
-            <Button
-              flat
-              auto
-              bordered
-              className="mx-3"
-              onClick={() => router.push(`/edit/${note.id}`)}
-            >
-              Edit
-            </Button>
-          </div>
-        )}
+      {isLoggedIn && note.user?.username === username && (
+        <div className="flex items-center justify-center mt-5">
+          <DeleteNoteModal note={note} />
+          <Button
+            flat
+            auto
+            bordered
+            className="mx-3"
+            onClick={() => router.push(`/edit/${note.id}`)}
+          >
+            Edit
+          </Button>
+        </div>
+      )}
 
       {/* Note Pages from PDF File */}
       <MultiPagePDF url={note.url} />

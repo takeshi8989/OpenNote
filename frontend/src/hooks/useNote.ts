@@ -1,3 +1,4 @@
+import { usernameAtom } from "@/jotai/authAtom";
 import { noteListAtom, searchQueryAtom } from "@/jotai/noteAtom";
 import { Note } from "@/types/note";
 import { NewNoteRequest } from "@/types/request/noteRequest";
@@ -17,6 +18,7 @@ interface Props {
 
 const url: string = process.env.API_URL as string;
 export const useNote = (): Props => {
+  const username = useAtomValue(usernameAtom);
   const searchQuery = useAtomValue(searchQueryAtom);
   const setNoteList = useSetAtom(noteListAtom);
 
@@ -73,7 +75,6 @@ export const useNote = (): Props => {
   };
 
   const toggleLike = async (note: Note): Promise<Note | null> => {
-    const username: string = localStorage.getItem("username") as string;
     const token: string = localStorage.getItem("token") as string;
     try {
       const res = await fetch(`${url}/notes/like/${note.id}/${username}`, {

@@ -1,4 +1,6 @@
+import { usernameAtom } from "@/jotai/authAtom";
 import { Folder } from "@/types/folder";
+import { useAtomValue } from "jotai";
 
 interface Props {
   getFolderById: (id: string) => Promise<Folder | null>;
@@ -8,6 +10,7 @@ interface Props {
 
 const url: string = process.env.API_URL as string;
 export const useFolder = (): Props => {
+  const username = useAtomValue(usernameAtom);
   const getFolderById = async (id: string): Promise<Folder | null> => {
     try {
       const res = await fetch(`${url}/folders/${id}`);
@@ -20,7 +23,6 @@ export const useFolder = (): Props => {
   };
 
   const createNewFolder = async (title: string): Promise<boolean> => {
-    const username: string = localStorage.getItem("username") as string;
     const token: string = localStorage.getItem("token") as string;
 
     const request = {
