@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Button, Text, Input, Row, Checkbox } from "@nextui-org/react";
+import { Modal, Button, Text, Input } from "@nextui-org/react";
 import { useAuth } from "@/hooks/useAuth";
 import { LoginRequest, SignUpRequest } from "@/types/request/userRequest";
-import { useAtom } from "jotai/react";
-import { isLoggedInAtom, openLoginModalAtom } from "@/jotai/authAtom";
+import { useAtom, useSetAtom } from "jotai/react";
+import {
+  isLoggedInAtom,
+  openLoginModalAtom,
+  usernameAtom,
+} from "@/jotai/authAtom";
 import { useRouter } from "next/router";
 
 export const LoginModal = (): JSX.Element => {
@@ -14,6 +18,8 @@ export const LoginModal = (): JSX.Element => {
   const [openLoginModal, setOpenLoginModal] = useAtom(openLoginModalAtom);
   const [isSignUp, setIsSignUp] = useState<boolean>(false);
   const [isLoggedIn, setIsLoggedIn] = useAtom(isLoggedInAtom);
+
+  const setGlobalUsername = useSetAtom(usernameAtom);
   const router = useRouter();
   const { validateSignUp, login, signup } = useAuth();
 
@@ -53,8 +59,8 @@ export const LoginModal = (): JSX.Element => {
     signup(request).then((loginSuccess) => {
       if (loginSuccess) {
         setIsLoggedIn(true);
+        setGlobalUsername(username);
         closeHandler();
-        router.push("/");
       } else {
         setErrorMessage("Failed to signup");
       }
@@ -66,8 +72,8 @@ export const LoginModal = (): JSX.Element => {
     login(request).then((loginSuccess) => {
       if (loginSuccess) {
         setIsLoggedIn(true);
+        setGlobalUsername(username);
         closeHandler();
-        router.push("/");
       } else {
         setErrorMessage("the user does not exist. login failed.");
       }
