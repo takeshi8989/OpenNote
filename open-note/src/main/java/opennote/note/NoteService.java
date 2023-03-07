@@ -50,7 +50,14 @@ public class NoteService {
     }
 
     public List<Note> getNotesBySearch(String query){
-        return noteRepository.getNotesBySearch(query.toLowerCase());
+        query = query.toLowerCase();
+        String[] words = query.split("\\+");
+        String w1 = words.length > 0 ? words[0] : "";
+        String w2 = words.length > 1 ? words[1] : "";
+        String w3 = words.length > 2 ? words[2] : "";
+        String w4 = words.length > 3 ? words[3] : "";
+        String w5 = words.length > 4 ? words[4] : "";
+        return noteRepository.getNotesBySearch(w1, w2, w3, w4, w5);
     }
 
     public Note createNote(NewNoteRequest request){

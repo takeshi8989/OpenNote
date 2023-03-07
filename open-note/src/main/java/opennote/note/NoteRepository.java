@@ -25,7 +25,11 @@ public interface NoteRepository extends JpaRepository<Note, String> {
     List<Note> getNotesByFolderId(String folderId);
 
     @Query(value = "SELECT * FROM notes " +
-            "WHERE LOWER(title) LIKE CONCAT('%', ?1, '%') " +
-            "AND is_public LIMIT 12", nativeQuery = true)
-    List<Note> getNotesBySearch(String query);
+            "WHERE LOWER(title) like CONCAT('%', ?1, '%') AND " +
+            "LOWER(title) like CONCAT('%', ?2, '%') AND " +
+            "LOWER(title) like CONCAT('%', ?3, '%') AND " +
+            "LOWER(title) like CONCAT('%', ?4, '%') AND " +
+            "LOWER(title) like CONCAT('%', ?5, '%') AND " +
+            "is_public LIMIT 12", nativeQuery = true)
+    List<Note> getNotesBySearch(String word1, String word2, String word3, String word4, String word5);
 }
