@@ -49,7 +49,6 @@ export const useNote = (): Props => {
     let requestEndpoint = `${url}/notes`;
     if (searchQuery !== "") {
       let seperateBySpace = searchQuery.replaceAll(" ", "+");
-      console.log(seperateBySpace);
       requestEndpoint += `/search/${seperateBySpace}`;
     }
     try {
