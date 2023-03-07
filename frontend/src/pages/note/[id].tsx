@@ -10,15 +10,23 @@ const Note = () => {
   const { id } = router.query;
   const [note, setNote] = useState<Note | null>(null);
   const { getNoteById } = useNote();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   useEffect(() => {
     if (id != null && typeof id === "string") {
-      getNoteById(id).then((data) => {
-        if (data != null) {
-          setNote(data);
-        }
-      });
+      fetchNote(id);
     }
   }, [id]);
+
+  const fetchNote = async (strId: string) => {
+    const data: Note | null = await getNoteById(strId).then((res) => res);
+    console.log(data);
+    if (data) setNote(data);
+    setIsLoading(false);
+  };
+
+  if (isLoading) return <div></div>;
+  if (!note?.user) return <div>NOT FOUND</div>;
+
   return (
     <div className="h-screen w-full flex justify-center overflow-hidden">
       <div className="w-1/4 h-full overflow-y-scroll">

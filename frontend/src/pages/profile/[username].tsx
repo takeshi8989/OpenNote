@@ -5,41 +5,45 @@ import React, { useEffect, useState } from "react";
 import { useUser } from "../../hooks/useUser";
 import { useRouter } from "next/router";
 import { useAtomValue } from "jotai";
-import { isLoggedInAtom } from "@/jotai/authAtom";
+import { isLoggedInAtom, usernameAtom } from "@/jotai/authAtom";
 
 const ProfilePage = () => {
   const router = useRouter();
   const { username } = router.query;
-  const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
+  const globalUsername = useAtomValue(usernameAtom);
   const [currentUser, setCurrentUser] = useState<User>();
   const { getUserByUsername } = useUser();
   const isLoggedIn = useAtomValue(isLoggedInAtom);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     setUser();
-    if (typeof localStorage.getItem("username") === "string") {
-      const name = localStorage.getItem("username") as string;
-      setIsAuthorized(name === username && isLoggedIn);
-    }
   }, [username]);
 
   const setUser = async (): Promise<void> => {
     if (username != null && typeof username === "string") {
       const user: User | null = await getUserByUsername(username);
       if (user) setCurrentUser(user);
+      setIsLoading(false);
     }
   };
+
+  if (isLoading) return <div></div>;
+  if (!currentUser) return <div>NOT FOUND</div>;
 
   return (
     <div className="h-screen w-full flex justify-center overflow-hidden">
       <div className="w-1/4 h-full overflow-y-scroll">
-        <Sidebar user={currentUser} isAuthorized={isAuthorized} />
+        <Sidebar
+          user={currentUser}
+          isAuthorized={isLoggedIn && username == globalUsername}
+        />
       </div>
       <div className="w-3/4 h-full overflow-y-scroll">
         <UserInfo
           user={currentUser}
           setUser={setCurrentUser}
-          isAuthorized={isAuthorized}
+          isAuthorized={isLoggedIn && username == globalUsername}
         />
       </div>
     </div>

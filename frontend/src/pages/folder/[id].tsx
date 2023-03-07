@@ -9,17 +9,24 @@ const FolderPage = () => {
   const router = useRouter();
   const { id } = router.query;
   const [folder, setFolder] = useState<Folder | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const { getFolderById } = useFolder();
   useEffect(() => {
     if (id != null && typeof id === "string") {
-      getFolderById(id).then((data) => {
-        if (data != null) {
-          setFolder(data);
-        }
-      });
+      fetchFolder(id);
     }
   }, [id]);
+
+  const fetchFolder = async (strId: string) => {
+    const data: Folder | null = await getFolderById(strId).then((data) => data);
+    if (data) setFolder(data);
+    setIsLoading(false);
+    console.log(data);
+  };
+
+  if (isLoading) return <div></div>;
   if (!folder) return <div>NOt found</div>;
+
   return (
     <div>
       <Text className="text-center mt-10" size="$2xl">

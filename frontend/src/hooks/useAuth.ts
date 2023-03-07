@@ -4,22 +4,20 @@ import jwtDecode from "jwt-decode";
 const url: string = process.env.API_URL as string;
 
 export const useAuth = (): {
-  validateSignUp: (username: string, password: string) => boolean;
+  validateSignUp: (username: string, password: string) => string;
   login: (request: LoginRequest) => Promise<boolean>;
   signup: (request: SignUpRequest) => Promise<boolean>;
   checkIsLoggedIn: () => boolean;
 } => {
-  const validateSignUp = (username: string, password: string): boolean => {
+  const validateSignUp = (username: string, password: string): string => {
     const letterNumber = /^[0-9a-zA-Z]+$/;
     if (!letterNumber.test(username)) {
-      console.log("invalid username");
-      return false;
+      return "invalid username. alphabet and number allowed";
     }
     if (password.length < 6) {
-      console.log("password is too short");
-      return false;
+      return "password is too short.";
     }
-    return true;
+    return "";
   };
 
   const login = async (request: LoginRequest): Promise<boolean> => {

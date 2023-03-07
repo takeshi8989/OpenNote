@@ -1,4 +1,6 @@
+import { usernameAtom } from "@/jotai/authAtom";
 import { Comment } from "@/types/comment";
+import { useAtomValue } from "jotai";
 
 const url: string = process.env.API_URL as string;
 
@@ -10,11 +12,12 @@ interface Props {
 }
 
 export const useComment = (): Props => {
+  const username = useAtomValue(usernameAtom);
+
   const createNewComment = async (
     content: string,
     noteId: string
   ): Promise<Comment | null> => {
-    const username: string = localStorage.getItem("username") as string;
     const newRequest = { content, username, noteId };
     const token: string = localStorage.getItem("token") as string;
     try {

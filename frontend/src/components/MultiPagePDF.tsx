@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
-import { Button, Loading, Text } from "@nextui-org/react";
+import { Loading, Text } from "@nextui-org/react";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const MultiPagePDF = ({ url }: { url: string }) => {
@@ -9,7 +9,8 @@ const MultiPagePDF = ({ url }: { url: string }) => {
   const [loadFailed, setLoadFailed] = useState<boolean>(false);
 
   useEffect(() => {
-    pdfjs.getDocument(url).promise.then((doc) => setNumPages(doc.numPages));
+    if (url)
+      pdfjs.getDocument(url).promise.then((doc) => setNumPages(doc.numPages));
   }, [url]);
 
   const removeLoading = () => {
