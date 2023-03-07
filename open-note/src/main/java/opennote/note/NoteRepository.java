@@ -8,8 +8,9 @@ import java.util.List;
 
 @Repository
 public interface NoteRepository extends JpaRepository<Note, String> {
-    @Query(value = "SELECT * from notes WHERE is_public=true ORDER BY updated_at DESC LIMIT 12", nativeQuery = true)
+    @Query(value = "SELECT * from notes WHERE is_public=true ORDER BY updated_at DESC", nativeQuery = true)
     List<Note> getRecentNotes();
+    // TO-DO limit 12
 
     @Query(value = "SELECT * from notes ORDER BY num_views DESC LIMIT 12", nativeQuery = true)
     List<Note> getMostViewedNotes();
@@ -30,6 +31,7 @@ public interface NoteRepository extends JpaRepository<Note, String> {
             "LOWER(title) like CONCAT('%', ?3, '%') AND " +
             "LOWER(title) like CONCAT('%', ?4, '%') AND " +
             "LOWER(title) like CONCAT('%', ?5, '%') AND " +
-            "is_public LIMIT 12", nativeQuery = true)
+            "is_public", nativeQuery = true)
     List<Note> getNotesBySearch(String word1, String word2, String word3, String word4, String word5);
+    // TO-DO LIMIT 12
 }
