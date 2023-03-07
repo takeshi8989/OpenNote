@@ -31,6 +31,7 @@ export const Header = () => {
 
   const handleSearch = (e: any): void => {
     if (e.key === "Enter") {
+      router.push("/");
       setNoteListBySearch();
     }
   };
