@@ -19,6 +19,9 @@ const Note = () => {
       });
     }
   }, [id]);
+
+  if (!note) return <div></div>;
+
   return (
     <div className="h-screen w-full flex justify-center overflow-hidden">
       <div className="w-1/4 h-full overflow-y-scroll">

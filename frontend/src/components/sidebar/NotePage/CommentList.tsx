@@ -1,5 +1,5 @@
 import { Comment } from "@/types/comment";
-import React from "react";
+import React, { useEffect } from "react";
 import { Avatar, Text } from "@nextui-org/react";
 
 const CommentList = ({ comments }: { comments: Comment[] }): JSX.Element => {
@@ -8,6 +8,7 @@ const CommentList = ({ comments }: { comments: Comment[] }): JSX.Element => {
       return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
     });
   };
+  if (!comments) return <div></div>;
 
   return (
     <div className="w-full mx-auto mt-8 mb-10">

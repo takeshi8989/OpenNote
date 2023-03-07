@@ -13,13 +13,11 @@ import UserFolderModal from "../../modal/UserFolderModal";
 
 const BUCKET_OBJECT_URL: string = process.env.BUCKET_OBJECT_URL as string;
 const API_URL: string = process.env.API_URL as string;
-const Sidebar = ({ note }: { note: Note | null }): JSX.Element => {
+const Sidebar = ({ note }: { note: Note }): JSX.Element => {
   const [currentComment, setCurrentComment] = useState<string>("");
   const isLoggedIn = useAtomValue(isLoggedInAtom);
   const setOpenLoginModal = useSetAtom(openLoginModalAtom);
   const { createNewComment } = useComment();
-
-  if (note === null) return <div></div>;
 
   const downloadNote = () => {
     const fileKey = note.url.substring(BUCKET_OBJECT_URL.length);

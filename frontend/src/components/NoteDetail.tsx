@@ -26,14 +26,14 @@ const NoteDetail = ({ note, setNote }: Props): JSX.Element => {
   const { toggleLike } = useNote();
 
   useEffect(() => {
-    if (note === null) return;
+    if (!note) return;
     const username: string = localStorage.getItem("username") as string;
     const hasUserLike: boolean =
-      note.likes.filter((like) => like.user.username === username).length > 0;
+      note.likes?.filter((like) => like.user.username === username).length > 0;
     setLikeNote(hasUserLike);
   }, [note]);
 
-  if (note == null) return <div>Not Found</div>;
+  if (!note) return <div>Not Found</div>;
 
   const handleLike = async () => {
     if (!isLoggedIn) {
@@ -50,7 +50,7 @@ const NoteDetail = ({ note, setNote }: Props): JSX.Element => {
         {note.title}
       </Text>
       <Text className="text-center" size="$md">
-        {note.user.username}
+        {note.user?.username}
       </Text>
 
       {/* View, Like, Download, Comment */}
@@ -65,7 +65,7 @@ const NoteDetail = ({ note, setNote }: Props): JSX.Element => {
           onClick={handleLike}
         />
         <Text className="mr-4" size="$xl">
-          {note.likes.length}
+          {note.likes?.length}
         </Text>
         <GrDownload size={30} />
         <Text className="mr-4" size="$xl">
@@ -74,11 +74,11 @@ const NoteDetail = ({ note, setNote }: Props): JSX.Element => {
 
         <BiCommentDetail size={30} className="mt-1" />
         <Text className="mr-4" size="$xl">
-          {note.comments.length}
+          {note.comments?.length}
         </Text>
       </div>
       {isLoggedIn &&
-        note.user.username === localStorage.getItem("username") && (
+        note.user?.username === localStorage.getItem("username") && (
           <div className="flex items-center justify-center mt-5">
             <DeleteNoteModal note={note} />
             <Button
@@ -97,7 +97,7 @@ const NoteDetail = ({ note, setNote }: Props): JSX.Element => {
       <MultiPagePDF url={note.url} />
       {/* Tags */}
       <div className="flex flex-wrap justify-center mx-auto w-1/3 mt-2 mb-5">
-        {note.tags.map((tag) => (
+        {note.tags?.map((tag) => (
           <CustomTag tag={tag} />
         ))}
       </div>

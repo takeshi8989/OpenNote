@@ -145,14 +145,16 @@ export const LoginModal = (): JSX.Element => {
             type="password"
             required
           />
-          {!isSignUp && (
+          {/* TO-DO Remember me -> extend expire date */}
+
+          {/* {!isSignUp && (
             <Row justify="space-between">
               <Checkbox>
                 <Text size={14}>Remember me</Text>
               </Checkbox>
               <Text size={14}>Forgot password?</Text>
             </Row>
-          )}
+          )} */}
         </Modal.Body>
         <Modal.Footer>
           <Button auto flat color="error" onPress={closeHandler}>
