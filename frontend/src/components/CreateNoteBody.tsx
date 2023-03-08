@@ -131,9 +131,15 @@ const CreateNoteBody = ({ selectedFolderIds }: Props) => {
         >
           <input {...getInputProps()} />
           {isDragActive ? (
-            <p>Drop the files here ...</p>
+            <div className="text-center">
+              <p>Drop the files here ...</p>
+              <p>Upload PDF File up to 10MB</p>
+            </div>
           ) : (
-            <p>Drag and drop a file here, or click to select file</p>
+            <div className="text-center">
+              <p>Drag and drop a file here, or click to select file</p>
+              <p>Upload PDF File up to 10MB</p>
+            </div>
           )}
         </div>
       )}
