@@ -12,11 +12,12 @@ import { isLoggedInAtom, openLoginModalAtom } from "@/jotai/authAtom";
 import { useRouter } from "next/router";
 import { v4 as uuidv4 } from "uuid";
 
-const CreateNoteBody = ({
-  selectedFolderIds,
-}: {
+interface Props {
   selectedFolderIds: string[];
-}) => {
+}
+
+const BUCKET_OBJECT_URL: string = process.env.BUCKET_OBJECT_URL as string;
+const CreateNoteBody = ({ selectedFolderIds }: Props) => {
   const router = useRouter();
   const { uploadFile, deleteFile } = useFile();
   const { createNewNote } = useNote();
@@ -28,6 +29,7 @@ const CreateNoteBody = ({
   const isLoggedIn = useAtomValue(isLoggedInAtom);
   const setOpenLoginModal = useSetAtom(openLoginModalAtom);
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [fileUploadMessage, setFileUploadMessage] = useState<string>("");
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     if (!isLoggedIn) {
@@ -36,12 +38,10 @@ const CreateNoteBody = ({
     }
     const uuid: string = uuidv4();
     const file: File = acceptedFiles[0];
-    const fileUrl: string = await uploadFile(file, uuid).then((url) => {
-      return url;
-    });
-    // if fileUrl === ""
-
-    showNote(fileUrl);
+    const message: string = await uploadFile(file, uuid).then((msg) => msg);
+    const objectUrl: string = BUCKET_OBJECT_URL + uuid + ".pdf";
+    if (message === "") showNote(objectUrl);
+    else setFileUploadMessage(message);
   }, []);
 
   const resetNote = async (): Promise<void> => {
@@ -85,6 +85,7 @@ const CreateNoteBody = ({
       setCurrentFileUrl("");
       setIsPublic(true);
       setErrorMessage("");
+      setFileUploadMessage("");
       router.push(`/note/${noteId}`);
     } else {
       setErrorMessage("Note creation failed, please try again");
@@ -117,6 +118,9 @@ const CreateNoteBody = ({
           />
         </div>
       </div>
+      <Text size="$xl" className="text-center text-red-400">
+        {fileUploadMessage}
+      </Text>
       {/* Drop File */}
       {currentFileUrl === "" && (
         <div

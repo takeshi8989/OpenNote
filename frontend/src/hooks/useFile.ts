@@ -6,12 +6,10 @@ export const useFile = (): {
 } => {
   const uploadFile = async (file: File, uuid: string): Promise<string> => {
     if (file.type !== "application/pdf") {
-      console.log("file type is not PDF");
+      return "Only PDF files allowed.";
     }
-    console.log(file.size);
     if (file.size >= 10000000) {
-      console.log("file is too big");
-      return "";
+      return "file size is too big.";
     }
     const newFileName: string = uuid + ".pdf";
     const blob = file.slice(0, file.size);
@@ -27,12 +25,11 @@ export const useFile = (): {
         },
         body: formData,
       });
-      const data = await res.text();
-      const fileUrl: string = BUCKET_OBJECT_URL + data;
-      return fileUrl;
+      if (res.ok) return "";
+      else return "Uploading a file failed.";
     } catch (error) {
       console.log(error);
-      return "";
+      return "Uploading a file failed.";
     }
   };
 
