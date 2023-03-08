@@ -11,7 +11,9 @@ import { useAtomValue, useSetAtom } from "jotai";
 import { isLoggedInAtom, openLoginModalAtom } from "../jotai/authAtom";
 import { useRouter } from "next/router";
 import { Note } from "../types/note";
+import { v4 as uuidv4 } from "uuid";
 
+const BUCKET_OBJECT_URL: string = process.env.BUCKET_OBJECT_URL as string;
 const EditNoteBody = ({ note }: { note: Note | null }) => {
   const router = useRouter();
   const { uploadFile, deleteFile } = useFile();
@@ -23,6 +25,8 @@ const EditNoteBody = ({ note }: { note: Note | null }) => {
   const [description, setDescription] = useState<string>("");
   const isLoggedIn = useAtomValue(isLoggedInAtom);
   const setOpenLoginModal = useSetAtom(openLoginModalAtom);
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [fileUploadMessage, setFileUploadMessage] = useState<string>("");
 
   useEffect(() => {
     if (note == null) return;
@@ -43,12 +47,11 @@ const EditNoteBody = ({ note }: { note: Note | null }) => {
       return;
     }
     const file: File = acceptedFiles[0];
-    const fileUrl: string = await uploadFile(file).then((url) => {
-      return url;
-    });
-    // if fileUrl === ""
-
-    showNote(fileUrl);
+    const uuid: string = uuidv4();
+    const message: string = await uploadFile(file, uuid).then((msg) => msg);
+    const objectUrl: string = BUCKET_OBJECT_URL + uuid + ".pdf";
+    if (message === "") showNote(objectUrl);
+    else setFileUploadMessage(message);
   }, []);
 
   const resetNote = async (): Promise<void> => {
@@ -68,7 +71,10 @@ const EditNoteBody = ({ note }: { note: Note | null }) => {
   };
 
   const onUpdateNote = async (): Promise<void> => {
-    if (note == null || currentFileUrl == null || currentFileUrl === "") return;
+    if (note == null || currentFileUrl == null || currentFileUrl === "") {
+      setErrorMessage("Please upload a file");
+      return;
+    }
     const username: string = localStorage.getItem("username") as string;
     console.log(tags);
     const request: NewNoteRequest = {
@@ -85,8 +91,12 @@ const EditNoteBody = ({ note }: { note: Note | null }) => {
       setTitle("");
       setCurrentFileUrl("");
       setIsPublic(true);
+      setErrorMessage("");
+      setFileUploadMessage("");
       router.push(`/note/${noteId}`);
+      return;
     }
+    setErrorMessage("Note creation failed, please try again");
   };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -115,6 +125,9 @@ const EditNoteBody = ({ note }: { note: Note | null }) => {
           />
         </div>
       </div>
+      <Text size="$xl" className="text-center text-red-400">
+        {fileUploadMessage}
+      </Text>
       {/* Drop File */}
       {currentFileUrl === "" && (
         <div
@@ -125,9 +138,15 @@ const EditNoteBody = ({ note }: { note: Note | null }) => {
         >
           <input {...getInputProps()} />
           {isDragActive ? (
-            <p>Drop the files here ...</p>
+            <div className="text-center">
+              <p>Drop the files here ...</p>
+              <p>Upload PDF File up to 10MB</p>
+            </div>
           ) : (
-            <p>Drag and drop a file here, or click to select file</p>
+            <div className="text-center">
+              <p>Drag and drop a file here, or click to select file</p>
+              <p>Upload PDF File up to 10MB</p>
+            </div>
           )}
         </div>
       )}
@@ -163,6 +182,9 @@ const EditNoteBody = ({ note }: { note: Note | null }) => {
       {/* Tag */}
       <TagGenerator tags={tags} setTags={setTags} />
       {/* Submit */}
+      <Text size="$lg" className="text-center text-red-400">
+        {errorMessage}
+      </Text>
       <div className="w-full flex justify-center">
         <Button
           bordered

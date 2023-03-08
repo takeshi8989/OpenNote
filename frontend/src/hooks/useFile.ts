@@ -1,20 +1,17 @@
-import { v4 as uuidv4 } from "uuid";
-
 const url: string = process.env.API_URL as string;
 const BUCKET_OBJECT_URL: string = process.env.BUCKET_OBJECT_URL as string;
 export const useFile = (): {
-  uploadFile: (file: File) => Promise<string>;
+  uploadFile: (file: File, uuid: string) => Promise<string>;
   deleteFile: (fileName: string) => Promise<boolean>;
 } => {
-  const uploadFile = async (file: File): Promise<string> => {
+  const uploadFile = async (file: File, uuid: string): Promise<string> => {
     if (file.type !== "application/pdf") {
-      console.log("file type is not PDF");
+      return "Only PDF files allowed.";
     }
-    if (file.size > 1000000) {
-      console.log("file is too big");
-      return "";
+    if (file.size >= 10000000) {
+      return "file size is too big.";
     }
-    const newFileName: string = uuidv4() + ".pdf";
+    const newFileName: string = uuid + ".pdf";
     const blob = file.slice(0, file.size);
     const newFile = new File([blob], newFileName, { type: "application/pdf" });
     const token: string = localStorage.getItem("token") as string;
@@ -28,12 +25,11 @@ export const useFile = (): {
         },
         body: formData,
       });
-      const data = await res.text();
-      const fileUrl: string = BUCKET_OBJECT_URL + data;
-      return fileUrl;
+      if (res.ok) return "";
+      else return "Uploading a file failed.";
     } catch (error) {
       console.log(error);
-      return "";
+      return "Uploading a file failed.";
     }
   };
 
