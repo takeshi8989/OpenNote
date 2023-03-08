@@ -5,7 +5,6 @@ import React, { useEffect, useState } from "react";
 import FolderList from "./FolderList";
 import NewFolderModal from "../../modal/NewFolderModal";
 import { useFolder } from "@/hooks/useFolder";
-import { useAtomValue } from "jotai";
 
 interface Props {
   user: User | undefined;

@@ -1,4 +1,3 @@
-import { usernameAtom } from "@/jotai/authAtom";
 import { noteListAtom, searchQueryAtom } from "@/jotai/noteAtom";
 import { Note } from "@/types/note";
 import { NewNoteRequest } from "@/types/request/noteRequest";
@@ -36,7 +35,6 @@ export const useNote = (): Props => {
       return data.id;
     } catch (error) {
       console.log(error);
-      // throw error;
       return "";
     }
   };
@@ -156,7 +154,6 @@ export const useNote = (): Props => {
       return data.id;
     } catch (error) {
       console.log(error);
-      // throw error;
       return "";
     }
   };

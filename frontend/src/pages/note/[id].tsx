@@ -11,6 +11,14 @@ const Note = () => {
   const [note, setNote] = useState<Note | null>(null);
   const { getNoteById } = useNote();
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [windowSize, setWindowSize] = useState<number>();
+
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      setWindowSize(window.innerWidth);
+    });
+  }, []);
+
   useEffect(() => {
     if (id != null && typeof id === "string") {
       fetchNote(id);
@@ -34,9 +42,11 @@ const Note = () => {
       </div>
       <div className="w-full lg:w-3/4 h-full overflow-y-scroll">
         <NoteDetail note={note} setNote={setNote} />
-        <div className="w-full lg:h-0 lg:w-0">
-          <Sidebar note={note} />
-        </div>
+        {windowSize && windowSize < 1024 && (
+          <div className="w-full">
+            <Sidebar note={note} />
+          </div>
+        )}
       </div>
     </div>
   );

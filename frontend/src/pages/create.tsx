@@ -8,11 +8,15 @@ const CreateNotePage = () => {
   const [selectedFolderIds, setSelectedFolderIds] = useState<string[]>([]);
   const isLoggedIn = useAtomValue(isLoggedInAtom);
   const setOpenLoginModal = useSetAtom(openLoginModalAtom);
+  const [windowSize, setWindowSize] = useState<number>();
   useEffect(() => {
     if (!isLoggedIn) {
       setOpenLoginModal(true);
       return;
     }
+    window.addEventListener("resize", () => {
+      setWindowSize(window.innerWidth);
+    });
   }, []);
   return (
     <div className="h-screen w-full flex justify-center overflow-hidden">
@@ -24,12 +28,14 @@ const CreateNotePage = () => {
       </div>
       <div className="w-full lg:w-3/4 h-full overflow-y-scroll">
         <CreateNoteBody selectedFolderIds={selectedFolderIds} />
-        <div className="w-full lg:w-0 mb-32">
-          <Sidebar
-            selectedFolderIds={selectedFolderIds}
-            setSelectedFolderIds={setSelectedFolderIds}
-          />
-        </div>
+        {windowSize && windowSize < 1024 && (
+          <div className="w-full mb-32">
+            <Sidebar
+              selectedFolderIds={selectedFolderIds}
+              setSelectedFolderIds={setSelectedFolderIds}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

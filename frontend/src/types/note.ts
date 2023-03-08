@@ -8,7 +8,7 @@ export interface Note {
   title: string;
   url: string;
   description: string;
-  // this will be author
+  // author
   user: User;
   createdAt: string;
   updatedAt: string;

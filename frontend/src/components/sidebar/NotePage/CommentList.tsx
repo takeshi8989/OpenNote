@@ -1,5 +1,5 @@
 import { Comment } from "@/types/comment";
-import React, { useEffect } from "react";
+import React from "react";
 import { Avatar, Text } from "@nextui-org/react";
 
 const CommentList = ({ comments }: { comments: Comment[] }): JSX.Element => {
