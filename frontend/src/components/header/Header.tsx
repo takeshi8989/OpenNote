@@ -10,13 +10,12 @@ import {
 import { Layout } from "./Layout";
 import { SearchIcon } from "./SearchIcon";
 import { LoginModal } from "../modal/LoginModal";
-import { useAtom } from "jotai/react";
+import { useAtom, useSetAtom, useAtomValue } from "jotai/react";
 import {
   isLoggedInAtom,
   openLoginModalAtom,
   usernameAtom,
 } from "@/jotai/authAtom";
-import { useAtomValue } from "jotai/react";
 import { useRouter } from "next/router";
 import { searchQueryAtom } from "@/jotai/noteAtom";
 import { useNote } from "@/hooks/useNote";
@@ -24,7 +23,7 @@ import { useNote } from "@/hooks/useNote";
 export const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useAtom(isLoggedInAtom);
   const [searchQuery, setSearchQuery] = useAtom(searchQueryAtom);
-  const [openLoginModal, setOpenLoginModal] = useAtom(openLoginModalAtom);
+  const setOpenLoginModal = useSetAtom(openLoginModalAtom);
   const { setNoteListBySearch } = useNote();
   const username = useAtomValue(usernameAtom);
   const router = useRouter();

@@ -1,6 +1,6 @@
 import { Note } from "@/types/note";
 import React, { useState } from "react";
-import { Link, Loading, Text } from "@nextui-org/react";
+import { Loading, Text } from "@nextui-org/react";
 import { Document, Page, pdfjs } from "react-pdf";
 import { AiOutlineLike } from "react-icons/ai";
 import { BiCommentDetail } from "react-icons/bi";

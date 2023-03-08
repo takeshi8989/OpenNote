@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Modal, Button, Text } from "@nextui-org/react";
 import { useNote } from "@/hooks/useNote";
 import { useAtomValue, useSetAtom } from "jotai";
