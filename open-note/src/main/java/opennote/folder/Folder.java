@@ -3,12 +3,13 @@ package opennote.folder;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.ForeignKey;
+import jakarta.persistence.Table;
 import lombok.Data;
 import opennote.note.Note;
 import opennote.user.User;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,11 +29,19 @@ public class Folder {
     @JoinColumn(name = "user_id")
     @JsonBackReference
     private User user;
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "folder_notes",
-            joinColumns = @JoinColumn(name = "folder_id"),
-            inverseJoinColumns = @JoinColumn(name = "note_id"))
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {
+            CascadeType.DETACH, CascadeType.MERGE,
+            CascadeType.REFRESH, CascadeType.PERSIST
+    }, targetEntity = Note.class)
+    @JoinTable(name = "folder_notes",
+            joinColumns = @JoinColumn(name = "folder_id",
+                    nullable = false,
+                    updatable = false),
+            inverseJoinColumns = @JoinColumn(name = "note_id",
+                    nullable = false,
+                    updatable = false),
+            foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT),
+            inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
     @JsonManagedReference
     private List<Note> notes = new ArrayList<>();
     private String title;
