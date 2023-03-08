@@ -33,18 +33,24 @@ const ProfilePage = () => {
 
   return (
     <div className="h-screen w-full flex justify-center overflow-hidden">
-      <div className="w-1/4 h-full overflow-y-scroll">
+      <div className="w-0 lg:w-1/4 lg:h-full overflow-y-scroll">
         <Sidebar
           user={currentUser}
           isAuthorized={isLoggedIn && username == globalUsername}
         />
       </div>
-      <div className="w-3/4 h-full overflow-y-scroll">
+      <div className="w-full lg:w-3/4 h-full overflow-y-scroll">
         <UserInfo
           user={currentUser}
           setUser={setCurrentUser}
           isAuthorized={isLoggedIn && username == globalUsername}
         />
+        <div className="w-full lg:w-0">
+          <Sidebar
+            user={currentUser}
+            isAuthorized={isLoggedIn && username == globalUsername}
+          />
+        </div>
       </div>
     </div>
   );
