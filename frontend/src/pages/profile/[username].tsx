@@ -15,6 +15,13 @@ const ProfilePage = () => {
   const { getUserByUsername } = useUser();
   const isLoggedIn = useAtomValue(isLoggedInAtom);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [windowSize, setWindowSize] = useState<number>();
+
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      setWindowSize(window.innerWidth);
+    });
+  }, []);
 
   useEffect(() => {
     setUser();
@@ -45,12 +52,14 @@ const ProfilePage = () => {
           setUser={setCurrentUser}
           isAuthorized={isLoggedIn && username == globalUsername}
         />
-        <div className="w-full lg:w-0">
-          <Sidebar
-            user={currentUser}
-            isAuthorized={isLoggedIn && username == globalUsername}
-          />
-        </div>
+        {windowSize && windowSize < 1024 && (
+          <div className="w-full">
+            <Sidebar
+              user={currentUser}
+              isAuthorized={isLoggedIn && username == globalUsername}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

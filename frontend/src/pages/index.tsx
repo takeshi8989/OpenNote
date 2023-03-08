@@ -6,7 +6,6 @@ import React, { useEffect } from "react";
 
 const Home = () => {
   const notes = useAtomValue(noteListAtom);
-  const searchQuery = useAtomValue(searchQueryAtom);
   const { setNoteListBySearch } = useNote();
   useEffect(() => {
     setNoteListBySearch();
