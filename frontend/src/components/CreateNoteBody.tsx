@@ -126,7 +126,7 @@ const CreateNoteBody = ({ selectedFolderIds }: Props) => {
         <div
           {...getRootProps({
             className:
-              "w-1/2 mx-auto border border-3 border-dashed border-cyan-700	 h-80 rounded-md mt-10 flex flex-col items-center justify-center bg-gray-100",
+              "w-3/4 md:w-1/2 mx-auto border border-3 border-dashed border-cyan-700	 h-80 rounded-md mt-10 flex flex-col items-center justify-center bg-gray-100",
           })}
         >
           <input {...getInputProps()} />

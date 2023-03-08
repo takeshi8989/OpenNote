@@ -16,14 +16,20 @@ const CreateNotePage = () => {
   }, []);
   return (
     <div className="h-screen w-full flex justify-center overflow-hidden">
-      <div className="w-1/4 h-full overflow-y-scroll">
+      <div className="w-0 lg:w-1/4 lg:h-full overflow-y-scroll">
         <Sidebar
           selectedFolderIds={selectedFolderIds}
           setSelectedFolderIds={setSelectedFolderIds}
         />
       </div>
-      <div className="w-3/4 h-full overflow-y-scroll">
+      <div className="w-full lg:w-3/4 h-full overflow-y-scroll">
         <CreateNoteBody selectedFolderIds={selectedFolderIds} />
+        <div className="w-full lg:w-0 mb-32">
+          <Sidebar
+            selectedFolderIds={selectedFolderIds}
+            setSelectedFolderIds={setSelectedFolderIds}
+          />
+        </div>
       </div>
     </div>
   );

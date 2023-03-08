@@ -7,11 +7,18 @@ const MultiPagePDF = ({ url }: { url: string }) => {
   const [numPages, setNumPages] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [loadFailed, setLoadFailed] = useState<boolean>(false);
+  const [windowSize, setWindowSize] = useState<number>();
 
   useEffect(() => {
     if (url)
       pdfjs.getDocument(url).promise.then((doc) => setNumPages(doc.numPages));
   }, [url]);
+
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      setWindowSize(window.innerWidth);
+    });
+  }, []);
 
   const removeLoading = () => {
     setIsLoading(false);
@@ -47,7 +54,7 @@ const MultiPagePDF = ({ url }: { url: string }) => {
           onLoadError={displayLoadError}
         >
           <Page
-            className="w-full"
+            width={!windowSize || windowSize > 800 ? 600 : 400}
             pageNumber={i + 1}
             renderTextLayer={false}
             renderAnnotationLayer={false}

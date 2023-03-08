@@ -29,11 +29,14 @@ const Note = () => {
 
   return (
     <div className="h-screen w-full flex justify-center overflow-hidden">
-      <div className="w-1/4 h-full overflow-y-scroll">
+      <div className="w-0 lg:w-1/4  h-full overflow-y-scroll">
         <Sidebar note={note} />
       </div>
       <div className="w-3/4 h-full overflow-y-scroll">
         <NoteDetail note={note} setNote={setNote} />
+        <div className="w-full lg:h-0 lg:w-0  overflow-y-scroll">
+          <Sidebar note={note} />
+        </div>
       </div>
     </div>
   );

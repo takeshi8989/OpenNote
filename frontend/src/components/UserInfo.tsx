@@ -87,7 +87,7 @@ const UserInfo = ({ user, setUser, isAuthorized }: Props) => {
           </Text>
         )}
       </div>
-      <div className="mx-4 flex justify-around">
+      <div className="mx-4 flex justify-around flex-wrap">
         {userNotes.length > 0 && <SinglePagePDF note={userNotes[0]} />}
         {userNotes.length > 1 && <SinglePagePDF note={userNotes[1]} />}
         {userNotes.length > 2 && <SinglePagePDF note={userNotes[2]} />}
