@@ -10,6 +10,7 @@ import { Tag } from "@/types/tag";
 import { useAtomValue, useSetAtom } from "jotai";
 import { isLoggedInAtom, openLoginModalAtom } from "@/jotai/authAtom";
 import { useRouter } from "next/router";
+import { v4 as uuidv4 } from "uuid";
 
 const CreateNoteBody = ({
   selectedFolderIds,
@@ -33,8 +34,9 @@ const CreateNoteBody = ({
       setOpenLoginModal(true);
       return;
     }
+    const uuid: string = uuidv4();
     const file: File = acceptedFiles[0];
-    const fileUrl: string = await uploadFile(file).then((url) => {
+    const fileUrl: string = await uploadFile(file, uuid).then((url) => {
       return url;
     });
     // if fileUrl === ""
