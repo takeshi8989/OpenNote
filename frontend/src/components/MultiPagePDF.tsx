@@ -34,7 +34,7 @@ const MultiPagePDF = ({ url }: { url: string }) => {
       loadNextPage();
     } else if (multiPdfRef && multiPdfRef.current) {
       const currentHeight: number = multiPdfRef.current.scrollHeight;
-      if (currentHeight < scrollBottom && !isLoading) loadNextPage();
+      if (currentHeight < scrollBottom + 400 && !isLoading) loadNextPage();
     }
   };
 
