@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNote } from "../../hooks/useNote";
 import { useRouter } from "next/router";
 import EditNoteBody from "../../components/EditNoteBody";
 import { Note } from "../../types/note";
-import { useAtomValue } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import { isLoggedInAtom, usernameAtom } from "@/jotai/authAtom";
+import { scrollBottomAtom } from "@/jotai/noteAtom";
 
 const EditNotePage = () => {
   const router = useRouter();
@@ -14,12 +15,21 @@ const EditNotePage = () => {
   const isLoggedIn = useAtomValue(isLoggedInAtom);
   const { getNoteById } = useNote();
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const noteBodyRef = useRef<HTMLDivElement>(null);
+  const [scrollBottom, setScrollBottom] = useAtom(scrollBottomAtom);
 
   useEffect(() => {
     if (id != null && typeof id === "string") {
       fetchNote(id);
     }
   }, [id]);
+
+  const handleBodyScroll = () => {
+    if (noteBodyRef && noteBodyRef.current) {
+      const bottom: number = noteBodyRef.current.scrollTop + window.innerHeight;
+      setScrollBottom(bottom);
+    }
+  };
 
   const fetchNote = async (strId: string) => {
     const data: Note | null = await getNoteById(strId).then((data) => data);
@@ -31,7 +41,11 @@ const EditNotePage = () => {
   if (!note?.user) return <div>NOT FOUND</div>;
 
   return (
-    <div className="w-full flex justify-center overflow-hidden">
+    <div
+      className="w-full h-screen flex justify-center overflow-y-scroll"
+      ref={noteBodyRef}
+      onScroll={handleBodyScroll}
+    >
       {isLoggedIn && note && username === note.user.username && (
         <EditNoteBody note={note} />
       )}

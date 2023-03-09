@@ -3,7 +3,7 @@ import { NextUIProvider } from "@nextui-org/react";
 import { Header } from "@/components/header/Header";
 import { useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
-import { useAtom, useSetAtom } from "jotai/react";
+import { useSetAtom } from "jotai/react";
 import { isLoggedInAtom, usernameAtom } from "@/jotai/authAtom";
 
 export default function MyApp({ Component, pageProps }) {
