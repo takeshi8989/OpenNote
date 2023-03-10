@@ -16,6 +16,7 @@ import {
   usernameAtom,
 } from "@/jotai/authAtom";
 import DeleteNoteModal from "./modal/DeleteNoteModal";
+import Link from "next/link";
 
 interface Props {
   note: Note | null;
@@ -53,9 +54,11 @@ const NoteDetail = ({ note, setNote }: Props): JSX.Element => {
       <Text className="text-center mt-4" size="$3xl">
         {note.title}
       </Text>
-      <Text className="text-center" size="$md">
-        {note.user?.username}
-      </Text>
+      <Link href={`/profile/${note.user?.username}`}>
+        <Text className="text-center" size="$md">
+          {note.user?.username}
+        </Text>
+      </Link>
 
       {/* View, Like, Download, Comment */}
       <div className="flex items-center justify-center mt-1">
