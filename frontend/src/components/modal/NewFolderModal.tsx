@@ -60,7 +60,7 @@ const NewFolderModal = () => {
             color="primary"
             size="lg"
             placeholder="My folder"
-            value={folderTitle}
+            defaultValue={folderTitle}
             onChange={(e) => setFolderTitle(e.target.value)}
           />
         </Modal.Body>

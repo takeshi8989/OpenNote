@@ -120,7 +120,7 @@ export const LoginModal = (): JSX.Element => {
             fullWidth
             color="primary"
             size="lg"
-            value={username}
+            defaultValue={username}
             onChange={(e) => setUsername(e.target.value)}
             placeholder="Username"
             required
@@ -132,7 +132,7 @@ export const LoginModal = (): JSX.Element => {
               fullWidth
               color="primary"
               size="lg"
-              value={email}
+              defaultValue={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email"
               type="email"
@@ -145,7 +145,7 @@ export const LoginModal = (): JSX.Element => {
             fullWidth
             color="primary"
             size="lg"
-            value={password}
+            defaultValue={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
             type="password"

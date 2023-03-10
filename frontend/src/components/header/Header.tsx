@@ -100,7 +100,7 @@ export const Header = () => {
               }}
               contentLeftStyling={false}
               placeholder="Search..."
-              value={searchQuery}
+              defaultValue={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onKeyDown={handleSearch}
             />

@@ -77,7 +77,8 @@ const UserInfo = ({ user, setUser, isAuthorized }: Props) => {
             size="xl"
             rows={4}
             width="100%"
-            value={userInfo}
+            initialValue={userInfo}
+            defaultValue={userInfo}
             onChange={(e) => setUserInfo(e.target.value)}
             onKeyDown={handleInfoKeyDown}
           />

@@ -102,7 +102,7 @@ const CreateNoteBody = ({ selectedFolderIds }: Props) => {
         <Input
           clearable
           underlined
-          value={title}
+          defaultValue={title}
           size="xl"
           className="w-full mx-auto text-2xl"
           onChange={(e) => setTitle(e.target.value)}
@@ -168,7 +168,7 @@ const CreateNoteBody = ({ selectedFolderIds }: Props) => {
           size="xl"
           rows={4}
           width="50%"
-          value={description}
+          defaultValue={description}
           onChange={(e) => setDescription(e.target.value)}
         />
       </div>
