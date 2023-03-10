@@ -10,6 +10,6 @@ You can now focus on listening and understanding in a classroom.
 https://open-note.net/
 
 ## Technology
-Typescript, Nextjs
-Java, Spring boot 3
+Typescript, Nextjs,
+Java, Spring boot,
 Docker, AWS(ECS, Fargate, S3), GitHub Actions
