@@ -1,4 +1,5 @@
 import "../styles/global.css";
+import Head from "next/head";
 import { NextUIProvider } from "@nextui-org/react";
 import { Header } from "@/components/header/Header";
 import { useEffect } from "react";
@@ -22,9 +23,15 @@ export default function MyApp({ Component, pageProps }) {
   }, []);
 
   return (
-    <NextUIProvider>
-      <Header />
-      <Component {...pageProps} />
-    </NextUIProvider>
+    <>
+      <Head>
+        <title>OPEN NOTE</title>
+        <link rel="shortcut icon" href="/note_favicon.ico/" />
+      </Head>
+      <NextUIProvider>
+        <Header />
+        <Component {...pageProps} />
+      </NextUIProvider>
+    </>
   );
 }

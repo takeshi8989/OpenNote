@@ -6,6 +6,7 @@ import {
   Input,
   Button,
   Link,
+  Image,
 } from "@nextui-org/react";
 import { Layout } from "./Layout";
 import { SearchIcon } from "./SearchIcon";
@@ -51,7 +52,14 @@ export const Header = () => {
     <Layout>
       <Navbar isBordered variant="sticky">
         <Link href="/">
-          <Navbar.Brand css={{ mr: "$4" }}>
+          <Navbar.Brand className="flex items-center" css={{ mr: "$4" }}>
+            <Image
+              src="/app_logo.png/"
+              width={40}
+              height={40}
+              alt="app_logo"
+              className="mt-2 mr-2"
+            />
             <Text b color="black" css={{ mr: "$11" }} hideIn="sm" size={30}>
               OPEN NOTE
             </Text>
