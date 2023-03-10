@@ -19,7 +19,7 @@ const EditNoteBody = ({ note }: { note: Note | null }) => {
   const { uploadFile, deleteFile } = useFile();
   const { updateNote } = useNote();
   const [currentFileUrl, setCurrentFileUrl] = useState<string>();
-  const [title, setTitle] = useState<string>("New Note");
+  const [title, setTitle] = useState<string>("");
   const [isPublic, setIsPublic] = useState<boolean>(true);
   const [tags, setTags] = useState<Tag[]>([]);
   const [description, setDescription] = useState<string>("");
@@ -109,7 +109,8 @@ const EditNoteBody = ({ note }: { note: Note | null }) => {
         <Input
           clearable
           underlined
-          value={title}
+          defaultValue={title}
+          initialValue={title}
           size="xl"
           className="w-full mx-auto text-2xl"
           onChange={(e) => setTitle(e.target.value)}
@@ -175,7 +176,8 @@ const EditNoteBody = ({ note }: { note: Note | null }) => {
           size="xl"
           rows={4}
           width="50%"
-          value={description}
+          initialValue={description}
+          defaultValue={description}
           onChange={(e) => setDescription(e.target.value)}
         />
       </div>

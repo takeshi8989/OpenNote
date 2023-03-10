@@ -66,7 +66,7 @@ const Sidebar = ({ note }: { note: Note }): JSX.Element => {
           contentRightStyling={false}
           width="100%"
           placeholder="Type your message..."
-          value={currentComment}
+          defaultValue={currentComment}
           onChange={(e) => setCurrentComment(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === "Enter") sendComment();

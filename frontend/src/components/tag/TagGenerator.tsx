@@ -48,7 +48,7 @@ const TagGenerator = ({
           clearable
           underlined
           placeholder="Tag"
-          value={currentInput}
+          defaultValue={currentInput}
           onChange={handleChange}
           onKeyDown={handleKeyDown}
         />
