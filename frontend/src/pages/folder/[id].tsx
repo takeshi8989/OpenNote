@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
 import { Text } from "@nextui-org/react";
 import NoteList from "../../components/NoteList";
+import NotFoundPage from "../404";
 
 const FolderPage = () => {
   const router = useRouter();
@@ -25,7 +26,7 @@ const FolderPage = () => {
   };
 
   if (isLoading) return <div></div>;
-  if (!folder) return <div>NOt found</div>;
+  if (!folder) return <NotFoundPage />;
 
   return (
     <div>

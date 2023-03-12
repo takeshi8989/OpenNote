@@ -6,6 +6,7 @@ import { useUser } from "../../hooks/useUser";
 import { useRouter } from "next/router";
 import { useAtomValue } from "jotai";
 import { isLoggedInAtom, usernameAtom } from "@/jotai/authAtom";
+import NotFoundPage from "../404";
 
 const ProfilePage = () => {
   const router = useRouter();
@@ -36,7 +37,7 @@ const ProfilePage = () => {
   };
 
   if (isLoading) return <div></div>;
-  if (!currentUser) return <div>NOT FOUND</div>;
+  if (!currentUser) return <NotFoundPage />;
 
   return (
     <div className="h-screen w-full flex justify-center overflow-hidden">

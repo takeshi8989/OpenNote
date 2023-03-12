@@ -6,6 +6,7 @@ import { Note } from "../../types/note";
 import { useAtom, useAtomValue } from "jotai";
 import { isLoggedInAtom, usernameAtom } from "@/jotai/authAtom";
 import { scrollBottomAtom } from "@/jotai/noteAtom";
+import NotFoundPage from "../404";
 
 const EditNotePage = () => {
   const router = useRouter();
@@ -38,7 +39,7 @@ const EditNotePage = () => {
   };
 
   if (isLoading) return <div></div>;
-  if (!note?.user) return <div>NOT FOUND</div>;
+  if (!note?.user) return <NotFoundPage />;
 
   return (
     <div
