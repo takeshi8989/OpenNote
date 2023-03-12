@@ -107,7 +107,7 @@ const CreateNoteBody = ({ selectedFolderIds }: Props) => {
           className="w-full mx-auto text-2xl"
           onChange={(e) => setTitle(e.target.value)}
         />
-        <div className="w-full flex justify-end items-center">
+        {/* <div className="w-full flex justify-end items-center">
           <Text size="$xl" className="mx-3">
             Public
           </Text>
@@ -116,7 +116,7 @@ const CreateNoteBody = ({ selectedFolderIds }: Props) => {
             size="lg"
             onChange={(e) => setIsPublic(e.target.checked)}
           />
-        </div>
+        </div> */}
       </div>
       <Text size="$xl" className="text-center text-red-400">
         {fileUploadMessage}

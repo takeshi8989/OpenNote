@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { useNote } from "@/hooks/useNote";
 import { useAtom } from "jotai";
 import { scrollBottomAtom } from "@/jotai/noteAtom";
+import NotFoundPage from "../404";
 
 const Note = () => {
   const router = useRouter();
@@ -44,7 +45,7 @@ const Note = () => {
   };
 
   if (isLoading) return <div></div>;
-  if (!note?.user) return <div>NOT FOUND</div>;
+  if (!note?.user) return <NotFoundPage />;
 
   return (
     <div className="h-screen w-full flex justify-center overflow-hidden">
